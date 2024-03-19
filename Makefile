@@ -1,6 +1,7 @@
 FILES = \
 	main.c\
 	on_command.c\
+	my_splitstr.c\
 
 SOURCES = $(FILES:%=sources/%)
 OBJECTS = $(SOURCES:%.c=%.o)
