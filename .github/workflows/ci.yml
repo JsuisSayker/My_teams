@@ -4,11 +4,11 @@ on:
   push:
     branches-ignore:
       - " ga-ignore-"
-      - "boostrap"
+      - "bootstrap"
   pull_request:
     branches-ignore:
       - " ga-ignore-"
-      - "boostrap"
+      - "bootstrap"
 jobs:
   check_coding_style:
     runs-on: ubuntu-latest
