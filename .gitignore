@@ -1,0 +1,15 @@
+# Extention to ignore
+*.o
+*.a
+.vscode
+
+# Files && Folders to ignore
+coding-style*
+vgcore*
+unit-test*
+unit_tests
+myteams_cli
+myteams_server
+a.out
+boostrap
+.exemple*
