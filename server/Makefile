@@ -21,7 +21,7 @@ LDLIB		=	-L../lib/
 
 LMY			=	-lmy
 
-CPPFLAGS	=	-I./includes/ -I../lib/my/include/
+CPPFLAGS	=	-I../include/ -I../lib/my/include/
 
 WFLAGS		=	-W -Wall -Wextra -Werror
 
@@ -38,13 +38,11 @@ debug: $(OBJ)
 all: $(NAME)
 
 clean:
-	rm -f $(OBJ)
-	make clean -C ../lib/my/
+	@ rm -f $(OBJ)
 
 fclean: clean
-	rm -f ../$(NAME)
-	rm -rf unit_tests/
-	make fclean -C ../lib/my/
+	@ rm -f ../$(NAME)
+	@ rm -rf unit_tests/
 
 re: fclean $(NAME)
 

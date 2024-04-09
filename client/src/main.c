@@ -5,7 +5,7 @@
 ** main
 */
 
-#include "proto.h"
+#include "client.h"
 
 int main(int ac, char const *const *av)
 {

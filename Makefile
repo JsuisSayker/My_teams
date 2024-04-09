@@ -25,7 +25,7 @@ clean:
 	make clean -C server/
 	make clean -C client/
 
-fclean: clean
+fclean:
 	make fclean -C lib/my/
 	make fclean -C server/
 	make fclean -C client/

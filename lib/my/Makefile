@@ -85,9 +85,9 @@ all:	$(NAME)
 re: fclean $(NAME)
 
 clean:
-	rm -f $(OBJ)
+	@ rm -f $(OBJ)
 
 fclean: clean
-	rm -f ../$(NAME)
+	@ rm -f ../$(NAME)
 
 .PHONY: all clean fclean

@@ -5,7 +5,7 @@
 ** main
 */
 
-#include "proto.h"
+#include "server.h"
 
 int main(void)
 {
