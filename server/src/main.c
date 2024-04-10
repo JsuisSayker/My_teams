@@ -20,5 +20,5 @@ int main(int ac, char *const *const av)
     }
     if (strcmp(av[1], "-help") == 0)
         return display_help();
-    return OK;
+    return launch_server(av);
 }

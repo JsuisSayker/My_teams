@@ -5,7 +5,10 @@
 ## makefile
 ##
 
-SRC			=	display_help.c
+SRC			=	display_help.c \
+				server.c \
+				free.c \
+				socket.c
 
 MAIN_SRC	=	main.c
 
