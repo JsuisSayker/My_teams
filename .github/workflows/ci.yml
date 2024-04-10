@@ -56,7 +56,7 @@ jobs:
 
       - name: Check file
         run: |
-          IFS=' ' read -r -a files <<< "${EXECUTABLES}"
+          IFS=' ' read -r -a files <<< "${vars.EXECUTABLES}"
           for file in "${files[@]}"; do
             if [ ! -x "$file" ]; then
               echo "File $file does not exist or is not executable"
