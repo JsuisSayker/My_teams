@@ -9,6 +9,7 @@
     #define SERVER_H_
     #include <sys/types.h>
     #include <sys/socket.h>
+    #include <sys/select.h>
     #include <netinet/in.h>
     #include <stdlib.h>
     #include <unistd.h>
@@ -16,6 +17,8 @@
 
 typedef struct server_data_s {
     int server_socket;
+    fd_set current_sockets;
+    fd_set ready_sockets;
     struct sockaddr_in server_address;
 } server_data_t;
 
