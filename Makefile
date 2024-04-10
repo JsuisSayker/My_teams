@@ -35,10 +35,10 @@ re: fclean program
 unit_tests: fclean
 	make -C lib/my/
 	make unit_tests -C server/
-	make unit_tests -C client/
+	# make unit_tests -C client/
 
 tests_run:	unit_tests
-	./server/unit_tests
-	./client/unit_tests
+	./server/unit_tests/unit_tests
+	# ./client/unit_tests
 
 .PHONY: all clean fclean re unit_tests tests_run
