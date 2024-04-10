@@ -5,16 +5,20 @@
 ## makefile
 ##
 
-SRC			=	main.c \
-				display_help.c
+SRC			=	display_help.c
+
+MAIN_SRC	=	main.c
 
 TEST		=	test.c
 
 DIR_SRC		=	$(addprefix src/, $(SRC))
+DIR_MAIN	=	$(addprefix src/, $(MAIN_SRC))
 DIR_TESTS	=	$(addprefix tests/, $(TEST))
 
 OBJ_SRC		=	$(DIR_SRC:.c=.o)
-OBJ			=	$(OBJ_SRC)
+OBJ_MAIN	=	$(DIR_MAIN:.c=.o)
+OBJ			=	$(OBJ_SRC) \
+				$(OBJ_MAIN)
 
 NAME		=	myteams_server
 
