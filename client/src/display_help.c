@@ -10,10 +10,10 @@
 
 int display_help(void)
 {
-    if (write(1, "USAGE: ./myteams_cli ip port\n\n\
-    ip is the server ip address on which the server socket listens\n\
-    port is the port number on which the server socket listens\n", 161) == \
-    ERROR)
+    if (write(1, "USAGE: ./myteams_cli ip port\n\
+    ip   is the server ip address on which the server socket listens\n\
+    port is the port number on which the server socket listens\n",
+    162) == ERROR)
         return KO;
     return OK;
 }

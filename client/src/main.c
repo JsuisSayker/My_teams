@@ -6,6 +6,7 @@
 */
 
 #include <string.h>
+#include <unistd.h>
 #include "client.h"
 
 int main(int ac, char const *const *av)
@@ -16,7 +17,12 @@ int main(int ac, char const *const *av)
         return KO;
     if (ac == 2 && strcmp(av[1], "-help") == 0)
         return display_help();
-    if (is_good_number(av[2]) == false)
+    if (is_good_number(av[2]) == true)
+        return OK;
+    else {
+        if (write(1, "Invalid port number\n", 20) == ERROR)
+            return KO;
         return KO;
+    }
     return OK;
 }

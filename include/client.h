@@ -12,6 +12,6 @@
 
 int check_arguments(int ac, char const *const *av);
 int display_help(void);
-bool is_good_number (const char *str);
+bool is_good_number(const char *str);
 
 #endif /* !CLIENT_H_ */
