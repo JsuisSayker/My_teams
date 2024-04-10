@@ -5,9 +5,14 @@
 ** main
 */
 
+#include <string.h>
 #include "server.h"
 
-int main(void)
+int main(int ac, char *const *const av)
 {
+    if (!av)
+        return KO;
+    if (strcmp(av[1], "-help") == 0)
+        return display_help();
     return OK;
 }

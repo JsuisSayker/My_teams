@@ -7,6 +7,7 @@
 
 SRC			=	main.c				\
 				check_arguments.c	\
+				display_help.c
 
 TEST		=	test.c
 
