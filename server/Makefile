@@ -5,7 +5,8 @@
 ## makefile
 ##
 
-SRC			=	main.c
+SRC			=	main.c \
+				display_help.c
 
 TEST		=	test.c
 

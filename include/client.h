@@ -10,6 +10,6 @@
     #include "macro.h"
 
 int check_arguments(int ac, char const *const *av);
-
+int display_help();
 
 #endif /* !CLIENT_H_ */

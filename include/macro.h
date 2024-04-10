@@ -9,8 +9,8 @@
     #define MACRO_H_
 
         /* error or fine */
-    #define KO -1
+    #define KO 84
     #define OK 0
-    #define ERROR 84
+    #define ERROR -1
 
 #endif /* !MACRO_H_ */
