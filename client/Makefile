@@ -7,7 +7,8 @@
 
 SRC			=	main.c				\
 				check_arguments.c	\
-				display_help.c
+				display_help.c		\
+				is_good_number.c
 
 TEST		=	test.c
 
@@ -30,7 +31,7 @@ WFLAGS		=	-W -Wall -Wextra -Werror
 LCRITER		= --coverage -lcriterion
 
 $(NAME): $(OBJ)
-	gcc -o $@ $^ $(WFLAGS) $(LDLIB) $(LMY)
+	gcc -o $@ $^ $(CPPFLAGS) $(WFLAGS) $(LDLIB) $(LMY)
 	mv $(NAME) ../
 
 debug: $(OBJ)

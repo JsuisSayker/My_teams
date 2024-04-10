@@ -14,7 +14,9 @@ int main(int ac, char const *const *av)
         return KO;
     if (check_arguments(ac, av) == ERROR)
         return KO;
-    if (strcmp(av[1], "-help") == 0)
+    if (ac == 2 && strcmp(av[1], "-help") == 0)
         return display_help();
+    if (is_good_number(av[2]) == false)
+        return KO;
     return OK;
 }
