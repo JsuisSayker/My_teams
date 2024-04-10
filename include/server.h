@@ -9,6 +9,6 @@
     #define SERVER_H_
     #include "macro.h"
 
-int display_help();
+int display_help(void);
 
 #endif /* !SERVER_H_ */

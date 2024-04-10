@@ -18,11 +18,11 @@ OBJ			=	$(OBJ_SRC)
 
 NAME		=	myteams_server
 
-LDLIB		=	-L../lib/
+LDLIB		=	-L../lib/ -L../libs/myteams/
 
-LMY			=	-lmy
+LMY			=	-lmy -lmyteams
 
-CPPFLAGS	=	-I../include/ -I../lib/my/include/
+CPPFLAGS	=	-I../include/ -I../lib/my/include/ -I../libs/myteams/
 
 WFLAGS		=	-W -Wall -Wextra -Werror
 
