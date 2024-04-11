@@ -47,10 +47,11 @@ typedef struct team_s {
 } team_t;
 
 typedef struct user_s {
-    int user_fd;
+    int socket;
     bool is_logged;
     char *username;
     char *uuid;
+    char *command;
     LIST_ENTRY(user_s) entries;
     personnal_message_t *teams;
     team_t *teams;
@@ -62,6 +63,11 @@ typedef struct server_data_s {
     fd_set ready_sockets;
     struct sockaddr_in server_address;
 } server_data_t;
+
+struct function_tab_s {
+    char *str;
+    int (*flags)(server_data_t *server, user_t *user);
+};
 
 int display_help(void);
 int launch_server(char *const *const av);
