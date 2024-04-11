@@ -10,10 +10,51 @@
     #include <sys/types.h>
     #include <sys/socket.h>
     #include <sys/select.h>
+    #include <sys/queue.h>
     #include <netinet/in.h>
     #include <stdlib.h>
     #include <unistd.h>
+    #include <stdbool.h>
     #include "macro.h"
+
+typedef struct message_s {
+    char *message;
+    char *sender_uuid;
+    LIST_ENTRY(message_s) entries;
+} message_t;
+
+typedef struct channel_s {
+    char *channel_uuid;
+    char *channel_name;
+    LIST_ENTRY(channel_s) entries;
+    //  *messages;
+    // queue *users;
+} channel_t;
+
+typedef struct personnal_message_s {
+    char *message;
+    char *sender_uuid;
+    char *receiver_uuid;
+    LIST_ENTRY(personnal_message_s) entries;
+} personnal_message_t;
+
+typedef struct team_s {
+    char *team_uuid;
+    char *team_name;
+    LIST_ENTRY(team_s) entries;
+    channel_t *channels;
+    // user_t *users;
+} team_t;
+
+typedef struct user_s {
+    int user_fd;
+    bool is_logged;
+    char *username;
+    char *uuid;
+    LIST_ENTRY(user_s) entries;
+    personnal_message_t *teams;
+    team_t *teams;
+} user_t;
 
 typedef struct server_data_s {
     int server_socket;
