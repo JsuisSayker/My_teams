@@ -16,7 +16,16 @@ static void client_disconnection(server_data_t *server_data, int client_socket)
 
 static int check_client(server_data_t *server_data, int i)
 {
+    client_t *tmp = server_data->clients.lh_first;
+    client_t *actual_client = NULL;
     char *client_msg = NULL;
+
+    for (; tmp != NULL; tmp = LIST_NEXT(tmp, entries)) {
+        if (tmp->socket == i) {
+            actual_client = tmp;
+            break;
+        }
+    }
     if (i == server_data->server_socket) {
         if (accept_client(server_data) == ERROR)
             return ERROR;
@@ -24,10 +33,11 @@ static int check_client(server_data_t *server_data, int i)
         client_msg = read_client(server_data, i);
         if (client_msg == NULL)
             return ERROR;
-        // if (server_da ta->client_is_deco == 1) {
-        //     client_disconnection(server_data, i);
-        //     // return OK;
-        // }
+        if (server_data->client_is_deco == 1) {
+            client_disconnection(server_data, i);
+            return OK;
+        }
+        actual_client->command = my_str_to_word_array(client_msg, ' ');
         // if (launch_command(server_data, client_msg, i) == ERROR) {
         //     free(client_msg);
         //     return ERROR;

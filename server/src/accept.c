@@ -30,7 +30,7 @@ int accept_client(server_data_t *data)
     return OK;
 }
 
-static char *read_client_msg(int client_socket, server_data_t *data)
+static char *read_client_msg(int client_socket, server_data_t *server_data)
 {
     int msg_size = 0;
     int nb_bytes = 0;
@@ -47,17 +47,17 @@ static char *read_client_msg(int client_socket, server_data_t *data)
     }
     if (nb_bytes == -1)
         return NULL;
-    // if (nb_bytes == 0)
-        // data->client_is_deco = 1;
+    if (nb_bytes == 0)
+        server_data->client_is_deco = 1;
     buffer[msg_size] = '\0';
     return strdup(buffer);
 }
 
-char *read_client(server_data_t *data, int client_socket)
+char *read_client(server_data_t *server_data, int client_socket)
 {
-    char *client_msg = read_client_msg(client_socket, data);
+    char *client_msg = read_client_msg(client_socket, server_data);
 
-    if (data == NULL) {
+    if (server_data == NULL) {
         write(2, "Error: data is NULL\n", 20);
         return NULL;
     }

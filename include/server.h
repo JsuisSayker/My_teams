@@ -71,6 +71,7 @@ typedef struct server_data_s {
     struct sockaddr_in server_address;
     LIST_HEAD(, user_s) users;
     LIST_HEAD(, client_s) clients;
+    int client_is_deco;
 } server_data_t;
 
 struct function_tab_s {
