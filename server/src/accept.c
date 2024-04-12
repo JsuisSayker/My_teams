@@ -26,7 +26,7 @@ int accept_client(server_data_t *data)
     new_client->is_logged = 0;
     new_client->user = NULL;
     LIST_INSERT_HEAD(&data->clients, new_client, entries);
-    // write(client_socket, RESPONSE_220, strlen(RESPONSE_220));
+    write(new_client->socket, "client connected correctly\n", 28);
     return OK;
 }
 
