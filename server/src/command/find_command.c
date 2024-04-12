@@ -11,7 +11,7 @@
 #include "server.h"
 
 const struct function_tab_s OPERATORS_FUNCS[] = {
-    // {"/login", &login},
+    {"/login", &login},
     // {"/logout", &logout},
     // {"/users", &users},
     // {"/user", &user},
