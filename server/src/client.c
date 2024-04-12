@@ -19,20 +19,20 @@ static int check_client(server_data_t *server_data, int i)
     char *client_msg = NULL;
 
     if (i == server_data->server_socket) {
-        if (accept_client(server_data) == ERROR)
-            return ERROR;
+        // if (accept_client(server_data) == ERROR)
+        //     return ERROR;
     } else {
-        client_msg = read_client(server_data, i);
+        // client_msg = read_client(server_data, i);
         if (client_msg == NULL)
             return ERROR;
         // if (server_data->client_is_deco == 1) {
         //     client_disconnection(server_data, i);
         //     // return OK;
         // }
-        if (launch_command(server_data, client_msg, i) == ERROR) {
-            free(client_msg);
-            return ERROR;
-        }
+        // if (launch_command(server_data, client_msg, i) == ERROR) {
+        //     free(client_msg);
+        //     return ERROR;
+        // }
         free(client_msg);
     }
     return OK;

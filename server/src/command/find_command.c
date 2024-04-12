@@ -5,6 +5,9 @@
 ** find_command
 */
 
+#include <stdio.h>
+#include <string.h>
+
 #include "server.h"
 
 const struct function_tab_s OPERATORS_FUNCS[] = {
@@ -31,12 +34,11 @@ static int find_command_sub(server_data_t *server, user_t *user,
     if (server == NULL || user == NULL)
         return KO;
     if (strcmp(OPERATORS_FUNCS[j].str, user->command[0]) == 0) {
-        if (OPERATORS_FUNCS[j].flags(server, user->socket) == KO)
+        if (OPERATORS_FUNCS[j].flags(server, user) == KO)
             return KO;
     }
     return OK;
 }
-
 
 int find_command(server_data_t *server, user_t *user)
 {

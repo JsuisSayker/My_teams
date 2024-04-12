@@ -51,9 +51,9 @@ typedef struct user_s {
     bool is_logged;
     char *username;
     char *uuid;
-    char *command;
+    char **command;
     LIST_ENTRY(user_s) entries;
-    personnal_message_t *teams;
+    personnal_message_t *message;
     team_t *teams;
 } user_t;
 
@@ -73,5 +73,6 @@ int display_help(void);
 int launch_server(char *const *const av);
 void free_server_data(server_data_t *server_data);
 int create_server_socket(char *const *const av, server_data_t *data);
+int loop_check_select_client(server_data_t *server_data);
 
 #endif /* !SERVER_H_ */

@@ -5,18 +5,27 @@
 ## makefile
 ##
 
-SRC			=	display_help.c \
-				server.c \
-				free.c \
-				socket.c
+SRC			=	display_help.c 		\
+				client.c 			\
+				server.c 			\
+				free.c 				\
+				socket.c			\
+				${DIR_TOOLBOX}		\
+				${DIR_COMMAND}		\
+
+TOOLBOX		=	generate_uuid.c \
+
+COMMAND		=	find_command.c	\
 
 MAIN_SRC	=	main.c
 
 TEST		=	test.c
 
 DIR_SRC		=	$(addprefix src/, $(SRC))
-DIR_MAIN	=	$(addprefix src/, $(MAIN_SRC))
 DIR_TESTS	=	$(addprefix tests/, $(TEST))
+DIR_MAIN	=	$(addprefix src/, $(MAIN_SRC))
+DIR_TOOLBOX	=	$(addprefix toolbox/, $(TOOLBOX))
+DIR_COMMAND	=	$(addprefix command/, $(COMMAND))
 
 OBJ_SRC		=	$(DIR_SRC:.c=.o)
 OBJ_MAIN	=	$(DIR_MAIN:.c=.o)
