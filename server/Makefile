@@ -10,6 +10,8 @@ SRC			=	display_help.c 		\
 				server.c 			\
 				free.c 				\
 				socket.c			\
+				client.c			\
+				accept.c			\
 				${DIR_TOOLBOX}		\
 				${DIR_COMMAND}		\
 

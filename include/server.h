@@ -15,6 +15,8 @@
     #include <stdlib.h>
     #include <unistd.h>
     #include <stdbool.h>
+    #include <stdio.h>
+    #include <string.h>
     #include "macro.h"
 
 typedef struct message_s {
@@ -53,7 +55,7 @@ typedef struct user_s {
     char *uuid;
     char **command;
     LIST_ENTRY(user_s) entries;
-    personnal_message_t *message;
+    personnal_message_t *personnal_messages;
     team_t *teams;
 } user_t;
 
@@ -62,6 +64,7 @@ typedef struct server_data_s {
     fd_set current_sockets;
     fd_set ready_sockets;
     struct sockaddr_in server_address;
+    LIST_HEAD(, user_s) users;
 } server_data_t;
 
 struct function_tab_s {
@@ -74,5 +77,7 @@ int launch_server(char *const *const av);
 void free_server_data(server_data_t *server_data);
 int create_server_socket(char *const *const av, server_data_t *data);
 int loop_check_select_client(server_data_t *server_data);
+char *read_client(server_data_t *data, int client_socket);
+int accept_client(server_data_t *data);
 
 #endif /* !SERVER_H_ */

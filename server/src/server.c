@@ -14,6 +14,7 @@ int server_loop(server_data_t *server_data)
 
     if (!server_data)
         return ERROR;
+    LIST_INIT(&server_data->users);
     FD_ZERO(&server_data->current_sockets);
     FD_SET(server_data->server_socket, &server_data->current_sockets);
     while (1) {
