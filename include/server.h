@@ -49,7 +49,6 @@ typedef struct team_s {
 } team_t;
 
 typedef struct user_s {
-    int socket;
     bool is_logged;
     char *username;
     char *uuid;
@@ -59,12 +58,20 @@ typedef struct user_s {
     team_t *teams;
 } user_t;
 
+typedef struct client_s {
+    int socket;
+    user_t *user;
+    bool is_logged;
+    LIST_ENTRY(client_s) entries;
+} client_t;
+
 typedef struct server_data_s {
     int server_socket;
     fd_set current_sockets;
     fd_set ready_sockets;
     struct sockaddr_in server_address;
     LIST_HEAD(, user_s) users;
+    LIST_HEAD(, client_s) clients;
 } server_data_t;
 
 struct function_tab_s {
