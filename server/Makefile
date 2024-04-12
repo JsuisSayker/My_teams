@@ -8,7 +8,9 @@
 SRC			=	display_help.c \
 				server.c \
 				free.c \
-				socket.c
+				socket.c \
+				client.c \
+				accept.c
 
 MAIN_SRC	=	main.c
 

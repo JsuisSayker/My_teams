@@ -29,10 +29,10 @@ static int check_client(server_data_t *server_data, int i)
         //     client_disconnection(server_data, i);
         //     // return OK;
         // }
-        if (launch_command(server_data, client_msg, i) == ERROR) {
-            free(client_msg);
-            return ERROR;
-        }
+        // if (launch_command(server_data, client_msg, i) == ERROR) {
+        //     free(client_msg);
+        //     return ERROR;
+        // }
         free(client_msg);
     }
     return OK;
