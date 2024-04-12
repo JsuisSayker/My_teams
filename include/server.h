@@ -49,10 +49,8 @@ typedef struct team_s {
 } team_t;
 
 typedef struct user_s {
-    bool is_logged;
     char *username;
     char *uuid;
-    char **command;
     LIST_ENTRY(user_s) entries;
     personnal_message_t *personnal_messages;
     team_t *teams;
@@ -62,6 +60,7 @@ typedef struct client_s {
     int socket;
     user_t *user;
     bool is_logged;
+    char **command;
     LIST_ENTRY(client_s) entries;
 } client_t;
 
