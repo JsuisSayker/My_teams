@@ -10,27 +10,55 @@
 
 #include "server.h"
 
-int login(server_data_t *server, user_t *user)
+static int user_initialisation(user_t *user, char *name)
 {
-    if (server == NULL || user == NULL)
-        return ERROR;
-    if (user->is_logged == true) {
-        dprintf(user->socket, "401 Already logged in\n");
+    if (name == NULL || user == NULL)
         return KO;
-    }
-    if (user->command[1] == NULL) {
-        dprintf(user->socket, "500 Missing username\n");
-        return KO;
-    }
-    user->username = strdup(user->command[1]);
-    if (user->uuid != NULL)
+    user->username = strdup(name);
     user->uuid = generate_uuid();
-    user->is_logged = true;
-    dprintf(user->socket, "200 Logged in\n");
+    user->teams = NULL;
+    user->personnal_messages = NULL;
+    return OK;
+}
+
+static int user_connection(server_data_t *server, client_t *client)
+{
+    user_t user;
+    if (server == NULL || client == NULL)
+        return ERROR;
+    if (client->user != NULL){
+        client->is_logged = true;
+        dprintf(client->socket, "200 Logged in\n");
+        return OK;
+    }
+    user_initialisation(&user, client->command[1]);
+}
+
+int login(server_data_t *server, client_t *client)
+{
+    user_t user;
+    if (server == NULL || client == NULL)
+        return ERROR;
+    if (client->is_logged == true) {
+        dprintf(client->socket, "401 Already logged in\n");
+        return KO;
+    }
+    if (client->command[1] == NULL) {
+        dprintf(client->socket, "500 Missing username\n");
+        return KO;
+    }
+    if (client->user != NULL){
+        client->is_logged = true;
+        dprintf(client->socket, "200 Logged in\n");
+        return OK;
+    }
+    user_initialisation(&user, client->command[1]);
+    client->user = &user;
+    dprintf(client->socket, "200 Logged in\n");
     return OK;
 }
 
 int logout(server_data_t *server, user_t *user)
 {
-    
+
 }

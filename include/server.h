@@ -49,15 +49,20 @@ typedef struct team_s {
 } team_t;
 
 typedef struct user_s {
-    int socket;
-    bool is_logged;
     char *username;
     char *uuid;
-    char **command;
     LIST_ENTRY(user_s) entries;
     personnal_message_t *personnal_messages;
     team_t *teams;
 } user_t;
+
+typedef struct client_s {
+    int socket;
+    user_t *user;
+    bool is_logged;
+    char **command;
+    LIST_ENTRY(client_s) entries;
+} client_t;
 
 typedef struct server_data_s {
     int server_socket;
@@ -65,11 +70,12 @@ typedef struct server_data_s {
     fd_set ready_sockets;
     struct sockaddr_in server_address;
     LIST_HEAD(, user_s) users;
+    LIST_HEAD(, client_s) clients;
 } server_data_t;
 
 struct function_tab_s {
     char *str;
-    int (*flags)(server_data_t *server, user_t *user);
+    int (*flags)(server_data_t *server, client_t *client);
 };
 
 int display_help(void);
@@ -79,6 +85,6 @@ int create_server_socket(char *const *const av, server_data_t *data);
 int loop_check_select_client(server_data_t *server_data);
 char *read_client(server_data_t *data, int client_socket);
 int accept_client(server_data_t *data);
-int login(server_data_t *server, user_t *user)
+int login(server_data_t *server, client_t *client)
 
 #endif /* !SERVER_H_ */

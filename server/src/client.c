@@ -17,15 +17,14 @@ static void client_disconnection(server_data_t *server_data, int client_socket)
 static int check_client(server_data_t *server_data, int i)
 {
     char *client_msg = NULL;
-
     if (i == server_data->server_socket) {
-        // if (accept_client(server_data) == ERROR)
-        //     return ERROR;
+        if (accept_client(server_data) == ERROR)
+            return ERROR;
     } else {
-        // client_msg = read_client(server_data, i);
+        client_msg = read_client(server_data, i);
         if (client_msg == NULL)
             return ERROR;
-        // if (server_data->client_is_deco == 1) {
+        // if (server_da ta->client_is_deco == 1) {
         //     client_disconnection(server_data, i);
         //     // return OK;
         // }

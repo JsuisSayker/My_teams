@@ -9,6 +9,7 @@
 
 int accept_client(server_data_t *data)
 {
+    client_t *new_client = malloc(sizeof(client_t));
     int client_socket = 0;
 
     if (data == NULL) {
@@ -21,10 +22,11 @@ int accept_client(server_data_t *data)
         return KO;
     }
     FD_SET(client_socket, &data->current_sockets);
-    // add at the end of the user list in serverdata
-    
-    // data->client[client_socket].is_logged = 0;
-    // write(client_socket, RESPONSE_220, strlen(RESPONSE_220));
+    new_client->socket = client_socket;
+    new_client->is_logged = 0;
+    new_client->user = NULL;
+    LIST_INSERT_HEAD(&data->clients, new_client, entries);
+    write(new_client->socket, "client connected correctly\n", 28);
     return OK;
 }
 

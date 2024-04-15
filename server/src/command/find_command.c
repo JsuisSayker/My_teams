@@ -28,7 +28,7 @@ const struct function_tab_s OPERATORS_FUNCS[] = {
     {NULL, NULL}
 };
 
-static int find_command_sub(server_data_t *server, user_t *user,
+static int find_command_sub(server_data_t *server, client_t *client,
     int j, bool *is_found)
 {
     if (server == NULL || user == NULL)
@@ -40,21 +40,21 @@ static int find_command_sub(server_data_t *server, user_t *user,
     return OK;
 }
 
-int find_command(server_data_t *server, user_t *user)
+int find_command(server_data_t *server, client_t *client)
 {
     bool is_found = false;
 
-    if (server == NULL || user == NULL)
+    if (server == NULL || client == NULL)
         return ERROR;
     for (int j = 0; strcmp(OPERATORS_FUNCS[j].str, "NULL") != 0; j++) {
-        if (find_command_sub(server, user, j, &is_found) == KO)
+        if (find_command_sub(server, client, j, &is_found) == KO)
             return KO;
     }
     if (is_found == false) {
-        dprintf(user->socket, "500 Command not found\n");
+        dprintf(client->socket, "500 Command not found\n");
         return KO;
     }
-    if (user->command != NULL)
-        free(user->command);
+    if (client->command != NULL)
+        free(client->command);
     return OK;
 }
