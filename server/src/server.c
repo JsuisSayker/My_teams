@@ -22,7 +22,7 @@ int server_loop(server_data_t *server_data)
         if (select(FD_SETSIZE, &server_data->ready_sockets, &write_sockets,
         &read_sockets, NULL) < 0) {
             write(2, "Error: select failed\n", 21);
-            return 84;
+            return ERROR;
         }
         if (loop_check_select_client(server_data) == ERROR)
             return ERROR;

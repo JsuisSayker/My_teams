@@ -17,6 +17,7 @@
     #include <stdbool.h>
     #include <stdio.h>
     #include <string.h>
+    #include "proto_lib.h"
     #include "macro.h"
 
 typedef struct message_s {
