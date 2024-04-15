@@ -5,14 +5,15 @@
 ## makefile
 ##
 
-SRC			=	main.c				\
-				check_arguments.c	\
-				display_help.c		\
-				is_good_number.c	\
-				client_logout.c		\
-				spliter_by_sep.c	\
-				client_connection.c	\
-				user_input_event.c
+SRC			=	main.c					\
+				check_arguments.c		\
+				display_help.c			\
+				is_good_number.c		\
+				client_logout.c			\
+				spliter_by_sep.c		\
+				client_connection.c		\
+				user_input_event.c		\
+				send_client_message.c
 
 COMMANDS_SRC	=	list_command.c			\
 					login_command.c			\

@@ -25,25 +25,25 @@ static void receive_server_message(client_t *client, int socket_fd)
     user_input_event(buffer, client);
 }
 
-static void client_loop(int socket_fd, client_t *client)
+static void client_loop(client_t *client)
 {
     fd_set readfds;
     bool is_running = true;
 
-    client->socket_fd = socket_fd;
+    // client->socket_fd = socket_fd;
     while (is_running) {
         FD_ZERO(&readfds);
         FD_SET(STDIN_FILENO, &readfds);
-        FD_SET(socket_fd, &readfds);
-        if (select(socket_fd + 1, &readfds, NULL, NULL, NULL) < 0) {
+        FD_SET(client->socket_fd, &readfds);
+        if (select(client->socket_fd + 1, &readfds, NULL, NULL, NULL) < 0) {
             perror("Error: select failed\n");
             return;
         }
         if (FD_ISSET(STDIN_FILENO, &readfds)) {
-            // send_client_message();
+            send_client_message(client);
             return;
-        } else if (FD_ISSET(socket_fd, &readfds)) {
-            receive_server_message(client, socket_fd);
+        } else if (FD_ISSET(client->socket_fd, &readfds)) {
+            receive_server_message(client, client->socket_fd);
         }
     }
     write(1, "\n", 1);
@@ -53,8 +53,8 @@ static void client_loop(int socket_fd, client_t *client)
 int start_client_connection(const char *ip, int port)
 {
     client_t client = {.is_logged=false, .uuid=NULL, .user_name=NULL,
-    .socket_fd=0, .user_input=malloc(sizeof(user_input_t))};
-    int socket_fd = socket(AF_INET, SOCK_STREAM, 0);
+    .socket_fd=socket(AF_INET, SOCK_STREAM, 0), .user_input=malloc(sizeof(user_input_t))};
+    // int socket_fd = socket(AF_INET, SOCK_STREAM, 0);
     struct hostent *client_info = gethostbyname(ip);
     struct sockaddr_in serv_addr;
 
@@ -65,11 +65,11 @@ int start_client_connection(const char *ip, int port)
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(port);
     serv_addr.sin_addr.s_addr = inet_addr(ip);
-    if (connect(socket_fd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) <
+    if (connect(client.socket_fd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) <
     0) {
         perror("Error: connection failed\n");
         return KO;
     }
-    client_loop(socket_fd, &client);
+    client_loop(&client);
     return OK;
 }
