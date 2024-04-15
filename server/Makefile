@@ -13,7 +13,7 @@ SRC			=	display_help.c 		\
 				client.c			\
 				accept.c			\
 				${DIR_TOOLBOX}		\
-				${DIR_COMMAND}		\
+				# ${DIR_COMMAND}		\
 
 TOOLBOX		=	generate_uuid.c \
 
