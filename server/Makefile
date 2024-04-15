@@ -12,7 +12,7 @@ SRC			=	display_help.c 		\
 				socket.c			\
 				client.c			\
 				accept.c			\
-				${DIR_TOOLBOX}		\
+				# ${DIR_TOOLBOX}		\
 				# ${DIR_COMMAND}		\
 
 TOOLBOX		=	generate_uuid.c \
@@ -50,9 +50,9 @@ $(NAME): $(OBJ)
 	gcc -o $@ $^ $(WFLAGS) $(LDLIB) $(LMY)
 	mv $(NAME) ../
 
-debug: $(OBJ)
-	gcc -o $(NAME) $^ $(CPPFLAGS) $(WFLAGS) $(LDLIB) $(LMY) -ggdb3
-	mv $(NAME) ../
+debug:
+	gcc -o $(NAME) $(DIR_MAIN) $(DIR_SRC) \
+	$(CPPFLAGS) $(CFLAGS) -ggdb3
 
 all: $(NAME)
 

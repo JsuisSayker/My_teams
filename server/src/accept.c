@@ -9,7 +9,7 @@
 
 int accept_client(server_data_t *data)
 {
-    client_server_t *new_client = malloc(sizeof(client_t));
+    client_server_t *new_client = malloc(sizeof(client_server_t));
     int client_socket = 0;
 
     if (data == NULL) {

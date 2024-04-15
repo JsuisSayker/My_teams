@@ -19,6 +19,10 @@ int server_loop(server_data_t *server_data)
     FD_SET(server_data->server_socket, &server_data->current_sockets);
     while (1) {
         server_data->ready_sockets = server_data->current_sockets;
+        
+        FD_ZERO(&read_sockets);
+        FD_ZERO(&write_sockets);
+        
         if (select(FD_SETSIZE, &server_data->ready_sockets, &write_sockets,
         &read_sockets, NULL) < 0) {
             write(2, "Error: select failed\n", 21);
@@ -30,12 +34,15 @@ int server_loop(server_data_t *server_data)
     return OK;
 }
 
+
 int launch_server(char *const *const av)
 {
     server_data_t *server_data = malloc(sizeof(server_data_t));
 
     if (!av || !server_data)
         return KO;
+    server_data->clients.lh_first = NULL;
+    server_data->users.lh_first = NULL;
     server_data->server_socket = create_server_socket(av, server_data);
     if (server_data->server_socket == ERROR) {
         free_server_data(server_data);

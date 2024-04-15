@@ -19,16 +19,18 @@ static int check_client(server_data_t *server_data, int i)
     client_server_t *tmp = server_data->clients.lh_first;
     client_server_t *actual_client = NULL;
 
-    for (; tmp != NULL; tmp = LIST_NEXT(tmp, entries)) {
+    LIST_FOREACH(tmp, &server_data->clients, entries) {
         if (tmp->socket == i) {
             actual_client = tmp;
             break;
         }
     }
     if (i == server_data->server_socket) {
+        printf("new client\n");
         if (accept_client(server_data) == ERROR)
             return ERROR;
     } else {
+        printf("client %d\n", i);
         actual_client->user_input = read_client(server_data, i);
         if (actual_client->user_input == NULL)
             return ERROR;
@@ -36,6 +38,7 @@ static int check_client(server_data_t *server_data, int i)
             client_disconnection(server_data, i);
             return OK;
         }
+        // printf("client message: %s\n", actual_client->user_input->command);
         // if (launch_command(server_data, client_msg, i) == ERROR) {
         //     free(client_msg);
         //     return ERROR;
