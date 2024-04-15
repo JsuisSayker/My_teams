@@ -24,7 +24,8 @@ COMMANDS_SRC	=	list_command.c			\
 					subscribed_command.c	\
 					unsubscribe_command.c	\
 					user_command.c			\
-					users_command.c
+					users_command.c			\
+					use_command.c
 
 TEST		=	test.c
 

@@ -17,7 +17,7 @@ static const struct command_s COMMANDS[] = {
     {"/subscribe", &subscribe_command},
     {"/subscribed", &subscribed_command},
     {"/unsubscribe", &unsubscribe_command},
-    // {"/use", &use_command},
+    {"/use", &use_command},
     // {"/create", &create_command},
     {"/list", &list_command},
     // {"/info", &info_command},
@@ -28,6 +28,7 @@ static const struct command_s COMMANDS[] = {
 static int get_command(char *message, client_t *client)
 {
     char **command = spliter_by_sep(message, " |");
+    client->user_input->command = strdup(command[0]);
 
     for (int i = 0; COMMANDS[i].name; i++) {
         if (strcmp(command[0], COMMANDS[i].name) == 0) {
