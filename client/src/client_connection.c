@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <netdb.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 static void receive_server_message(client_t *client, int socket_fd)
 {
@@ -52,7 +53,7 @@ static void client_loop(int socket_fd, client_t *client)
 int start_client_connection(const char *ip, int port)
 {
     client_t client = {.is_logged=false, .uuid=NULL, .user_name=NULL,
-    .socket_fd=0};
+    .socket_fd=0, .user_input=malloc(sizeof(user_input_t))};
     int socket_fd = socket(AF_INET, SOCK_STREAM, 0);
     struct hostent *client_info = gethostbyname(ip);
     struct sockaddr_in serv_addr;
