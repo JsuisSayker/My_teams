@@ -86,6 +86,7 @@ int create_server_socket(char *const *const av, server_data_t *data);
 int loop_check_select_client(server_data_t *server_data);
 char *read_client(server_data_t *data, int client_socket);
 int accept_client(server_data_t *data);
-int login(server_data_t *server, client_t *client)
+int login(server_data_t *server, client_t *client);
+int find_command(server_data_t *server, client_t *client);
 
 #endif /* !SERVER_H_ */

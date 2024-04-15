@@ -10,8 +10,6 @@
 
 #include "server.h"
 
-const struct function_tab_s OPERATORS_FUNCS[] = {
-    {"/login", &login},
     // {"/logout", &logout},
     // {"/users", &users},
     // {"/user", &user},
@@ -25,16 +23,19 @@ const struct function_tab_s OPERATORS_FUNCS[] = {
     // {"/list", &list},
     // {"/info", &info},
     // {"/help", &help},
+
+const struct function_tab_s OPERATORS_FUNCS[] = {
+    {"/login", &login},
     {NULL, NULL}
 };
 
 static int find_command_sub(server_data_t *server, client_t *client,
     int j, bool *is_found)
 {
-    if (server == NULL || user == NULL)
+    if (server == NULL || client == NULL)
         return KO;
-    if (strcmp(OPERATORS_FUNCS[j].str, user->command[0]) == 0) {
-        if (OPERATORS_FUNCS[j].flags(server, user) == KO)
+    if (strcmp(OPERATORS_FUNCS[j].str, client->command[0]) == 0) {
+        if (OPERATORS_FUNCS[j].flags(server, client) == KO)
             return KO;
     }
     return OK;
