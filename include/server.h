@@ -17,6 +17,7 @@
     #include <stdbool.h>
     #include <stdio.h>
     #include <string.h>
+    #include "proto_lib.h"
     #include "macro.h"
 
 typedef struct message_s {
@@ -76,7 +77,7 @@ typedef struct server_data_s {
 
 struct function_tab_s {
     char *str;
-    int (*flags)(server_data_t *server, user_t *user);
+    int (*flags)(server_data_t *server, client_t *client);
 };
 
 int display_help(void);
@@ -86,5 +87,7 @@ int create_server_socket(char *const *const av, server_data_t *data);
 int loop_check_select_client(server_data_t *server_data);
 char *read_client(server_data_t *data, int client_socket);
 int accept_client(server_data_t *data);
+int login(server_data_t *server, client_t *client);
+int find_command(server_data_t *server, client_t *client);
 
 #endif /* !SERVER_H_ */

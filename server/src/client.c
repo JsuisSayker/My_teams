@@ -37,11 +37,11 @@ static int check_client(server_data_t *server_data, int i)
             client_disconnection(server_data, i);
             return OK;
         }
-        actual_client->command = my_str_to_word_array(client_msg, ' ');
-        // if (launch_command(server_data, client_msg, i) == ERROR) {
-        //     free(client_msg);
-        //     return ERROR;
-        // }
+        actual_client->command = my_splitstr(client_msg, ' ');
+        if (find_command(server_data, actual_client) == ERROR) {
+            free(client_msg);
+            return ERROR;
+        }
         free(client_msg);
     }
     return OK;
