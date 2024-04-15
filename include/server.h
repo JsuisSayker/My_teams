@@ -78,7 +78,7 @@ typedef struct server_data_s {
 
 struct function_tab_s {
     char *str;
-    int (*flags)(server_data_t *server, client_t *client);
+    int (*flags)(server_data_t *server, client_server_t *client);
 };
 
 int display_help(void);
@@ -88,7 +88,8 @@ int create_server_socket(char *const *const av, server_data_t *data);
 int loop_check_select_client(server_data_t *server_data);
 user_input_t *read_client(server_data_t *data, int client_socket);
 int accept_client(server_data_t *data);
-int login(server_data_t *server, client_t *client);
-int find_command(server_data_t *server, client_t *client);
+int login(server_data_t *server, client_server_t *client);
+int find_command(server_data_t *server, client_server_t *client);
+int logout(server_data_t *server, client_server_t *client);
 
 #endif /* !SERVER_H_ */

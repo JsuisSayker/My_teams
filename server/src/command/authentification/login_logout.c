@@ -21,7 +21,7 @@ static int user_initialisation(user_t *user, char *name)
     return OK;
 }
 
-static int user_connection(server_data_t *server, client_t *client)
+static int user_connection(server_data_t *server, client_server_t *client)
 {
     user_t user;
 
@@ -39,7 +39,7 @@ static int user_connection(server_data_t *server, client_t *client)
     return OK;
 }
 
-int login(server_data_t *server, client_t *client)
+int login(server_data_t *server, client_server_t *client)
 {
     user_t user;
 
@@ -59,10 +59,12 @@ int login(server_data_t *server, client_t *client)
     return OK;
 }
 
-int logout(server_data_t *server, client_t *client)
+int logout(server_data_t *server, client_server_t *client)
 {
+    if (server == NULL || client == NULL)
+        return ERROR;
     if (client->is_logged == false){
-        write(client->socket, "500, You need to be logged to have acces to this command\n", 58);
+        write(client->socket, "500, Your not logged\n", 58);
         return OK;
     }
     client->is_logged = false;

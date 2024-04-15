@@ -10,9 +10,7 @@
 
 #include "server.h"
 
-    // {"/logout", &logout},
     // {"/users", &users},
-    // {"/user", &user},
     // {"/send", &send},
     // {"/messages", &messages},
     // {"/subscribe", &subscribe},
@@ -26,22 +24,24 @@
 
 const struct function_tab_s OPERATORS_FUNCS[] = {
     {"/login", &login},
+    {"/logout", &logout},
+    // {"/user", &user},
     {NULL, NULL}
 };
 
-static int find_command_sub(server_data_t *server, client_t *client,
+static int find_command_sub(server_data_t *server, client_server_t *client,
     int j, bool *is_found)
 {
     if (server == NULL || client == NULL)
         return ERROR;
-    if (strcmp(OPERATORS_FUNCS[j].str, client->command[0]) == 0) {
+    if (strcmp(OPERATORS_FUNCS[j].str, client->user_input->command) == 0) {
         if (OPERATORS_FUNCS[j].flags(server, client) == ERROR)
             return ERROR;
     }
     return OK;
 }
 
-int find_command(server_data_t *server, client_t *client)
+int find_command(server_data_t *server, client_server_t *client)
 {
     bool is_found = false;
 
@@ -55,7 +55,8 @@ int find_command(server_data_t *server, client_t *client)
         write(client->socket, "500 Command not found\n", 23);
         return OK;
     }
-    if (client->command != NULL)
-        free(client->command);
+    if (client->user_input->command != NULL)
+        free(client->user_input->command);
+        client->user_input = NULL;
     return OK;
 }
