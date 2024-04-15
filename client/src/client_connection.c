@@ -64,7 +64,7 @@ int start_client_connection(const char *ip, int port)
     }
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(port);
-    serv_addr.sin_addr.s_addr = inet_addr(ip);
+    serv_addr.sin_addr.s_addr = INADDR_ANY; // inet_addr(ip)
     if (connect(client.socket_fd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) <
     0) {
         perror("Error: connection failed\n");
