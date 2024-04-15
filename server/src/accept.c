@@ -31,30 +31,32 @@ int accept_client(server_data_t *data)
     return OK;
 }
 
-static user_input_t *read_client_msg(int client_socket, server_data_t *server_data)
+static char *read_client_msg(int client_socket, server_data_t *server_data)
 {
+    int msg_size = 0;
     int nb_bytes = 0;
-    user_input_t *client_msg = malloc(sizeof(user_input_t));
+    char buffer[BUFSIZ];
 
-    if (client_msg == NULL) {
-        write(2, "Error: malloc failed\n", 21);
-        return NULL;
+    nb_bytes = read(client_socket, buffer + msg_size, sizeof(buffer) -
+        msg_size - 1);
+    while (nb_bytes > 0) {
+        msg_size += nb_bytes;
+        if (msg_size > BUFSIZ - 1 || buffer[msg_size - 1] == '\n')
+            break;
+        nb_bytes = read(client_socket, buffer + msg_size, sizeof(buffer) -
+            msg_size - 1);
     }
-    nb_bytes = read(client_socket, client_msg, sizeof(user_input_t));
-    if (nb_bytes == -1) {
-        free(client_msg);
+    if (nb_bytes == -1)
         return NULL;
-    }
-    if (nb_bytes == 0) {
-        free(client_msg);
+    if (nb_bytes == 0)
         server_data->client_is_deco = 1;
-    }
-    return client_msg;
+    buffer[msg_size] = '\0';
+    return strdup(buffer);
 }
 
-user_input_t *read_client(server_data_t *server_data, int client_socket)
+char *read_client(server_data_t *server_data, int client_socket)
 {
-    user_input_t *client_msg = NULL;
+    char *client_msg = NULL;
 
     if (server_data == NULL) {
         write(2, "Error: data is NULL\n", 20);

@@ -62,7 +62,7 @@ typedef struct client_server_s {
     int socket;
     user_t *user;
     bool is_logged;
-    user_input_t *user_input;
+    char *user_input;
     LIST_ENTRY(client_server_s) entries;
 } client_server_t;
 
@@ -86,7 +86,7 @@ int launch_server(char *const *const av);
 void free_server_data(server_data_t *server_data);
 int create_server_socket(char *const *const av, server_data_t *data);
 int loop_check_select_client(server_data_t *server_data);
-user_input_t *read_client(server_data_t *data, int client_socket);
+char *read_client(server_data_t *data, int client_socket);
 int accept_client(server_data_t *data);
 int login(server_data_t *server, client_t *client);
 int find_command(server_data_t *server, client_t *client);
