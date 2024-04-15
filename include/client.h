@@ -17,11 +17,32 @@
     #include <signal.h>
     #include <string.h>
 
+
+typedef struct param_s {
+    char *user_name;
+    char *user_uuid;
+    char *team_uuid;
+    char *team_name;
+    char *team_description;
+    char *channel_uuid;
+    char *channel_name;
+    char *channel_description;
+    char *thread_uuid;
+    char *thread_title;
+    char *thread_body;
+} param_t;
+
+typedef struct user_input_s {
+    char *command;
+    param_t *params;
+} user_input_t;
+
 typedef struct client_s {
     bool is_logged;
     char *uuid;
     char *user_name;
     int socket_fd;
+    user_input_t *user_input;
 } client_t;
 
 struct command_s {
@@ -29,6 +50,7 @@ struct command_s {
     int (*func)(char *message, char **command,client_t *client);
 };
 
+// sub functions
 int check_arguments(int ac, char const *const *av);
 int display_help(void);
 bool is_good_number(const char *str);
