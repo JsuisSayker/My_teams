@@ -71,5 +71,6 @@ int subscribe_command(char *message, char **command, client_t *client);
 int subscribed_command(char *message, char **command, client_t *client);
 int unsubscribe_command(char *message, char **command, client_t *client);
 int list_command(char *message, char **command, client_t *client);
+int use_command(char *message, char **command, client_t *client);
 
 #endif /* !CLIENT_H_ */
