@@ -1,0 +1,50 @@
+/*
+** EPITECH PROJECT, 2024
+** My_teams
+** File description:
+** server
+*/
+
+#include "server.h"
+
+int server_loop(server_data_t *server_data)
+{
+    fd_set read_sockets;
+    fd_set write_sockets;
+
+    if (!server_data)
+        return ERROR;
+    LIST_INIT(&server_data->users);
+    FD_ZERO(&server_data->current_sockets);
+    FD_SET(server_data->server_socket, &server_data->current_sockets);
+    while (1) {
+        server_data->ready_sockets = server_data->current_sockets;
+        if (select(FD_SETSIZE, &server_data->ready_sockets, &write_sockets,
+        &read_sockets, NULL) < 0) {
+            write(2, "Error: select failed\n", 21);
+            return 84;
+        }
+        if (loop_check_select_client(server_data) == ERROR)
+            return ERROR;
+    }
+    return OK;
+}
+
+int launch_server(char *const *const av)
+{
+    server_data_t *server_data = malloc(sizeof(server_data_t));
+
+    if (!av || !server_data)
+        return KO;
+    server_data->server_socket = create_server_socket(av, server_data);
+    if (server_data->server_socket == ERROR) {
+        free_server_data(server_data);
+        return KO;
+    }
+    if (server_loop(server_data) == ERROR) {
+        free_server_data(server_data);
+        return KO;
+    }
+    free_server_data(server_data);
+    return OK;
+}

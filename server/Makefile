@@ -5,16 +5,34 @@
 ## makefile
 ##
 
-SRC			=	main.c \
-				display_help.c
+SRC			=	display_help.c 		\
+				client.c 			\
+				server.c 			\
+				free.c 				\
+				socket.c			\
+				client.c			\
+				accept.c			\
+				${DIR_TOOLBOX}		\
+				${DIR_COMMAND}		\
+
+TOOLBOX		=	generate_uuid.c \
+
+COMMAND		=	find_command.c	\
+
+MAIN_SRC	=	main.c
 
 TEST		=	test.c
 
 DIR_SRC		=	$(addprefix src/, $(SRC))
 DIR_TESTS	=	$(addprefix tests/, $(TEST))
+DIR_MAIN	=	$(addprefix src/, $(MAIN_SRC))
+DIR_TOOLBOX	=	$(addprefix toolbox/, $(TOOLBOX))
+DIR_COMMAND	=	$(addprefix command/, $(COMMAND))
 
 OBJ_SRC		=	$(DIR_SRC:.c=.o)
-OBJ			=	$(OBJ_SRC)
+OBJ_MAIN	=	$(DIR_MAIN:.c=.o)
+OBJ			=	$(OBJ_SRC) \
+				$(OBJ_MAIN)
 
 NAME		=	myteams_server
 
