@@ -18,6 +18,7 @@
     #include <stdio.h>
     #include <string.h>
     #include "proto_lib.h"
+    #include "client.h"
     #include "macro.h"
 
 typedef struct message_s {
@@ -57,13 +58,13 @@ typedef struct user_s {
     team_t *teams;
 } user_t;
 
-typedef struct client_s {
+typedef struct client_server_s {
     int socket;
     user_t *user;
     bool is_logged;
-    char **command;
-    LIST_ENTRY(client_s) entries;
-} client_t;
+    user_input_t *user_input;
+    LIST_ENTRY(client_server_s) entries;
+} client_server_t;
 
 typedef struct server_data_s {
     int server_socket;
@@ -71,7 +72,7 @@ typedef struct server_data_s {
     fd_set ready_sockets;
     struct sockaddr_in server_address;
     LIST_HEAD(, user_s) users;
-    LIST_HEAD(, client_s) clients;
+    LIST_HEAD(, client_server_s) clients;
     int client_is_deco;
 } server_data_t;
 
@@ -85,7 +86,7 @@ int launch_server(char *const *const av);
 void free_server_data(server_data_t *server_data);
 int create_server_socket(char *const *const av, server_data_t *data);
 int loop_check_select_client(server_data_t *server_data);
-char *read_client(server_data_t *data, int client_socket);
+user_input_t *read_client(server_data_t *data, int client_socket);
 int accept_client(server_data_t *data);
 int login(server_data_t *server, client_t *client);
 int find_command(server_data_t *server, client_t *client);

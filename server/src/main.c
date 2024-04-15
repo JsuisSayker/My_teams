@@ -20,5 +20,9 @@ int main(int ac, char *const *const av)
     }
     if (strcmp(av[1], "-help") == 0)
         return display_help();
+    if (atoi(av[1]) <= 0) {
+        write(1, "Port must be a positive number\n", 31);
+        return KO;
+    }
     return launch_server(av);
 }

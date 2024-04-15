@@ -16,9 +16,8 @@ static void client_disconnection(server_data_t *server_data, int client_socket)
 
 static int check_client(server_data_t *server_data, int i)
 {
-    client_t *tmp = server_data->clients.lh_first;
-    client_t *actual_client = NULL;
-    char *client_msg = NULL;
+    client_server_t *tmp = server_data->clients.lh_first;
+    client_server_t *actual_client = NULL;
 
     for (; tmp != NULL; tmp = LIST_NEXT(tmp, entries)) {
         if (tmp->socket == i) {
@@ -30,19 +29,17 @@ static int check_client(server_data_t *server_data, int i)
         if (accept_client(server_data) == ERROR)
             return ERROR;
     } else {
-        client_msg = read_client(server_data, i);
-        if (client_msg == NULL)
+        actual_client->user_input = read_client(server_data, i);
+        if (actual_client->user_input == NULL)
             return ERROR;
         if (server_data->client_is_deco == 1) {
             client_disconnection(server_data, i);
             return OK;
         }
-        actual_client->command = my_splitstr(client_msg, ' ');
-        if (find_command(server_data, actual_client) == ERROR) {
-            free(client_msg);
-            return ERROR;
-        }
-        free(client_msg);
+        // if (launch_command(server_data, client_msg, i) == ERROR) {
+        //     free(client_msg);
+        //     return ERROR;
+        // }
     }
     return OK;
 }
