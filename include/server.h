@@ -46,8 +46,8 @@ typedef struct team_s {
     char *team_uuid;
     char *team_name;
     LIST_ENTRY(team_s) entries;
-    channel_t *channels;
-    // user_t *users;
+    LIST_HEAD(, channel_t) channels;
+    LIST_HEAD(, user_s) users;
 } team_t;
 
 typedef struct user_s {
@@ -66,6 +66,14 @@ typedef struct client_server_s {
     LIST_ENTRY(client_server_s) entries;
 } client_server_t;
 
+typedef enum {
+    TEAMS,
+    CHANNELS,
+    THREADS,
+    NONE
+} CONTEXT;
+
+
 typedef struct server_data_s {
     int server_socket;
     fd_set current_sockets;
@@ -75,6 +83,7 @@ typedef struct server_data_s {
     LIST_HEAD(, client_server_s) clients;
     LIST_HEAD(, team_s) teams;
     int client_is_deco;
+    CONTEXT context; 
 } server_data_t;
 
 struct function_tab_s {

@@ -61,8 +61,9 @@ int login(server_data_t *server, client_t *client)
 
 int logout(server_data_t *server, client_t *client)
 {
-    if (client->is_logged == false){
-        write(client->socket, "500, You need to be logged to have acces to this command\n", 58);
+    if (client->is_logged == false) {
+        write(client->socket, "500, You need to be logged to have acces to \
+this command\n", 58);
         return OK;
     }
     client->is_logged = false;
