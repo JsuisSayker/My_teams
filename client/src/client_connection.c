@@ -70,9 +70,7 @@ static void client_loop(client_t *client)
             client->user_input->command = strdup("\0");
         }
         send_client_message(client);
-        printf("je pète avant le receive\n");
         receive_server_message(client);
-        printf("je pète après le receive\n");
         free(client->user_input->command);
         client->user_input->command = NULL;
     }
