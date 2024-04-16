@@ -27,5 +27,5 @@ void send_client_message(client_t *client)
     strcmp(client->user_input->command, "/help"))
         display_help();
     else
-        write(client->socket_fd, "toto", strlen("toto"));
+        write(client->socket_fd, client->user_input->command, strlen(client->user_input->command));
 }

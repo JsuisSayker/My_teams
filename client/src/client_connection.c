@@ -75,10 +75,13 @@ char* read_input()
         }
         input = temp;
         input[input_length] = temp_char;
-        input_length++;
+        input_length += 1;
     }
-    if (input != NULL)
-        input[input_length] = '\0';
+    if (input != NULL) {
+        input[input_length] = '\a';
+        input[input_length + 1] = '\0';
+
+    }
     return input;
 }
 
@@ -88,20 +91,14 @@ static void client_loop(client_t *client)
     bool is_running = true;
 
     // dprintf(1, "client_socket client's side = [%d]\n", client->socket_fd);
-    char *input = NULL;
     client->user_input = malloc(sizeof(user_input_t));
     while (is_running) {
-        // fgets(client->user_input->command, sizeof(client->user_input->command), stdin);
-        // input = read_input();
-        // client->user_input->command = malloc(strlen(read_input()));
         client->user_input->command = read_input();
-        // printf("client->user_input->command = [%s]\n", input);
-        // printf("client->user_input->command = [%s]\n", client->user_input->command);
+        printf("client->user_input->command = [%s]\n", client->user_input->command);
 
         if (client->user_input->command == NULL) {
             perror("Error: fgets failed\n");
-        }
-        else
+        } else
             send_client_message(client);
 
         // FD_ZERO(&readfds);
