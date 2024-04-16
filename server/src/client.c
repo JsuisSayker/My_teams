@@ -16,8 +16,9 @@ static void client_disconnection(server_data_t *server_data, int client_socket)
 
 static int check_client(server_data_t *server_data, int i)
 {
-    client_server_t *tmp = server_data->clients.lh_first;
+    char *client_msg = NULL;
     client_server_t *actual_client = NULL;
+    client_server_t *tmp = server_data->clients.lh_first;
 
     LIST_FOREACH(tmp, &server_data->clients, entries) {
         if (tmp->socket == i) {
@@ -31,14 +32,17 @@ static int check_client(server_data_t *server_data, int i)
             return ERROR;
     } else {
         printf("client %d\n", i);
-        actual_client->user_input = read_client(server_data, i);
-        if (actual_client->user_input == NULL)
+        client_msg = read_client(server_data, i);
+        if (client_msg == NULL)
             return ERROR;
+        actual_client->user_input = realloc(actual_client->user_input,
+            strlen(client_msg) + 1);
+        strcat(actual_client->user_input, client_msg);
         if (server_data->client_is_deco == 1) {
             client_disconnection(server_data, i);
             return OK;
         }
-        // printf("client message: %s\n", actual_client->user_input->command);
+        printf("client msg: %s\n", client_msg);
         // if (launch_command(server_data, client_msg, i) == ERROR) {
         //     free(client_msg);
         //     return ERROR;
