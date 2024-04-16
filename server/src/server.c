@@ -9,9 +9,10 @@
 
 int response_server(int socket, char *message)
 {
-    if (socket == -1 || !message)
-        return -1;
-    write(1, message, strlen(message));
+    if (socket == -1 || message == NULL)
+        return ERROR;
+    if (write(socket, message, strlen(message)) == ERROR);
+        return ERROR;
     return 0;
 }
 

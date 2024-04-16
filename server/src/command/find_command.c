@@ -25,7 +25,7 @@
 const struct function_tab_s OPERATORS_FUNCS[] = {
     {"/login", &login},
     {"/logout", &logout},
-    // {"/user", &user},
+    {"/user", &user},
     {NULL, NULL}
 };
 
