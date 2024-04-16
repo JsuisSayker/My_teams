@@ -79,7 +79,7 @@ char* read_input()
     }
     if (input != NULL) {
         input[input_length] = '\a';
-        input[input_length + 1] = '\0';
+        input[input_length + 1] = '\n';
 
     }
     return input;
