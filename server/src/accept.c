@@ -13,12 +13,12 @@ int accept_client(server_data_t *data)
     int client_socket = 0;
 
     if (data == NULL) {
-        write(2, "Error: data is NULL\n", 20);
+        perror("Error: data is NULL\n");
         return KO;
     }
     client_socket = accept(data->server_socket, NULL, NULL);
     if (client_socket < 0) {
-        write(2, "Error: accept failed\n", 21);
+        perror("Error: accept failed\n");
         return KO;
     }
     FD_SET(client_socket, &data->current_sockets);
@@ -59,12 +59,12 @@ char *read_client(server_data_t *server_data, int client_socket)
     char *client_msg = NULL;
 
     if (server_data == NULL) {
-        write(2, "Error: data is NULL\n", 20);
+        perror("Error: server_data is NULL\n");
         return NULL;
     }
     client_msg = read_client_msg(client_socket, server_data);
     if (client_msg == NULL) {
-        write(2, "Error: read_client_msg failed\n", 30);
+        perror("Error: read_client_msg failed\n");
         return NULL;
     }
     return client_msg;
