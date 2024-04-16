@@ -100,6 +100,8 @@ static void client_loop(client_t *client)
             perror("Error: fgets failed\n");
         }
         send_client_message(client);
+        free(client->user_input->command);
+        client->user_input->command = NULL;
         // receive_server_message(client, client->user_input->command, client->socket_fd);
 
         // FD_ZERO(&readfds);
