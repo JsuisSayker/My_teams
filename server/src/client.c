@@ -22,7 +22,7 @@ static int update_client(server_data_t *server_data,
         if (accept_client(server_data) == ERROR)
             return ERROR;
     } else {
-        printf("client %d\n", client_socket);
+        printf("client_socket=%d\n", client_socket);
         client_msg = read_client(server_data, client_socket);
         if (client_msg == NULL)
             return ERROR;
@@ -33,7 +33,7 @@ static int update_client(server_data_t *server_data,
             client_disconnection(server_data, client_socket);
             return OK;
         }
-        printf("client msg: %s\n", actual_client->user_input);
+        check_command(server_data, actual_client);
         free(client_msg);
     }
     return OK;

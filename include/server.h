@@ -100,5 +100,6 @@ char *read_client(server_data_t *data, int client_socket);
 int accept_client(server_data_t *data);
 int login(server_data_t *server, client_t *client);
 int find_command(server_data_t *server, client_t *client);
+int check_command(server_data_t *server_data, client_server_t *client);
 
 #endif /* !SERVER_H_ */
