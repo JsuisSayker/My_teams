@@ -97,7 +97,8 @@ static void client_loop(client_t *client)
         printf("client->user_input->command = [%s]\n", client->user_input->command);
 
         if (client->user_input->command == NULL) {
-            perror("Error: fgets failed\n");
+            client->user_input->command = strdup("\0");
+
         }
         send_client_message(client);
         free(client->user_input->command);

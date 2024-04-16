@@ -9,9 +9,6 @@
 
 void send_client_message(client_t *client)
 {
-    if (strcmp(client->user_input->command, "") == 0)
-        perror("Error: no message to send\n");
-
     // printf("command = [%s]\n", client->user_input->command);
     // dprintf(client->socket_fd, "command = [%s]\n", client->user_input->command);
     // if ((client->is_logged == false &&
