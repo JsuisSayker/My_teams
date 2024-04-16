@@ -40,8 +40,8 @@ static int get_command(char *message, char *user_message, client_t *client)
     print_tab(user_command);
 
     for (int i = 0; COMMANDS[i].name; i++) {
-        if (strcmp(user_command[0], COMMANDS[i].name) == 0) {
-            COMMANDS[i].func(message, user_command, client);
+        if (strcmp(command[0], COMMANDS[i].name) == 0) {
+            COMMANDS[i].func(message, command, client);
             return OK;
         }
     }

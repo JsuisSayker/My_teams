@@ -91,6 +91,7 @@ static void client_loop(client_t *client)
     bool is_running = true;
 
     client->user_input = malloc(sizeof(user_input_t));
+    client->user_input->params = malloc(sizeof(param_t));
     while (is_running) {
         client->user_input->command = read_input();
         printf("client->user_input->command = [%s]\n", client->user_input->command);
