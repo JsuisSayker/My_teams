@@ -21,6 +21,7 @@ debug: $(OBJ)
 all: $(NAME)
 
 clean:
+	rm vgcore*
 	make clean -C lib/my/
 	make clean -C server/
 	make clean -C client/

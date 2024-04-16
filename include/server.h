@@ -31,8 +31,8 @@ typedef struct channel_s {
     char *channel_uuid;
     char *channel_name;
     LIST_ENTRY(channel_s) entries;
-    //  *messages;
-    // queue *users;
+    LIST_ENTRY(message_s) messages;
+    LIST_ENTRY(user_s) users;
 } channel_t;
 
 typedef struct personnal_message_s {
@@ -54,8 +54,8 @@ typedef struct user_s {
     char *username;
     char *uuid;
     LIST_ENTRY(user_s) entries;
-    personnal_message_t *personnal_messages;
-    team_t *teams;
+    LIST_HEAD(, team_s) teams;
+    LIST_HEAD(, personnal_message_s) personnal_messages;
 } user_t;
 
 typedef struct client_server_s {
@@ -73,6 +73,7 @@ typedef struct server_data_s {
     struct sockaddr_in server_address;
     LIST_HEAD(, user_s) users;
     LIST_HEAD(, client_server_s) clients;
+    LIST_HEAD(, team_s) teams;
     int client_is_deco;
 } server_data_t;
 

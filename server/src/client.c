@@ -42,7 +42,8 @@ static int check_client(server_data_t *server_data, int i)
             client_disconnection(server_data, i);
             return OK;
         }
-        printf("client msg: %s\n", client_msg);
+        printf("client msg: %s\n", actual_client->user_input);
+        free(client_msg);
         // if (launch_command(server_data, client_msg, i) == ERROR) {
         //     free(client_msg);
         //     return ERROR;
