@@ -25,17 +25,9 @@ static const struct command_s COMMANDS[] = {
     {NULL, NULL}
 };
 
-static print_tab(char **tab)
-{
-    for (int i = 0; tab[i]; i++) {
-        printf("tab[%d] = [%s]\n", i, tab[i]);
-    }
-}
-
 static int get_command(char *message, client_t *client)
 {
     char **command = spliter_by_sep(message, " |");
-    print_tab(command);
 
     for (int i = 0; COMMANDS[i].name; i++) {
         if (strcmp(command[0], COMMANDS[i].name) == 0) {

@@ -48,7 +48,7 @@ typedef struct client_s {
 
 struct command_s {
     char *name;
-    int (*func)(char *message, char **command,client_t *client);
+    int (*func)(char *message, char **command, client_t *client);
 };
 
 // sub functions
