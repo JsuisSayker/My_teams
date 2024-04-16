@@ -12,8 +12,8 @@ int login_command(char *message, char **command, client_t *client)
     // client->user_name = strdup(command[1]);
     // client->user_input->command = malloc(sizeof(char) * 100);
     printf("EHYO\n");
-    printf("command[0] = [%s]\n", command[1]);
-    client->user_input->command = strdup(command[0]);
+    printf("command[0] = [%s]\n", command[0]);
+    // client->user_input->command = strdup(command[0]);
 
     client->user_name = strdup("toto");
     // client->user_input->params->user_name = strdup(command[1]);

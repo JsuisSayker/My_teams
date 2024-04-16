@@ -28,7 +28,7 @@ static const struct command_s COMMANDS[] = {
 static print_tab(char **tab)
 {
     for (int i = 0; tab[i]; i++) {
-        printf("tab[%d] = %s\n", i, tab[i]);
+        printf("tab[%d] = [%s]\n", i, tab[i]);
     }
 }
 
@@ -40,7 +40,7 @@ static int get_command(char *message, char *user_message, client_t *client)
     print_tab(user_command);
 
     for (int i = 0; COMMANDS[i].name; i++) {
-        if (strcmp(command[0], COMMANDS[i].name) == 0) {
+        if (strcmp(user_command[0], COMMANDS[i].name) == 0) {
             COMMANDS[i].func(message, user_command, client);
             return OK;
         }

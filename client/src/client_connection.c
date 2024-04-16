@@ -46,9 +46,10 @@
 
 static void receive_server_message(client_t *client, char *user_message, int socket_fd)
 {
+    printf("J'ATTENDS UN MESSAGE\n");
     char buffer[1024];
     int received_message_len = recv(socket_fd, buffer, 1023, 0);
-
+    printf("J'AI RECU UN MESSAGE\n");
 
     if (received_message_len < 0) {
         perror("Error: receive failed\n");
@@ -67,7 +68,7 @@ char* read_input()
     int input_length = 0;
 
     while ((temp_char = getchar()) != '\n' && temp_char != EOF) {
-        temp = realloc(input, input_length + 2);
+        temp = realloc(input, input_length + 1);
         if (temp == NULL) {
             free(input);
             printf("Failed to allocate memory.\n");
@@ -80,7 +81,6 @@ char* read_input()
     if (input != NULL) {
         input[input_length] = '\a';
         input[input_length + 1] = '\n';
-
     }
     return input;
 }
@@ -90,7 +90,6 @@ static void client_loop(client_t *client)
     fd_set readfds;
     bool is_running = true;
 
-    // dprintf(1, "client_socket client's side = [%d]\n", client->socket_fd);
     client->user_input = malloc(sizeof(user_input_t));
     while (is_running) {
         client->user_input->command = read_input();
@@ -98,8 +97,9 @@ static void client_loop(client_t *client)
 
         if (client->user_input->command == NULL) {
             perror("Error: fgets failed\n");
-        } else
-            send_client_message(client);
+        }
+        send_client_message(client);
+        receive_server_message(client, client->user_input->command, client->socket_fd);
 
         // FD_ZERO(&readfds);
         // FD_SET(STDIN_FILENO, &readfds);
@@ -124,7 +124,7 @@ static void client_loop(client_t *client)
 int start_client_connection(const char *ip, int port)
 {
     client_t client = {.is_logged=false, .uuid=NULL, .user_name=NULL,
-    .socket_fd=socket(AF_INET, SOCK_STREAM, 0)};
+    .socket_fd=socket(AF_INET, SOCK_STREAM, 0), .server_response=NULL};
     // int socket_fd = socket(AF_INET, SOCK_STREAM, 0);
     struct hostent *client_info = gethostbyname(ip);
     struct sockaddr_in serv_addr;
