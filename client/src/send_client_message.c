@@ -20,7 +20,7 @@ void send_client_message(client_t *client)
     //     client_error_already_exist();
     //     return;
     // }
-    if (client->is_logged ==true &&
+    if (client->is_logged == true &&
     strcmp(client->user_input->command, "/help"))
         display_help();
     else

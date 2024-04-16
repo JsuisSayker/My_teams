@@ -11,40 +11,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-// static int check(int ret, char *msg)
-// {
-//     if (ret == -1) {
-//         perror(msg);
-//         return KO;
-//     }
-//     return OK;
-// }
-
-// static char *read_client_message(client_t *client)
-// {
-//     printf("salut mon mignon\n");
-//     char buffer[BUFFER_SIZE];
-//     int n_bytes_read = 0;
-//     int msg_size = 0;
-
-//     n_bytes_read = read(client->socket_fd, buffer + msg_size, sizeof(buffer) -
-//         msg_size - 1);
-//     while (n_bytes_read > 0) {
-//         msg_size += n_bytes_read;
-//         if (msg_size > BUFFER_SIZE - 1 || buffer[msg_size - 1] == '\n')
-//             break;
-//         n_bytes_read = read(client->socket_fd, buffer + msg_size, sizeof(buffer) -
-//             msg_size - 1);
-//     }
-//     if (n_bytes_read == 0)
-//         client_logout(client, "/logout");
-//     if (check(n_bytes_read, "read") == KO)
-//         return NULL;
-//     buffer[msg_size] = '\0';
-//     return strdup(buffer);
-// }
-
-static void receive_server_message(client_t *client, char *user_message, int socket_fd)
+static void receive_server_message(client_t *client, int socket_fd)
 {
     printf("J'ATTENDS UN MESSAGE\n");
     char buffer[1024];
@@ -57,7 +24,7 @@ static void receive_server_message(client_t *client, char *user_message, int soc
     }
     buffer[received_message_len] = '\0';
     // client_logout(client, "/logout");
-    user_input_event(buffer, user_message, client);
+    user_input_event(buffer, client);
 }
 
 char* read_input()
@@ -101,9 +68,9 @@ static void client_loop(client_t *client)
 
         }
         send_client_message(client);
+        receive_server_message(client, client->socket_fd);
         free(client->user_input->command);
         client->user_input->command = NULL;
-        // receive_server_message(client, client->user_input->command, client->socket_fd);
 
         // FD_ZERO(&readfds);
         // FD_SET(STDIN_FILENO, &readfds);

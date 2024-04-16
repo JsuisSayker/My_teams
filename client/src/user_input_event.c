@@ -32,12 +32,10 @@ static print_tab(char **tab)
     }
 }
 
-static int get_command(char *message, char *user_message, client_t *client)
+static int get_command(char *message, client_t *client)
 {
     char **command = spliter_by_sep(message, " |");
-    char **user_command = spliter_by_sep(user_message, " |");
     print_tab(command);
-    print_tab(user_command);
 
     for (int i = 0; COMMANDS[i].name; i++) {
         if (strcmp(command[0], COMMANDS[i].name) == 0) {
@@ -48,9 +46,9 @@ static int get_command(char *message, char *user_message, client_t *client)
     return OK;
 }
 
-int user_input_event(char *message, char *user_message, client_t *client)
+int user_input_event(char *message, client_t *client)
 {
     if (message == NULL)
         return ERROR;
-    return get_command(message, user_message, client);
+    return get_command(message, client);
 }
