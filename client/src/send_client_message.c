@@ -5,6 +5,9 @@
 ** send_client_message
 */
 
+#include <stdio.h>
+#include <unistd.h>
+
 #include "client.h"
 
 void send_client_message(client_t *client)

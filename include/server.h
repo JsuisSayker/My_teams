@@ -63,6 +63,7 @@ typedef struct client_server_s {
     user_t *user;
     bool is_logged;
     char *user_input;
+    user_input_t *command;
     LIST_ENTRY(client_server_s) entries;
 } client_server_t;
 
@@ -92,5 +93,6 @@ int accept_client(server_data_t *data);
 int login(server_data_t *server, client_server_t *client);
 int find_command(server_data_t *server, client_server_t *client);
 int logout(server_data_t *server, client_server_t *client);
+int response_server(int socket, char *message);
 
 #endif /* !SERVER_H_ */

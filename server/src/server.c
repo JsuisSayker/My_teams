@@ -7,6 +7,14 @@
 
 #include "server.h"
 
+int response_server(int socket, char *message)
+{
+    if (socket == -1 || !message)
+        return -1;
+    write(1, message, strlen(message));
+    return 0;
+}
+
 int server_loop(server_data_t *server_data)
 {
     fd_set read_sockets;
@@ -19,10 +27,10 @@ int server_loop(server_data_t *server_data)
     FD_SET(server_data->server_socket, &server_data->current_sockets);
     while (1) {
         server_data->ready_sockets = server_data->current_sockets;
-        
+
         FD_ZERO(&read_sockets);
         FD_ZERO(&write_sockets);
-        
+
         if (select(FD_SETSIZE, &server_data->ready_sockets, &write_sockets,
         &read_sockets, NULL) < 0) {
             perror("Error: select failed\n");
