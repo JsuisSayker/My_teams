@@ -50,7 +50,6 @@ static int login_response(int socket, user_t *user)
     return OK;
 }
 
-
 static int user_connection(server_data_t *server, client_server_t *client)
 {
     user_t user;
