@@ -100,6 +100,7 @@ char *read_client(server_data_t *data, int client_socket);
 int accept_client(server_data_t *data);
 int response_server(int socket, char *message);
 int user_initialisation(user_t *user, char *name);
+int server_response(int socket, char *message);
 
 int find_command(server_data_t *server, client_server_t *client);
 int login(server_data_t *server, client_server_t *client);

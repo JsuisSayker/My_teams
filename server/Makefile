@@ -18,6 +18,7 @@ SRC			=	display_help.c 		\
 
 TOOLBOX		=	generate_uuid.c 			\
 				structure_initialisation.c	\
+				add_user_on_server_database.c	\
 
 COMMAND		=	find_command.c	\
 

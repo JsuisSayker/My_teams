@@ -17,10 +17,10 @@ char *open_file(char const *file);
 
     /* list */
 int push_on_list(list_t **list_src, list_t **list_dest);
-list_t *add_node_in_list(list_t *list, char *str);
+list_t *add_node_in_list(list_t *list, char *username, char *description);
 int print_room_list(list_t *list, char *str);
 void free_list(list_t *list);
-list_t *create_node(char *str);
+list_t *create_node(char *username, char *description);
 int my_list_len(list_t *list);
 int print_list(list_t *list);
 int print_node(list_t *node);

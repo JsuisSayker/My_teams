@@ -7,7 +7,7 @@
 
 #include "server.h"
 
-int response_server(int socket, char *message)
+int server_response(int socket, char *message)
 {
     if (socket == -1 || message == NULL)
         return ERROR;
