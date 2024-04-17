@@ -9,7 +9,8 @@
     #define LINKED_LIST_H_
 
 typedef struct list_s {
-    char *str;
+    char *username;
+    char *description;
     struct list_s *next;
 } list_t;
 
