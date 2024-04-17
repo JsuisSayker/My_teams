@@ -44,6 +44,7 @@ void check_command(server_data_t *server_data, client_server_t *client)
         if (client->command == NULL)
             write(client->socket, "214 bad command, type /help to show commands\a\n", 47);
         else {
+            printf("command = %s\n", client->command->command);
             find_command(server_data, client);
             free_user_input(client->command);
             client->command = NULL;
