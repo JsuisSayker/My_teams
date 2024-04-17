@@ -76,7 +76,7 @@ static int user_connection(server_data_t *server, client_server_t *client)
 
     if (server == NULL || client == NULL)
         return ERROR;
-    if (user_initialisation(&user, client->user_input->params->user_name)
+    if (user_initialisation(&user, client->command->params->user_name)
     == ERROR)
         return ERROR;
     client->user = &user;
@@ -98,11 +98,11 @@ int login(server_data_t *server, client_server_t *client)
         write(client->socket, "401 Already logged in\n", 23);
         return OK;
     }
-    if (client->user_input->params->user_name == NULL) {
+    if (client->command->params->user_name == NULL) {
         write(client->socket, "500 Missing username\n", 22);
         return OK;
     }
-    if (already_exist(server, client, client->user_input->params->user_name)
+    if (already_exist(server, client, client->command->params->user_name)
     == OK) {
         if (message_and_response("login", client, client->user) == ERROR)
             return ERROR;
