@@ -15,7 +15,8 @@ SRC			=	display_help.c 		\
 				# ${DIR_TOOLBOX}		\
 				# ${DIR_COMMAND}		\
 
-TOOLBOX		=	generate_uuid.c \
+TOOLBOX		=	generate_uuid.c 			\
+				structure_initialisation.c	\
 
 COMMAND		=	find_command.c	\
 

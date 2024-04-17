@@ -84,7 +84,7 @@ typedef struct server_data_s {
     LIST_HEAD(, client_server_s) clients;
     LIST_HEAD(, team_s) teams;
     int client_is_deco;
-    CONTEXT context; 
+    CONTEXT context;
 } server_data_t;
 
 struct function_tab_s {
@@ -100,6 +100,7 @@ int loop_check_select_client(server_data_t *server_data);
 char *read_client(server_data_t *data, int client_socket);
 int accept_client(server_data_t *data);
 int response_server(int socket, char *message);
+int user_initialisation(user_t *user, char *name);
 
 int find_command(server_data_t *server, client_server_t *client);
 int login(server_data_t *server, client_server_t *client);
