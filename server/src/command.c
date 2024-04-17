@@ -9,19 +9,19 @@
 
 static const struct parse_command_s PARSE_COMMAND[] = {
     {"/login", &login_parser},
-    // {"/logout", &logout_parser},
-    // {"/users", &users_parser},
-    // {"/user", &user_parser},
-    // {"/send", &send_parser},
-    // {"/messages", &messages_parser},
-    // {"/subscribe", &subscribe_parser},
-    // {"/subscribed", &subscribed_parser},
-    // {"/unsubscribe", &unsubscribe_parser},
-    // {"/use", &use_parser},
-    // {"/create", &create_parser},
-    // {"/list", &list_parser},
-    // {"/info", &info_parser},
-    // {"/help", &help_parser},
+    {"/logout", &logout_parser},
+    {"/users", &users_parser},
+    {"/user", &user_parser},
+    {"/send", &send_parser},
+    {"/messages", &messages_parser},
+    {"/subscribe", &subscribe_parser},
+    {"/subscribed", &subscribed_parser},
+    {"/unsubscribe", &unsubscribe_parser},
+    {"/use", &use_parser},
+    {"/create", &create_parser},
+    {"/list", &list_parser},
+    {"/info", &info_parser},
+    {"/help", &help_parser},
     {NULL, NULL}
 };
 
@@ -39,7 +39,7 @@ void check_command(server_data_t *server_data, client_server_t *client)
             return;
         for (int i = 0; PARSE_COMMAND[i].command != NULL; i++) {
             if (strcmp(PARSE_COMMAND[i].command, user_input[0]) == 0)
-                client->command = PARSE_COMMAND[i].func(user_input);
+                client->command = PARSE_COMMAND[i].func(user_input, client);
         }
         if (client->command == NULL)
             write(client->socket, "214 bad command, type /help to show commands\a\n", 47);

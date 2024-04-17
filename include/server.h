@@ -66,21 +66,23 @@ typedef struct user_s {
     LIST_HEAD(, personnal_message_t) personnal_messages;
 } user_t;
 
+typedef enum {
+    TEAMS,
+    CHANNELS,
+    THREADS,
+    
+    NONE
+} context_t;
+
 typedef struct client_server_s {
     int socket;
     user_t *user;
     bool is_logged;
     char *user_input;
     user_input_t *command;
+    context_t context;
     LIST_ENTRY(client_server_s) entries;
 } client_server_t;
-
-typedef enum {
-    TEAMS,
-    CHANNELS,
-    THREADS,
-    NONE
-} context_t;
 
 typedef struct server_data_s {
     int server_socket;
@@ -100,7 +102,7 @@ struct function_tab_s {
 
 struct parse_command_s {
     char *command;
-    user_input_t *(*func)(char **user_input);
+    user_input_t *(*func)(char **user_input, client_server_t *client);
 };
 
 int display_help(void);
@@ -119,7 +121,20 @@ int user(server_data_t *server, client_server_t *client);
 void check_command(server_data_t *server_data, client_server_t *client);
 void free_user_input(user_input_t *user_input);
 user_input_t *init_user_input_structure(void);
-user_input_t *login_parser(char **user_input);
+user_input_t *create_parser(char **user_input, client_server_t *client);
+user_input_t *help_parser(char **user_input, UNUSED client_server_t *client);
+user_input_t *info_parser(char **user_input, UNUSED client_server_t *client);
+user_input_t *list_parser(char **user_input, UNUSED client_server_t *client);
+user_input_t *login_parser(char **user_input, UNUSED client_server_t *client);
+user_input_t *logout_parser(char **user_input, UNUSED client_server_t *client);
+user_input_t *send_parser(char **user_input, UNUSED client_server_t *client);
+user_input_t *subscribe_parser(char **user_input, UNUSED client_server_t *client);
+user_input_t *subscribed_parser(char **user_input, UNUSED client_server_t *client);
+user_input_t *unsubscribe_parser(char **user_input, UNUSED client_server_t *client);
+user_input_t *use_parser(char **user_input, UNUSED client_server_t *client);
+user_input_t *user_parser(char **user_input, UNUSED client_server_t *client);
+user_input_t *users_parser(char **user_input, UNUSED client_server_t *client);
+user_input_t *messages_parser(char **user_input, UNUSED client_server_t *client);
 
 /* toolbox */
 int append_to_string(char **str, char *to_append);

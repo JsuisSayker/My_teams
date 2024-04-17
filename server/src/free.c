@@ -45,6 +45,10 @@ void free_user_input(user_input_t *user_input)
             free(user_input->params->thread_uuid);
         if (user_input->params->thread_body)
             free(user_input->params->thread_body);
+        if (user_input->params->message_body)
+            free(user_input->params->message_body);
+        if (user_input->params->comment_body)
+            free(user_input->params->comment_body);
         free(user_input->params);
     }
     free(user_input);

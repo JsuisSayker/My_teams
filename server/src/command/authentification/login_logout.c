@@ -23,15 +23,15 @@ static int already_exist(server_data_t *server, client_server_t *client,
         return ERROR;
     LIST_FOREACH(tmp, &server->users, entries) {
         if (strcmp(tmp->username, name) == 0) {
-            client->user->username = strdup(tmp->username);
-            client->user->uuid = strdup(tmp->uuid);
-            if (tmp->description != NULL)
-                client->user->description = strdup(tmp->description);
-            client->user->description = NULL;
-            client->is_logged = true;
-            return OK;
+            break;
         }
     }
+    client->user->username = strdup(tmp->username);
+    client->user->uuid = strdup(tmp->uuid);
+    if (tmp->description != NULL)
+        client->user->description = strdup(tmp->description);
+    client->user->description = NULL;
+    client->is_logged = true;
     return ERROR;
 }
 

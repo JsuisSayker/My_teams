@@ -2,12 +2,12 @@
 ** EPITECH PROJECT, 2024
 ** My_teams
 ** File description:
-** login
+** user
 */
 
 #include "server.h"
 
-user_input_t *login_parser(char **user_input, UNUSED client_server_t *client)
+user_input_t *user_parser(char **user_input, UNUSED client_server_t *client)
 {
     user_input_t *user_input_parsed = init_user_input_structure();
 

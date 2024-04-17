@@ -23,6 +23,19 @@ TOOLBOX		=	generate_uuid.c 			\
 				append_to_string.c		\
 
 SRC_PARSER	=	login.c				\
+				logout.c			\
+				users.c				\
+				user.c				\
+				send.c				\
+				messages.c			\
+				subscribe.c			\
+				subscribed.c			\
+				unsubscribe.c		\
+				use.c				\
+				create.c			\
+				list.c				\
+				info.c				\
+				help.c				\
 
 COMMAND		=	find_command.c						\
 				authentification/login_logout.c		\
