@@ -30,6 +30,8 @@ typedef struct param_s {
     char *thread_uuid;
     char *thread_title;
     char *thread_body;
+    char *message_body;
+    char *comment_body;
 } param_t;
 
 typedef struct user_input_s {

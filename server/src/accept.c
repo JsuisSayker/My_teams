@@ -26,6 +26,7 @@ int accept_client(server_data_t *data)
     new_client->is_logged = 0;
     new_client->user = NULL;
     new_client->user_input = NULL;
+    new_client->context = NONE;
     LIST_INSERT_HEAD(&data->clients, new_client, entries);
     return OK;
 }

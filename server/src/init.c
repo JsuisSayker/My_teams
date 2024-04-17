@@ -28,5 +28,7 @@ user_input_t *init_user_input_structure(void)
     user_input->params->thread_title = NULL;
     user_input->params->thread_uuid = NULL;
     user_input->params->thread_body = NULL;
+    user_input->params->message_body = NULL;
+    user_input->params->comment_body = NULL;
     return user_input;
 }
