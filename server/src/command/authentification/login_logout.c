@@ -45,7 +45,7 @@ static int login_response(int socket, user_t *user)
     append_to_string(&message, "|");
     append_to_string(&message, user->uuid);
     append_to_string(&message, "\a\n");
-    if (response_server(socket, message) == ERROR)
+    if (server_response(socket, message) == ERROR)
         return ERROR;
     return OK;
 }
@@ -57,12 +57,6 @@ static int user_connection(server_data_t *server, client_server_t *client)
 
     if (server == NULL || client == NULL)
         return ERROR;
-    if (already_exist(server, client, client->command->params->user_name)
-    == OK) {
-        if (login_response(client->socket, client->user) == ERROR)
-            return ERROR;
-        return OK;
-    }
     if (user_initialisation(&user, client->command->params->user_name)
     == ERROR)
         return ERROR;
@@ -87,7 +81,7 @@ int login(server_data_t *server, client_server_t *client)
     }
     if (already_exist(server, client, client->command->params->user_name)
     == OK) {
-        if (message_and_response("/login", client, client->user) == ERROR)
+        if (login_response(client->socket, client->user) == ERROR)
             return ERROR;
         return OK;
     }
