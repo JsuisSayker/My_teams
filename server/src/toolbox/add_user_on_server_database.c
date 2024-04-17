@@ -14,7 +14,6 @@ static int copy_in_user_list(server_data_t *server, user_t *new_user)
     if (server == NULL || new_user == NULL)
         return ERROR;
     if (server->users.lh_first == NULL) {
-        printf("[FIRST]\n\n");
         LIST_INSERT_HEAD(&server->users, new_user, entries);
         return OK;
     }
