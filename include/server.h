@@ -84,7 +84,6 @@ typedef struct server_data_s {
     LIST_HEAD(, client_server_s) clients;
     LIST_HEAD(, team_s) teams;
     int client_is_deco;
-    CONTEXT context;
 } server_data_t;
 
 struct function_tab_s {
