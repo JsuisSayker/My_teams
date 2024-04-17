@@ -28,12 +28,18 @@ typedef struct message_s {
     LIST_ENTRY(message_s) entries;
 } message_t;
 
+typedef struct thread_s {
+    LIST_HEAD(, message_t) messages;
+    LIST_ENTRY(thread_s) entries;
+} thread_t;
+
 typedef struct channel_s {
     char *channel_uuid;
     char *channel_name;
     LIST_ENTRY(channel_s) entries;
-    LIST_ENTRY(message_s) messages;
-    LIST_ENTRY(user_s) users;
+    LIST_HEAD(, message_t) messages;
+    LIST_HEAD(, user_t) users;
+    LIST_HEAD(, thread_t) threads;
 } channel_t;
 
 typedef struct personnal_message_s {
@@ -48,7 +54,7 @@ typedef struct team_s {
     char *team_name;
     LIST_ENTRY(team_s) entries;
     LIST_HEAD(, channel_t) channels;
-    LIST_HEAD(, user_s) users;
+    LIST_HEAD(, user_t) users;
 } team_t;
 
 typedef struct user_s {
@@ -56,8 +62,8 @@ typedef struct user_s {
     char *uuid;
     char *description;
     LIST_ENTRY(user_s) entries;
-    LIST_HEAD(, team_s) teams;
-    LIST_HEAD(, personnal_message_s) personnal_messages;
+    LIST_HEAD(, team_t) teams;
+    LIST_HEAD(, personnal_message_t) personnal_messages;
 } user_t;
 
 typedef struct client_server_s {

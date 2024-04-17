@@ -28,7 +28,6 @@ static const struct parse_command_s PARSE_COMMAND[] = {
 void check_command(server_data_t *server_data, client_server_t *client)
 {
     char **user_input = NULL;
-    user_input_t *input_parse = NULL;
 
     if (client->user_input[strlen(client->user_input) - 1] ==
     '\n' && client->user_input[strlen(client->user_input) - 2]
@@ -40,14 +39,17 @@ void check_command(server_data_t *server_data, client_server_t *client)
             return;
         for (int i = 0; PARSE_COMMAND[i].command != NULL; i++) {
             if (strcmp(PARSE_COMMAND[i].command, user_input[0]) == 0)
-                input_parse = PARSE_COMMAND[i].func(user_input);
+                client->command = PARSE_COMMAND[i].func(user_input);
         }
-        if (input_parse == NULL)
+        if (client->command == NULL)
             write(client->socket, "214 bad command, type /help to show commands\a\n", 47);
-        write(client->socket, "/login toto|69ET\a\n", 19);
+        else {
+            find_command(server_data, client);
+            free_user_input(client->command);
+            client->command = NULL;
+        }
         free_tab(user_input);
         free(client->user_input);
-        free_user_input(input_parse);
         client->user_input = NULL;
     }
 }

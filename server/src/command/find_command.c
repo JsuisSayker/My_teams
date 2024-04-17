@@ -55,8 +55,5 @@ int find_command(server_data_t *server, client_server_t *client)
         write(client->socket, "500 Command not found\n", 23);
         return OK;
     }
-    if (client->command->command != NULL)
-        free(client->command->command);
-        client->user_input = NULL;
     return OK;
 }

@@ -24,6 +24,7 @@ static void receive_server_message(client_t *client)
     if (received_message_len == 0)
         return;
     buffer[received_message_len] = '\0';
+    printf("buffer = %s\n", buffer);
     user_input_event(buffer, client);
 }
 
