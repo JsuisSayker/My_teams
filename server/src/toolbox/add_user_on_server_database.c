@@ -35,6 +35,7 @@ int add_user_on_server_database(server_data_t *server, user_t *user)
         return ERROR;
     new_user->username = strdup(user->username);
     new_user->uuid = strdup(user->uuid);
+    new_user->description = strdup(user->description);
     new_user->teams = user->teams;
     new_user->personnal_messages = user->personnal_messages;
     if (new_user->username == NULL || new_user->uuid == NULL)

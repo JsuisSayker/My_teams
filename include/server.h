@@ -129,13 +129,17 @@ user_input_t *list_parser(char **user_input, UNUSED client_server_t *client);
 user_input_t *login_parser(char **user_input, UNUSED client_server_t *client);
 user_input_t *logout_parser(char **user_input, UNUSED client_server_t *client);
 user_input_t *send_parser(char **user_input, UNUSED client_server_t *client);
-user_input_t *subscribe_parser(char **user_input, UNUSED client_server_t *client);
-user_input_t *subscribed_parser(char **user_input, UNUSED client_server_t *client);
-user_input_t *unsubscribe_parser(char **user_input, UNUSED client_server_t *client);
+user_input_t *subscribe_parser(char **user_input,
+UNUSED client_server_t *client);
+user_input_t *subscribed_parser(char **user_input,
+UNUSED client_server_t *client);
+user_input_t *unsubscribe_parser(char **user_input,
+UNUSED client_server_t *client);
 user_input_t *use_parser(char **user_input, UNUSED client_server_t *client);
 user_input_t *user_parser(char **user_input, UNUSED client_server_t *client);
 user_input_t *users_parser(char **user_input, UNUSED client_server_t *client);
-user_input_t *messages_parser(char **user_input, UNUSED client_server_t *client);
+user_input_t *messages_parser(char **user_input,
+UNUSED client_server_t *client);
 
 /* toolbox */
 int append_to_string(char **str, char *to_append);

@@ -45,6 +45,7 @@ int launch_server(char *const *const av)
 
     if (!av || !server_data)
         return KO;
+    srand(time(NULL));
     server_data->clients.lh_first = NULL;
     server_data->users.lh_first = NULL;
     server_data->server_socket = create_server_socket(av, server_data);
