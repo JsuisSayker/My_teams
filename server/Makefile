@@ -20,6 +20,7 @@ SRC			=	display_help.c 		\
 
 TOOLBOX		=	generate_uuid.c 			\
 				structure_initialisation.c	\
+				append_to_string.c		\
 
 SRC_PARSER	=	login.c				\
 

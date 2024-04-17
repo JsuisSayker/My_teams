@@ -38,20 +38,17 @@ static int already_exist(server_data_t *server, client_server_t *client,
 static int message_and_response(char *command, client_server_t *client,
     user_t *user)
 {
-    int len_message;
     char *message = NULL;
 
     if (command == NULL || user == NULL)
         return ERROR;
-    len_message =
-        strlen(command) + strlen(user->username) + strlen(user->uuid);
-    message = malloc(sizeof(char) * len_message + 5);
-    strcpy(message, command);
-    strcat(message, " ");
-    strcat(message, user->username);
-    strcat(message, "|");
-    strcat(message, user->uuid);
-    strcat(message, "\a\n\0");
+    append_to_string(&message, "200 ");
+    append_to_string(&message, command);
+    append_to_string(&message, " ");
+    append_to_string(&message, user->username);
+    append_to_string(&message, "|");
+    append_to_string(&message, user->uuid);
+    append_to_string(&message, "\a\n");
     if (response_server(client->socket, message) == ERROR)
         return ERROR;
     return OK;
@@ -104,11 +101,7 @@ int login(server_data_t *server, client_server_t *client)
     if (server == NULL || client == NULL)
         return ERROR;
     if (client->is_logged == true) {
-        write(client->socket, "401 Already logged in\n", 23);
-        return OK;
-    }
-    if (client->command->params->user_name == NULL) {
-        write(client->socket, "500 Missing username\n", 22);
+        write(client->socket, "401 Already logged\a\n", 21);
         return OK;
     }
     if (user_connection(server, client) == ERROR)
@@ -122,8 +115,7 @@ int logout(server_data_t *server, client_server_t *client)
     if (server == NULL || client == NULL)
         return ERROR;
     if (client->is_logged == false) {
-        write(client->socket, "500, You need to be logged to have acces to"
-        " this command\n", 58);
+        write(client->socket, "500, You are not logged in\a\n", 29);
         return OK;
     }
     client->is_logged = false;
