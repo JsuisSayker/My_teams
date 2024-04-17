@@ -13,14 +13,34 @@ SRC			=	display_help.c 		\
 				client.c			\
 				accept.c			\
 				command.c			\
-				# ${DIR_TOOLBOX}		\
-				# ${DIR_COMMAND}		\
+				init.c				\
+				$(DIR_PARSER)		\
+				${DIR_TOOLBOX}		\
+				${DIR_COMMAND}		\
 
 TOOLBOX		=	generate_uuid.c 			\
 				structure_initialisation.c	\
 				add_user_on_server_database.c	\
+				append_to_string.c		\
 
-COMMAND		=	find_command.c	\
+SRC_PARSER	=	login.c				\
+				logout.c			\
+				users.c				\
+				user.c				\
+				send.c				\
+				messages.c			\
+				subscribe.c			\
+				subscribed.c			\
+				unsubscribe.c		\
+				use.c				\
+				create.c			\
+				list.c				\
+				info.c				\
+				help.c				\
+
+COMMAND		=	find_command.c						\
+				authentification/login_logout.c		\
+				user_interraction/users_function.c		\
 
 MAIN_SRC	=	main.c
 
@@ -31,6 +51,7 @@ DIR_TESTS	=	$(addprefix tests/, $(TEST))
 DIR_MAIN	=	$(addprefix src/, $(MAIN_SRC))
 DIR_TOOLBOX	=	$(addprefix toolbox/, $(TOOLBOX))
 DIR_COMMAND	=	$(addprefix command/, $(COMMAND))
+DIR_PARSER	=	$(addprefix parser/, $(SRC_PARSER))
 
 OBJ_SRC		=	$(DIR_SRC:.c=.o)
 OBJ_MAIN	=	$(DIR_MAIN:.c=.o)

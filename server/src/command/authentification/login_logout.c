@@ -88,9 +88,9 @@ int login(server_data_t *server, client_server_t *client)
             return ERROR;
         return OK;
     }
-    printf("papa\n");
     if (user_connection(server, client) == ERROR)
         return ERROR;
+    server_event_user_logged_in(client->user->uuid);
     return OK;
 }
 

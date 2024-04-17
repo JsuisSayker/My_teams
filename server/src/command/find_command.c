@@ -47,7 +47,7 @@ int find_command(server_data_t *server, client_server_t *client)
 
     if (server == NULL || client == NULL)
         return ERROR;
-    for (int j = 0; strcmp(OPERATORS_FUNCS[j].str, "NULL") != 0; j++) {
+    for (int j = 0; OPERATORS_FUNCS[j].flags != NULL; j++) {
         if (find_command_sub(server, client, j, &is_found) == ERROR)
             return ERROR;
     }
@@ -55,8 +55,5 @@ int find_command(server_data_t *server, client_server_t *client)
         write(client->socket, "500 Command not found\n", 23);
         return OK;
     }
-    if (client->command->command != NULL)
-        free(client->command->command);
-        client->user_input = NULL;
     return OK;
 }

@@ -30,6 +30,8 @@ typedef struct param_s {
     char *thread_uuid;
     char *thread_title;
     char *thread_body;
+    char *message_body;
+    char *comment_body;
 } param_t;
 
 typedef struct user_input_s {
@@ -62,8 +64,7 @@ int user_input_event(char *message, client_t *client);
 void send_client_message(client_t *client);
 
 // toolbox
-char get_last_char(char *str);
-
+void free_tab(char **tab);
 
 // commands
 int login_command(char *message, char **command, client_t *client);
