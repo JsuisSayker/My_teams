@@ -70,8 +70,8 @@ static int user_connection(server_data_t *server, client_server_t *client)
 
 int login(server_data_t *server, client_server_t *client)
 {
-    printf("login\n");
     user_t user;
+    client_server_t *tmp;
 
     if (server == NULL || client == NULL)
         return ERROR;
@@ -90,12 +90,10 @@ int login(server_data_t *server, client_server_t *client)
         return ERROR;
     }
     server_event_user_logged_in(client->user->uuid);
-    client_server_t *tmp = server->clients.lh_first;
-    printf("#########\n");
+    tmp = server->clients.lh_first;
     LIST_FOREACH(tmp, &server->clients, entries) {
         printf("client->user->username = %s\n", client->user->username);
     }
-    printf("#########\n");
     return OK;
 }
 

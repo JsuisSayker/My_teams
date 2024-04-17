@@ -86,6 +86,23 @@ static char *read_input(void)
     return input;
 }
 
+static void handle_input(client_t *client, fd_set otherfds)
+{
+    if (FD_ISSET(client->socket_fd, &otherfds)) {
+            receive_server_message(client);
+            return;
+    }
+    if (FD_ISSET(STDIN_FILENO, &otherfds)) {
+        client->user_input->command = read_input();
+        if (client->user_input->command == NULL) {
+            return;
+        }
+        send_client_message(client);
+    }
+    free(client->user_input->command);
+    client->user_input->command = NULL;
+}
+
 static void client_loop(client_t *client)
 {
     fd_set readfds;
@@ -103,17 +120,7 @@ static void client_loop(client_t *client)
             perror("Error: select failed\n");
             return;
         }
-        if (FD_ISSET(client->socket_fd, &otherfds)) {
-            receive_server_message(client);
-        } else if (FD_ISSET(STDIN_FILENO, &otherfds)) {
-            client->user_input->command = read_input();
-            if (client->user_input->command == NULL) {
-                return;
-            }
-            send_client_message(client);
-        }
-        free(client->user_input->command);
-        client->user_input->command = NULL;
+        handle_input(client, otherfds);
     }
     write(1, "\n", 1);
     client_logout(client, "/logout");

@@ -33,11 +33,9 @@ static int update_client(server_data_t *server_data,
                 strlen(client_msg) + 1);
         strcat(actual_client->user_input, client_msg);
         if (server_data->client_is_deco == 1) {
-            printf("client disconnected\n");
             client_disconnection(server_data, client_socket);
             return OK;
         }
-        printf("client_msg = %s", client_msg);
         check_command(server_data, actual_client);
         free(client_msg);
     }
