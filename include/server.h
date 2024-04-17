@@ -74,7 +74,6 @@ typedef enum {
     NONE
 } context_t;
 
-
 typedef struct server_data_s {
     int server_socket;
     fd_set current_sockets;
@@ -91,6 +90,11 @@ struct function_tab_s {
     int (*flags)(server_data_t *server, client_server_t *client);
 };
 
+struct parse_command_s {
+    char *command;
+    user_input_t *(*func)(char **user_input);
+};
+
 int display_help(void);
 int launch_server(char *const *const av);
 void free_server_data(server_data_t *server_data);
@@ -100,11 +104,13 @@ char *read_client(server_data_t *data, int client_socket);
 int accept_client(server_data_t *data);
 int response_server(int socket, char *message);
 int user_initialisation(user_t *user, char *name);
-
 int find_command(server_data_t *server, client_server_t *client);
 int login(server_data_t *server, client_server_t *client);
 int logout(server_data_t *server, client_server_t *client);
 int user(server_data_t *server, client_server_t *client);
-int check_command(server_data_t *server_data, client_server_t *client);
+void check_command(server_data_t *server_data, client_server_t *client);
+void free_user_input(user_input_t *user_input);
+user_input_t *init_user_input_structure(void);
+user_input_t *login_parser(char **user_input);
 
 #endif /* !SERVER_H_ */

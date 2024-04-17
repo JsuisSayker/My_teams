@@ -13,11 +13,15 @@ SRC			=	display_help.c 		\
 				client.c			\
 				accept.c			\
 				command.c			\
-				# ${DIR_TOOLBOX}		\
-				# ${DIR_COMMAND}		\
+				init.c				\
+				$(DIR_PARSER)		\
+				${DIR_TOOLBOX}		\
+				${DIR_COMMAND}		\
 
 TOOLBOX		=	generate_uuid.c 			\
 				structure_initialisation.c	\
+
+SRC_PARSER	=	login.c				\
 
 COMMAND		=	find_command.c	\
 
@@ -30,6 +34,7 @@ DIR_TESTS	=	$(addprefix tests/, $(TEST))
 DIR_MAIN	=	$(addprefix src/, $(MAIN_SRC))
 DIR_TOOLBOX	=	$(addprefix toolbox/, $(TOOLBOX))
 DIR_COMMAND	=	$(addprefix command/, $(COMMAND))
+DIR_PARSER	=	$(addprefix parser/, $(SRC_PARSER))
 
 OBJ_SRC		=	$(DIR_SRC:.c=.o)
 OBJ_MAIN	=	$(DIR_MAIN:.c=.o)
