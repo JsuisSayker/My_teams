@@ -104,8 +104,7 @@ int login(server_data_t *server, client_server_t *client)
     }
     if (already_exist(server, client, client->command->params->user_name)
     == OK) {
-        if (message_and_response("login", client, client->user) == ERROR)
-            return ERROR;
+        message_and_response("login", client, client->user);
         return OK;
     }
     if (user_connection(server, client) == ERROR)
