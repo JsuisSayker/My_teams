@@ -5,7 +5,7 @@
 ** add_user_on_server_database
 */
 
-#include "my.h"
+#include "server.h"
 
 static int copy_in_user_list(server_data_t *server, user_t *new_user)
 {

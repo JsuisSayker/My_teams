@@ -117,9 +117,10 @@ int server_response(int socket, char *message);
 int find_command(server_data_t *server, client_server_t *client);
 int login(server_data_t *server, client_server_t *client);
 int logout(server_data_t *server, client_server_t *client);
-int user(server_data_t *server, client_server_t *client);
+int users(server_data_t *server, client_server_t *client);
 
 void free_user_input(user_input_t *user_input);
+void check_command(server_data_t *server_data, client_server_t *client);
 user_input_t *init_user_input_structure(void);
 user_input_t *create_parser(char **user_input, client_server_t *client);
 user_input_t *help_parser(char **user_input, UNUSED client_server_t *client);
@@ -138,10 +139,8 @@ user_input_t *messages_parser(char **user_input, UNUSED client_server_t *client)
 
 /* toolbox */
 int append_to_string(char **str, char *to_append);
-int user_initialisation(user_t *user, char *name);
 char *generate_uuid(void);
 int add_user_on_server_database(server_data_t *server, user_t *user);
 int user_initialisation(user_t *user, char *name);
-
 
 #endif /* !SERVER_H_ */
