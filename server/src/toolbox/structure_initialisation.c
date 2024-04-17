@@ -5,7 +5,7 @@
 ** structure_initialisation
 */
 
-#include "my.h"
+#include "server.h"
 
 int user_initialisation(user_t *user, char *name)
 {
@@ -13,7 +13,5 @@ int user_initialisation(user_t *user, char *name)
         return ERROR;
     user->username = strdup(name);
     user->uuid = generate_uuid();
-    user->teams = NULL;
-    user->personnal_messages = NULL;
     return OK;
 }

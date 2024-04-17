@@ -20,6 +20,7 @@
     #include "proto_lib.h"
     #include "client.h"
     #include "macro.h"
+    #include "logging_server.h"
 
 typedef struct message_s {
     char *message;
@@ -105,6 +106,8 @@ char *read_client(server_data_t *data, int client_socket);
 int accept_client(server_data_t *data);
 int response_server(int socket, char *message);
 int user_initialisation(user_t *user, char *name);
+char *generate_uuid(void);
+
 int find_command(server_data_t *server, client_server_t *client);
 int login(server_data_t *server, client_server_t *client);
 int logout(server_data_t *server, client_server_t *client);

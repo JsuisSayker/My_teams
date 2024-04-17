@@ -23,7 +23,9 @@ TOOLBOX		=	generate_uuid.c 			\
 
 SRC_PARSER	=	login.c				\
 
-COMMAND		=	find_command.c	\
+COMMAND		=	find_command.c						\
+				authentification/login_logout.c		\
+				user_interraction/users_function.c		\
 
 MAIN_SRC	=	main.c
 
