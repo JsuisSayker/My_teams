@@ -2,7 +2,6 @@
 *.o
 *.a
 .vscode
-*.txt
 
 # Files && Folders to ignore
 coding-style*

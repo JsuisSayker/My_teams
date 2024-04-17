@@ -9,26 +9,14 @@
 #include <unistd.h>
 
 #include "client.h"
+#include <unistd.h>
 
 void send_client_message(client_t *client)
 {
-    if (strcmp(client->user_input->command, "") == 0)
-        perror("Error: no message to send\n");
-
-    // printf("command = [%s]\n", client->user_input->command);
-    // dprintf(client->socket_fd, "command = [%s]\n", client->user_input->command);
-    // if ((client->is_logged == false &&
-    // strcmp(client->user_input->command, "/login") != 0) && (client->is_logged
-    // == false && strcmp(client->user_input->command, "/help") != 0))
-    //     client_error_unauthorized();
-    // else if (client->is_logged == true &&
-    // strcmp(client->user_input->command, "/login") == true) {
-    //     client_error_already_exist();
-    //     return;
-    // }
-    if (client->is_logged ==true &&
-    strcmp(client->user_input->command, "/help"))
+    if (client->is_logged == true &&
+    strcmp(client->user_input->command, "/help") == 0)
         display_help();
     else
-        write(client->socket_fd, client->user_input->command, strlen(client->user_input->command));
+        write(client->socket_fd, client->user_input->command,
+        strlen(client->user_input->command));
 }

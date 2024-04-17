@@ -42,12 +42,13 @@ typedef struct client_s {
     char *uuid;
     char *user_name;
     int socket_fd;
+    char *server_response;
     user_input_t *user_input;
 } client_t;
 
 struct command_s {
     char *name;
-    int (*func)(char *message, char **command,client_t *client);
+    int (*func)(char *message, char **command, client_t *client);
 };
 
 // sub functions
@@ -57,7 +58,7 @@ bool is_good_number(const char *str);
 int start_client_connection(const char *ip, int port);
 void client_logout(client_t *client, char *command);
 char **spliter_by_sep(char *str, char *separator);
-int user_input_event(char *message, char *user_message, client_t *client);
+int user_input_event(char *message, client_t *client);
 void send_client_message(client_t *client);
 
 // toolbox

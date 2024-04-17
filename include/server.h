@@ -72,7 +72,7 @@ typedef enum {
     CHANNELS,
     THREADS,
     NONE
-} CONTEXT;
+} context_t;
 
 
 typedef struct server_data_s {
@@ -106,5 +106,6 @@ int find_command(server_data_t *server, client_server_t *client);
 int login(server_data_t *server, client_server_t *client);
 int logout(server_data_t *server, client_server_t *client);
 int user(server_data_t *server, client_server_t *client);
+int check_command(server_data_t *server_data, client_server_t *client);
 
 #endif /* !SERVER_H_ */

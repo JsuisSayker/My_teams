@@ -1,0 +1,138 @@
+EPITECH myTeams Protocol
+
+You MUST have an "Anonymous" account with an empty password
+
+
+Here is the list of the available command of our myTeams:
+
+            /login <SP> <username> <BELLF>   : Identify a user on the server
+            /logout <BELLF>                  : Disconnect a user from the server
+
+            /users <BELLF>                   : Get the list of all users that exist on the domain
+            /user <SP> <user_uuid> <BELLF>   : Get details about the requested user
+
+            /send <SP> <user_uuid> <SP> <message_body> <BELLF> : Send a message to specific user
+
+            /subscribe <SP> <team_uuid> <BELLF> : Subscribe to the events of a team and its sub directories (enable reception of all events from a team)
+
+            /subscribed <SP>?<team_uuid> <BELLF> : List all subscribed teams or list all users subscribed to a team
+
+            /unsubscribe <SP> <team_uuid> <BELLF> : Unsubscribe from a team
+
+            /use <SP>?<team_uuid> <SP>?<channel_uuid> <SP>?<thread_uuid> <BELLF> : Sets the command context to a team/channel/thread
+
+            /create <SP>?<team_uuid> <SP>?<channel_uuid> <SP>?<thread_uuid> <BELLF> : Based on the context, create the sub resource (see below)
+
+            When the context is not defined (no /use):
+            /create <SP> <team_name> <SP> <team_description> <BELLF> : Create a new team
+
+            When team_uuid is defined (/use “team_uuid”):
+            /create <SP> <channel_name> <SP> <channel_description> <BELLF> : Create a new channel in the team
+
+            When team_uuid and channel_uuid is defined (/use “team_uuid” “channel_uuid”):
+            /create <SP> <thread_title> <SP> <thread_message> <BELLF> : Create a new thread
+
+            When team_uuid, channel_uuid and thread_uuid are defined (/use “team_uuid” “channel_uuid” “thread_uuid”):
+            /create <SP> <comment_body> <BELLF> : Create a new reply
+
+            /list <SP>?<team_uuid> <SP>?<channel_uuid> <SP>?<thread_uuid> <BELLF> : Based on the context, list all the sub resources (see below)
+
+            When the context is not defined (no /use):
+            /list <BELLF> : List all existing teams
+
+            When team_uuid is defined (/use “team_uuid”):
+            /list <BELLF> : List all existing channels
+
+            When team_uuid and channel_uuid is defined (/use “team_uuid” “channel_uuid”):
+            /list <BELLF> : List all existing threads
+
+            When team_uuid, channel_uuid and thread_uuid are defined (/use “team_uuid” “channel_uuid” “thread_uuid”):
+            /list <BELLF> : List all existing replies
+
+            /info <SP>?<team_uuid> <SP>?<channel_uuid> <SP>?<thread_uuid> <BELLF> : Based on the context, display details of the current resource (see below)
+
+            When the context is not defined (no /use):
+            /info <BELLF> : Display currently logged-in user details
+
+            When team_uuid is defined (/use “team_uuid”):
+            /info <BELLF> : Display currently selected team details
+
+            When team_uuid and channel_uuid is defined (/use “team_uuid” “channel_uuid”):
+            /info <BELLF> : Display currently selected channel details
+
+            When team_uuid, channel_uuid and thread_uuid are defined (/use “team_uuid” “channel_uuid” “thread_uuid”):
+            /info <BELLF> : Display currently selected thread details
+
+
+
+The server reply is defined to contain the 3-digit code, followed by Space <SP>, followed by one line of text, and terminated by our end-of-line code <BELLF>.
+
+Example :
+
+-> /login <SP> Username <BELLF>
+<- 200 <SP> Logged in. <BELLF>
+
+-> : Request command from client to server
+<- : Reply from server to client
+
+
+            Connection Establishment
+               <- 220
+
+            Login
+               /login ->
+                  <- 200
+                  <- 401
+                  <- 500
+
+            Logout
+               /logout ->
+                  <- 200
+                  <- 500
+
+            Need parameters
+               /user ->
+                 <- 200
+                 <- 500
+               /send ->
+                 <- 200
+                 <- 404
+                 <- 500
+               /subscribe ->
+                 <- 200
+                 <- 404
+                 <- 500
+               /unsubscribe ->
+                 <- 200
+                 <- 404
+                 <- 500
+               /use ->
+                 <- 200
+                 <- 404
+                 <- 500
+
+            Context based commands
+               /create ->
+                  <- 200
+                  <- 404
+                  <- 500
+               /list ->
+                  <- 200
+                  <- 404
+                  <- 500
+               /info ->
+                  <- 200
+                  <- 404
+                  <- 500
+
+            Informational commands
+               /help ->
+                  <- 200
+                  <- 500
+
+Numeric  Order List of Reply Codes
+
+         220 Service ready for new user.
+         404 Ressource not found.
+         401 Unhauthorized.
+         500 Syntax error, command unrecognized.

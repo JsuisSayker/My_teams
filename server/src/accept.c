@@ -27,30 +27,20 @@ int accept_client(server_data_t *data)
     new_client->user = NULL;
     new_client->user_input = NULL;
     LIST_INSERT_HEAD(&data->clients, new_client, entries);
-    write(new_client->socket, "client connected correctly\n", 28);
     return OK;
 }
 
 static char *read_client_msg(int client_socket, server_data_t *server_data)
 {
-    int msg_size = 0;
     int nb_bytes = 0;
-    char buffer[32];
+    char buffer[BUFSIZ];
 
-    nb_bytes = read(client_socket, buffer + msg_size, sizeof(buffer) -
-        msg_size - 1);
-    while (nb_bytes > 0) {
-        msg_size += nb_bytes;
-        if (msg_size > 32 - 1 || buffer[msg_size - 1] == '\n')
-            break;
-        nb_bytes = read(client_socket, buffer + msg_size, sizeof(buffer) -
-            msg_size - 1);
-    }
+    nb_bytes = read(client_socket, buffer, sizeof(buffer) - 1);
     if (nb_bytes == -1)
         return NULL;
     if (nb_bytes == 0)
         server_data->client_is_deco = 1;
-    buffer[msg_size] = '\0';
+    buffer[nb_bytes] = '\0';
     return strdup(buffer);
 }
 
