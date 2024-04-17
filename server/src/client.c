@@ -18,7 +18,6 @@ static int update_client(server_data_t *server_data,
     client_server_t *actual_client, int client_socket, char *client_msg)
 {
     if (client_socket == server_data->server_socket) {
-        printf("new client\n");
         if (accept_client(server_data) == ERROR)
             return ERROR;
     } else {
@@ -37,7 +36,6 @@ static int update_client(server_data_t *server_data,
             client_disconnection(server_data, client_socket);
             return OK;
         }
-        printf("client_msg = %s", client_msg);
         check_command(server_data, actual_client);
         free(client_msg);
     }

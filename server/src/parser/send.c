@@ -11,9 +11,9 @@ user_input_t *send_parser(char **user_input, UNUSED client_server_t *client)
 {
     user_input_t *user_input_parsed = init_user_input_structure();
 
-    if (user_input == NULL || user_input_parsed == NULL || user_input[0] == NULL
-    || user_input[1] == NULL || user_input[2] == NULL || user_input[3] != NULL)
-    {
+    if (user_input == NULL || user_input_parsed == NULL ||
+    user_input[0] == NULL || user_input[1] == NULL || user_input[2] == NULL ||
+    user_input[3] != NULL) {
         free_user_input(user_input_parsed);
         return NULL;
     }

@@ -11,8 +11,10 @@ int server_response(int socket, char *message)
 {
     if (socket == -1 || message == NULL)
         return ERROR;
-    if (write(socket, message, strlen(message)) == ERROR);
+    if (write(socket, message, strlen(message)) == ERROR) {
+        printf("Error: write failed\n");
         return ERROR;
+    }
     return 0;
 }
 

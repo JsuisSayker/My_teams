@@ -14,7 +14,9 @@ SRC			=	main.c					\
 				client_connection.c		\
 				user_input_event.c		\
 				send_client_message.c	\
-				free_tab.c
+				free_tab.c				\
+				clean_server_command.c	\
+				tablen.c
 
 COMMANDS_SRC	=	list_command.c			\
 					login_command.c			\
