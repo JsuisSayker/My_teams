@@ -98,14 +98,17 @@ int create_server_socket(char *const *const av, server_data_t *data);
 int loop_check_select_client(server_data_t *server_data);
 char *read_client(server_data_t *data, int client_socket);
 int accept_client(server_data_t *data);
-int response_server(int socket, char *message);
-int user_initialisation(user_t *user, char *name);
 int server_response(int socket, char *message);
 
 int find_command(server_data_t *server, client_server_t *client);
 int login(server_data_t *server, client_server_t *client);
 int logout(server_data_t *server, client_server_t *client);
 int user(server_data_t *server, client_server_t *client);
+
+/* toolbox */
+int add_user_on_server_database(server_data_t *server, user_t *user);
+int user_initialisation(user_t *user, char *name);
 int check_command(server_data_t *server_data, client_server_t *client);
+
 
 #endif /* !SERVER_H_ */
