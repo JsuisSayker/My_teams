@@ -18,7 +18,6 @@ static int update_client(server_data_t *server_data,
     client_server_t *actual_client, int client_socket, char *client_msg)
 {
     if (client_socket == server_data->server_socket) {
-        printf("new client\n");
         if (accept_client(server_data) == ERROR)
             return ERROR;
     } else {
@@ -34,6 +33,7 @@ static int update_client(server_data_t *server_data,
                 strlen(client_msg) + 1);
         strcat(actual_client->user_input, client_msg);
         if (server_data->client_is_deco == 1) {
+            printf("client disconnected\n");
             client_disconnection(server_data, client_socket);
             return OK;
         }

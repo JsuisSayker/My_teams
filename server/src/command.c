@@ -41,8 +41,10 @@ void check_command(server_data_t *server_data, client_server_t *client)
             if (strcmp(PARSE_COMMAND[i].command, user_input[0]) == 0)
                 client->command = PARSE_COMMAND[i].func(user_input, client);
         }
-        if (client->command == NULL)
+        if (client->command == NULL) {
+            printf("BAH JENVOI UN MSG CONNARD DE CLIENT\n");
             write(client->socket, "214 bad command, type /help to show commands\a\n", 47);
+        }
         else {
             printf("command = %s\n", client->command->command);
             find_command(server_data, client);
