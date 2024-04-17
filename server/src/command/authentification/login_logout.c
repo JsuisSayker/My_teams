@@ -35,21 +35,18 @@ static int already_exist(server_data_t *server, client_server_t *client,
     return ERROR;
 }
 
-static int message_and_response(char *command, client_server_t *client,
-    user_t *user)
+static int login_response(int socket, user_t *user)
 {
     char *message = NULL;
 
-    if (command == NULL || user == NULL)
+    if (user == NULL)
         return ERROR;
-    append_to_string(&message, "200 ");
-    append_to_string(&message, command);
-    append_to_string(&message, " ");
+    append_to_string(&message, "200 /login ");
     append_to_string(&message, user->username);
     append_to_string(&message, "|");
     append_to_string(&message, user->uuid);
     append_to_string(&message, "\a\n");
-    if (response_server(client->socket, message) == ERROR)
+    if (response_server(socket, message) == ERROR)
         return ERROR;
     return OK;
 }
@@ -78,7 +75,7 @@ static int user_connection(server_data_t *server, client_server_t *client)
         return ERROR;
     if (already_exist(server, client, client->command->params->user_name)
     == OK) {
-        if (message_and_response("login", client, client->user) == ERROR)
+        if (login_response(client->socket, client->user) == ERROR)
             return ERROR;
         return OK;
     }
@@ -89,7 +86,7 @@ static int user_connection(server_data_t *server, client_server_t *client)
     client->is_logged = true;
     if (copy_in_user_list(server, client->user) == ERROR)
         return ERROR;
-    if (message_and_response("login", client, client->user) == ERROR)
+    if (login_response(client->socket, client->user) == ERROR)
         return ERROR;
     return OK;
 }
