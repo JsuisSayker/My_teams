@@ -15,7 +15,8 @@ int print_node(list_t *node)
 {
     if (!node)
         return -1;
-    printf("%s\n", node->str);
+    printf("%s\n", node->username);
+    printf("%s\n", node->description);
     return 0;
 }
 
@@ -24,7 +25,9 @@ int print_list(list_t *list)
     if (!list)
         return -1;
     for (list_t *list_tmp = list; list_tmp != NULL; list_tmp = list_tmp->next){
-        if (printf("\n[---------{%s}---------]\n", list_tmp->str) < 0)
+        if (printf("\n[---------{%s}---------]\n", list_tmp->username) < 0)
+            return -1;
+        if (printf("\n[---------{%s}---------]\n", list_tmp->description) < 0)
             return -1;
         print_node(list_tmp);
         if (printf("[---------{end}--------]\n\n") < 0)

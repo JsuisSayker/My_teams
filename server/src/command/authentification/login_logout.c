@@ -26,12 +26,11 @@ static int already_exist(server_data_t *server, client_server_t *client,
             break;
         }
     }
-    client->user->username = strdup(tmp->username);
-    client->user->uuid = strdup(tmp->uuid);
-    if (tmp->description != NULL)
-        client->user->description = strdup(tmp->description);
-    client->user->description = NULL;
-    client->is_logged = true;
+    if (tmp != NULL && strcmp(tmp->username, name) == 0){
+        client->user = tmp;
+        client->is_logged = true;
+        return OK;
+    }
     return ERROR;
 }
 
@@ -46,26 +45,11 @@ static int login_response(int socket, user_t *user)
     append_to_string(&message, "|");
     append_to_string(&message, user->uuid);
     append_to_string(&message, "\a\n");
-    if (response_server(socket, message) == ERROR)
+    if (server_response(socket, message) == ERROR)
         return ERROR;
     return OK;
 }
 
-static int copy_in_user_list(server_data_t *server, user_t *user)
-{
-    user_t *new_user = malloc(sizeof(user_t));
-
-    if (server == NULL || user == NULL || new_user == NULL)
-        return ERROR;
-    new_user->username = strdup(user->username);
-    new_user->uuid = strdup(user->uuid);
-    new_user->teams = user->teams;
-    new_user->personnal_messages = user->personnal_messages;
-    if (new_user->username == NULL || new_user->uuid == NULL)
-        return ERROR;
-    LIST_INSERT_HEAD(&server->users, new_user, entries);
-    return OK;
-}
 
 static int user_connection(server_data_t *server, client_server_t *client)
 {
@@ -73,18 +57,12 @@ static int user_connection(server_data_t *server, client_server_t *client)
 
     if (server == NULL || client == NULL)
         return ERROR;
-    if (already_exist(server, client, client->command->params->user_name)
-    == OK) {
-        if (login_response(client->socket, client->user) == ERROR)
-            return ERROR;
-        return OK;
-    }
     if (user_initialisation(&user, client->command->params->user_name)
     == ERROR)
         return ERROR;
     client->user = &user;
     client->is_logged = true;
-    if (copy_in_user_list(server, client->user) == ERROR)
+    if (add_user_on_server_database(server, client->user) == ERROR)
         return ERROR;
     if (login_response(client->socket, client->user) == ERROR)
         return ERROR;
@@ -101,6 +79,12 @@ int login(server_data_t *server, client_server_t *client)
         write(client->socket, "401 Already logged\a\n", 21);
         return OK;
     }
+    if (already_exist(server, client, client->command->params->user_name)
+    == OK) {
+        if (login_response(client->socket, client->user) == ERROR)
+            return ERROR;
+        return OK;
+    }
     if (user_connection(server, client) == ERROR)
         return ERROR;
     server_event_user_logged_in(client->user->uuid);
@@ -111,8 +95,8 @@ int logout(server_data_t *server, client_server_t *client)
 {
     if (server == NULL || client == NULL)
         return ERROR;
-    if (client->is_logged == false) {
-        write(client->socket, "500, You are not logged in\a\n", 29);
+    if (client->is_logged == false){
+        write(client->socket, "500, Your not logged\n", 22);
         return OK;
     }
     client->is_logged = false;

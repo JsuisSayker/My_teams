@@ -13,8 +13,11 @@
 
 void free_node(list_t *node)
 {
-    if (node->str != NULL){
-        free(node->str);
+    if (node->username != NULL){
+        free(node->username);
+    }
+    if (node->description != NULL){
+        free(node->description);
     }
     free(node);
 }
