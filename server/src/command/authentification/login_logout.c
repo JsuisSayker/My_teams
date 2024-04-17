@@ -25,6 +25,9 @@ static int already_exist(server_data_t *server, client_server_t *client,
         if (strcmp(tmp->username, name) == 0) {
             client->user->username = strdup(tmp->username);
             client->user->uuid = strdup(tmp->uuid);
+            if (tmp->description != NULL)
+                client->user->description = strdup(tmp->description);
+            client->user->description = NULL;
             client->is_logged = true;
             return OK;
         }
@@ -76,6 +79,12 @@ static int user_connection(server_data_t *server, client_server_t *client)
 
     if (server == NULL || client == NULL)
         return ERROR;
+    if (already_exist(server, client, client->command->params->user_name)
+    == OK) {
+        if (message_and_response("login", client, client->user) == ERROR)
+            return ERROR;
+        return OK;
+    }
     if (user_initialisation(&user, client->command->params->user_name)
     == ERROR)
         return ERROR;
@@ -102,13 +111,9 @@ int login(server_data_t *server, client_server_t *client)
         write(client->socket, "500 Missing username\n", 22);
         return OK;
     }
-    if (already_exist(server, client, client->command->params->user_name)
-    == OK) {
-        message_and_response("login", client, client->user);
-        return OK;
-    }
     if (user_connection(server, client) == ERROR)
         return ERROR;
+    server_event_user_logged_in(client->user->uuid);
     return OK;
 }
 

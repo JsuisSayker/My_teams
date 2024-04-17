@@ -53,6 +53,7 @@ typedef struct team_s {
 typedef struct user_s {
     char *username;
     char *uuid;
+    char *description;
     LIST_ENTRY(user_s) entries;
     LIST_HEAD(, team_s) teams;
     LIST_HEAD(, personnal_message_s) personnal_messages;
