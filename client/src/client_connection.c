@@ -34,11 +34,11 @@ static char *read_client_message(client_t *client)
         msg_size += n_bytes_read;
         if (msg_size > BUFFER_SIZE - 1 || buffer[msg_size - 1] == '\n')
             break;
-        n_bytes_read = read(client->socket_fd, buffer + msg_size, sizeof(buffer) -
-            msg_size - 1);
+        n_bytes_read = read(client->socket_fd, buffer + msg_size,
+        sizeof(buffer) - msg_size - 1);
     }
-    if (n_bytes_read == 0)
-        client_logout(client, "/logout");
+    // if (n_bytes_read == 0)
+    //     client_logout(client, "/logout");
     if (check(n_bytes_read, "read") == KO)
         return NULL;
     buffer[msg_size] = '\0';
@@ -47,13 +47,9 @@ static char *read_client_message(client_t *client)
 
 static void receive_server_message(client_t *client)
 {
-    // char buffer[1024];
     char *buffer = read_client_message(client);
 
-    // if (received_message_len < 0) {
-        // perror("Error: receive failed\n");
-        // return;
-    // }
+    printf("buffer = [%s]\n", buffer);
     if (strlen(buffer) == 0)
         return;
     buffer[strlen(buffer)] = '\0';
@@ -94,22 +90,25 @@ static char *read_input(void)
 static void client_loop(client_t *client)
 {
     fd_set readfds;
+    fd_set otherfds;
     bool is_running = true;
 
     FD_ZERO(&readfds);
-
+    FD_SET(STDIN_FILENO, &readfds);
+    FD_SET(client->socket_fd, &readfds);
     client->user_input = malloc(sizeof(user_input_t));
     client->user_input->params = malloc(sizeof(param_t));
     while (is_running) {
-        FD_SET(STDIN_FILENO, &readfds);
-        FD_SET(client->socket_fd, &readfds);
-        if (select(client->socket_fd + 1, &readfds, NULL, NULL, NULL) < 0) {
+        otherfds = readfds;
+        if (select(client->socket_fd + 1, &otherfds, NULL, NULL, NULL) < 0) {
             perror("Error: select failed\n");
             return;
         }
-        if (FD_ISSET(client->socket_fd, &readfds)) {
+        if (FD_ISSET(client->socket_fd, &otherfds)) {
+            printf("JE READ LE SERVER MESSAGE\n");
             receive_server_message(client);
-        } else if (FD_ISSET(STDIN_FILENO, &readfds)) {
+        } else if (FD_ISSET(STDIN_FILENO, &otherfds)) {
+            printf("JE READ LE USER INPUT\n");
             client->user_input->command = read_input();
             printf("command: [%s]\n", client->user_input->command);
             if (client->user_input->command == NULL) {
