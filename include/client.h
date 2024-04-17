@@ -63,6 +63,8 @@ void send_client_message(client_t *client);
 
 // toolbox
 void free_tab(char **tab);
+void clean_server_command(char **command);
+int tablen(char **tab);
 
 // commands
 int login_command(char *message, char **command, client_t *client);
