@@ -32,13 +32,14 @@ static char *read_client_message(client_t *client)
         msg_size - 1);
     while (n_bytes_read > 0) {
         msg_size += n_bytes_read;
-        if (msg_size > BUFFER_SIZE - 1 || buffer[msg_size - 1] == '\n')
+        if (msg_size > BUFFER_SIZE - 1 || buffer[msg_size - 1] == '\0' ||
+        buffer[msg_size - 1] == '\n')
             break;
         n_bytes_read = read(client->socket_fd, buffer + msg_size,
         sizeof(buffer) - msg_size - 1);
     }
-    // if (n_bytes_read == 0)
-    //     client_logout(client, "/logout");
+    if (n_bytes_read == 0)
+        client_logout(client, "/logout");
     if (check(n_bytes_read, "read") == KO)
         return NULL;
     buffer[msg_size] = '\0';
@@ -49,11 +50,9 @@ static void receive_server_message(client_t *client)
 {
     char *buffer = read_client_message(client);
 
-    printf("buffer = [%s]\n", buffer);
     if (strlen(buffer) == 0)
         return;
     buffer[strlen(buffer)] = '\0';
-    printf("buffer = [%s]\n", buffer);
     user_input_event(buffer, client);
 }
 
@@ -105,19 +104,16 @@ static void client_loop(client_t *client)
             return;
         }
         if (FD_ISSET(client->socket_fd, &otherfds)) {
-            printf("JE READ LE SERVER MESSAGE\n");
             receive_server_message(client);
         } else if (FD_ISSET(STDIN_FILENO, &otherfds)) {
-            printf("JE READ LE USER INPUT\n");
             client->user_input->command = read_input();
-            printf("command: [%s]\n", client->user_input->command);
             if (client->user_input->command == NULL) {
                 return;
             }
             send_client_message(client);
-            free(client->user_input->command);
-            client->user_input->command = NULL;
         }
+        free(client->user_input->command);
+        client->user_input->command = NULL;
     }
     write(1, "\n", 1);
     client_logout(client, "/logout");
