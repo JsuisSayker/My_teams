@@ -22,6 +22,7 @@ static int login_response(user_t *user, int socket)
     append_to_string(&response, user->uuid);
     append_to_string(&response, "\a\n");
     server_response(socket, response);
+    free(response);
     return OK;
 }
 

@@ -7,12 +7,70 @@
 
 #include "server.h"
 
+static void free_client(client_server_t *client)
+{
+    if (client) {
+        if (client->socket)
+            close(client->socket);
+        if (client->user_input)
+            free(client->user_input);
+        if (client->command)
+            free_user_input(client->command);
+        free(client);
+    }
+}
+
+static void free_clients(server_data_t *server_data)
+{
+    client_server_t *client = NULL;
+    client_server_t *tmp = NULL;
+
+    if (!server_data)
+        return;
+    while (!LIST_EMPTY(&server_data->clients)) {
+        client = LIST_FIRST(&server_data->clients);
+        LIST_REMOVE(client, entries);
+        free_client(client);
+    }
+}
+
+static void free_user(user_t *user)
+{
+    if (user) {
+        if (user->username)
+            free(user->username);
+        if (user->uuid)
+            free(user->uuid);
+        if (user->description)
+            free(user->description);
+        free(user);
+    }
+}
+
+static void free_users(server_data_t *server_data)
+{
+    user_t *user = NULL;
+    user_t *tmp = NULL;
+
+    if (!server_data)
+        return;
+    while (!LIST_EMPTY(&server_data->users)) {
+        user = LIST_FIRST(&server_data->users);
+        LIST_REMOVE(user, entries);
+        free_user(user);
+    }
+}
+
 void free_server_data(server_data_t *server_data)
 {
     if (!server_data)
         return;
     if (server_data->server_socket != -1)
         close(server_data->server_socket);
+    if (server_data->clients.lh_first)
+        free_clients(server_data);
+    if (server_data->users.lh_first)
+        free_users(server_data);
     free(server_data);
 }
 

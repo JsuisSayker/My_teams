@@ -42,6 +42,7 @@ int add_user_on_server_database(server_data_t *server, user_t *user)
         return ERROR;
     if (copy_in_user_list(server, new_user) == ERROR)
         return ERROR;
+    LIST_INSERT_HEAD(&server->users, new_user, entries);
     return OK;
 }
 

@@ -9,7 +9,7 @@
 
 int accept_client(server_data_t *data)
 {
-    client_server_t *new_client = malloc(sizeof(client_server_t));
+    client_server_t *new_client = calloc(sizeof(client_server_t), 1);
     int client_socket = 0;
 
     if (data == NULL) {
@@ -23,10 +23,6 @@ int accept_client(server_data_t *data)
     }
     FD_SET(client_socket, &data->current_sockets);
     new_client->socket = client_socket;
-    new_client->is_logged = 0;
-    new_client->user = NULL;
-    new_client->user_input = NULL;
-    new_client->context = NONE;
     LIST_INSERT_HEAD(&data->clients, new_client, entries);
     return OK;
 }

@@ -38,6 +38,7 @@ static int find_command_sub(server_data_t *server, client_server_t *client,
         if (OPERATORS_FUNCS[j].flags(server, client) == ERROR)
             return ERROR;
     }
+    *is_found = true;
     return OK;
 }
 
