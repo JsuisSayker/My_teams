@@ -30,10 +30,11 @@ static char *read_client_message(client_t *client)
 
     n_bytes_read = read(client->socket_fd, buffer + msg_size, sizeof(buffer) -
         msg_size - 1);
+    printf("buffer in the read function : [%s]\n", buffer);
     while (n_bytes_read > 0) {
         msg_size += n_bytes_read;
         if (msg_size > BUFFER_SIZE - 1 || buffer[msg_size - 1] == '\0' ||
-        buffer[msg_size - 1] == '\n')
+        buffer[msg_size - 1] == '\n' || buffer[msg_size] == '\n')
             break;
         n_bytes_read = read(client->socket_fd, buffer + msg_size,
         sizeof(buffer) - msg_size - 1);
@@ -49,6 +50,7 @@ static char *read_client_message(client_t *client)
 static void receive_server_message(client_t *client)
 {
     char *buffer = read_client_message(client);
+    printf("Message received: [%s]\n", buffer);
 
     if (strlen(buffer) == 0)
         return;
@@ -58,9 +60,16 @@ static void receive_server_message(client_t *client)
 
 static void put_end_of_input(char **input, int input_length)
 {
-    if ((*input) != NULL) {
+    // printf("input_length = [%d]\n", input_length);
+    // printf("tablen : [%d]\n", tablen((*input)));
+    // if ((*input)[input_length - 1] == '\n' && tablen((*input)) != 1)
+    //     printf("J'AI UN \\n\n");
+    if ((*input) != NULL && input_length != 1) {
         (*input)[input_length] = '\a';
         (*input)[input_length + 1] = '\n';
+    } else if (input_length == 1) {
+        // printf("GENUH\n");
+        (*input)[input_length - 1] = '\0';
     }
 }
 
@@ -80,9 +89,11 @@ static char *read_input(void)
         }
         input = tmp;
         input[input_length] = tmp_char;
+        printf("input[%d] = [%c]\n", input_length, input[input_length]);
         input_length += 1;
     }
     put_end_of_input(&input, input_length);
+    printf("input at the end = [%s]\n", input);
     return input;
 }
 
@@ -116,14 +127,14 @@ static void client_loop(client_t *client)
     client->user_input->params = malloc(sizeof(param_t));
     while (is_running) {
         otherfds = readfds;
-        if (select(client->socket_fd + 1, &otherfds, NULL, NULL, NULL) < 0) {
+        if (select(FD_SETSIZE, &otherfds, NULL, NULL, NULL) < 0) {
             perror("Error: select failed\n");
             return;
         }
         handle_input(client, otherfds);
     }
     write(1, "\n", 1);
-    client_logout(client, "/logout");
+    // client_logout(client, "/logout");
 }
 
 // Replace INADDR_ANY by inet_addr(ip)
