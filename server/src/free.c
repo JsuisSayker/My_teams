@@ -27,12 +27,10 @@ static void free_clients(server_data_t *server_data)
 
     if (!server_data)
         return;
-    if (server_data->clients.lh_first == NULL)
-        return;
-    LIST_FOREACH(client, &server_data->clients, entries) {
-        tmp = client;
+    while (!LIST_EMPTY(&server_data->clients)) {
+        client = LIST_FIRST(&server_data->clients);
         LIST_REMOVE(client, entries);
-        free_client(tmp);
+        free_client(client);
     }
 }
 
@@ -54,10 +52,12 @@ static void free_users(server_data_t *server_data)
     user_t *user = NULL;
     user_t *tmp = NULL;
 
-    LIST_FOREACH(user, &server_data->users, entries) {
-        tmp = user;
+    if (!server_data)
+        return;
+    while (!LIST_EMPTY(&server_data->users)) {
+        user = LIST_FIRST(&server_data->users);
         LIST_REMOVE(user, entries);
-        free_user(tmp);
+        free_user(user);
     }
 }
 

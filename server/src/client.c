@@ -22,10 +22,13 @@ static int read_and_update_client(server_data_t *server_data,
         return ERROR;
     append_to_string(&actual_client->user_input,
         client_msg);
-    if (actual_client->user_input == NULL)
+    if (actual_client->user_input == NULL) {
         return ERROR;
+        free(client_msg);
+    }
     if (server_data->client_is_deco == 1) {
         client_disconnection(server_data, client_socket);
+        free(client_msg);
         return OK;
     }
     printf("actual_client->user_input: %s\n", actual_client->user_input);
