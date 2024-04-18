@@ -33,14 +33,17 @@ static int user_connection(server_data_t *server, client_server_t *client)
         return ERROR;
     new_user->username = strdup(client->command->params->user_name);
     new_user->uuid = generate_uuid();
-    new_user->description = NULL;
+    new_user->description = strdup("No description");
     new_user->entries.le_next = NULL;
     new_user->entries.le_prev = NULL;
+    new_user->teams.lh_first = NULL;
+    new_user->personnal_messages.lh_first = NULL;
     if (server->users.lh_first == NULL)
         LIST_INSERT_HEAD(&server->users, new_user, entries);
     else
         add_user_on_server_database(server, new_user);
     client->user = new_user;
+    client->is_logged = true;
     if (login_response(new_user, client->socket) == ERROR)
         return ERROR;
     return OK;
@@ -69,9 +72,9 @@ int login(server_data_t *server, client_server_t *client)
 {
     if (server == NULL || client == NULL)
         return ERROR;
-    if (client->is_logged == true) {
-        write(client->socket, "401 Already logged\a\n\0", 22);
-        return OK;
+    if (client->is_logged == true){
+        client->user = NULL;
+        client->is_logged = false;
     }
     if (already_exist(server, client, client->command->params->user_name)
     == OK) {
