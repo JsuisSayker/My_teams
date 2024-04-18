@@ -16,6 +16,7 @@
     #include <arpa/inet.h>
     #include <signal.h>
     #include <string.h>
+    #include <stdlib.h>
 
 
 typedef struct param_s {
