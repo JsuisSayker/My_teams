@@ -81,6 +81,11 @@ int login(server_data_t *server, client_server_t *client)
     }
     if (user_connection(server, client) == ERROR)
         return ERROR;
+    user_t *tmp = server->users.lh_first;
+    LIST_FOREACH(tmp, &server->users, entries) {
+        printf("username: %s\n", tmp->username);
+        printf("uuid: %s\n", tmp->uuid);
+    }
     return OK;
 }
 
