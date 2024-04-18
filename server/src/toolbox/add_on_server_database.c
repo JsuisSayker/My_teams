@@ -44,3 +44,15 @@ int add_user_on_server_database(server_data_t *server, user_t *user)
         return ERROR;
     return OK;
 }
+
+
+int add_personnal_message_on_database(server_data_t *server,
+    user_t *sender_user, user_t *recevier, personnal_message_t *message)
+{
+    if (server == NULL || sender_user == NULL || recevier == NULL
+        || message == NULL)
+        return ERROR;
+    if (sender_user->personnal_messages.lh_first == NULL)
+        LIST_INSERT_HEAD()
+
+}

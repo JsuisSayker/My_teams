@@ -11,7 +11,7 @@
 #include "proto_lib.h"
 #include "linked_list.h"
 
-int print_node(list_t *node)
+int print_node(list_user_t *node)
 {
     if (!node)
         return -1;
@@ -20,16 +20,16 @@ int print_node(list_t *node)
     return 0;
 }
 
-int print_list(list_t *list)
+int print_list(list_user_t *list)
 {
     if (!list)
         return -1;
-    for (list_t *list_tmp = list; list_tmp != NULL; list_tmp = list_tmp->next){
-        if (printf("\n[---------{%s}---------]\n", list_tmp->username) < 0)
+    for (list_user_t *list_user_tmp = list; list_user_tmp != NULL; list_user_tmp = list_user_tmp->next){
+        if (printf("\n[---------{%s}---------]\n", list_user_tmp->username) < 0)
             return -1;
-        if (printf("\n[---------{%s}---------]\n", list_tmp->description) < 0)
+        if (printf("\n[---------{%s}---------]\n", list_user_tmp->description) < 0)
             return -1;
-        print_node(list_tmp);
+        print_node(list_user_tmp);
         if (printf("[---------{end}--------]\n\n") < 0)
             return -1;
     }

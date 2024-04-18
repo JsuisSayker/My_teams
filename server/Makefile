@@ -22,6 +22,7 @@ TOOLBOX		=	generate_uuid.c 			\
 				structure_initialisation.c	\
 				add_user_on_server_database.c	\
 				append_to_string.c		\
+				get_user_by_uuid.c		\
 
 SRC_PARSER	=	login.c				\
 				logout.c			\

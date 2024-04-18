@@ -146,5 +146,6 @@ int append_to_string(char **str, char *to_append);
 char *generate_uuid(void);
 int add_user_on_server_database(server_data_t *server, user_t *user);
 int user_initialisation(user_t *user, char *name);
+user_t *get_user_by_uuid(server_data_t *server, char *uuid);
 
 #endif /* !SERVER_H_ */
