@@ -20,19 +20,15 @@ static int read_and_update_client(server_data_t *server_data,
     client_msg = read_client(server_data, client_socket);
     if (client_msg == NULL)
         return ERROR;
-    if (actual_client->user_input == NULL) {
-        actual_client->user_input = realloc(actual_client->user_input,
-            strlen(client_msg) + 1);
-        actual_client->user_input[0] = '\0';
-    } else
-        actual_client->user_input = realloc(actual_client->user_input,
-            strlen(client_msg) + 1);
-    strcat(actual_client->user_input, client_msg);
+    append_to_string(&actual_client->user_input,
+        client_msg);
+    if (actual_client->user_input == NULL)
+        return ERROR;
     if (server_data->client_is_deco == 1) {
         client_disconnection(server_data, client_socket);
         return OK;
     }
-    printf("client_msg: %s\n", client_msg);
+    printf("actual_client->user_input: %s\n", actual_client->user_input);
     check_command(server_data, actual_client);
     free(client_msg);
 }

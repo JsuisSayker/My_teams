@@ -13,7 +13,7 @@ program:
 	make -C client/
 
 
-debug: $(OBJ)
+debug:
 	make -C lib/my/
 	make debug -C server/
 	make debug -C client/

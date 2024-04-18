@@ -109,7 +109,6 @@ int display_help(void);
 int launch_server(char *const *const av);
 void free_server_data(server_data_t *server_data);
 int create_server_socket(char *const *const av, server_data_t *data);
-int loop_check_select_client(server_data_t *server_data);
 char *read_client(server_data_t *data, int client_socket);
 int accept_client(server_data_t *data);
 int server_response(int socket, char *message);
@@ -120,6 +119,7 @@ int logout(server_data_t *server, client_server_t *client);
 int users(server_data_t *server, client_server_t *client);
 
 void free_user_input(user_input_t *user_input);
+int loop_check_select_client(server_data_t *server_data);
 void check_command(server_data_t *server_data, client_server_t *client);
 user_input_t *init_user_input_structure(void);
 user_input_t *create_parser(char **user_input, client_server_t *client);

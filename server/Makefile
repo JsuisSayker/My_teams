@@ -10,7 +10,6 @@ SRC			=	display_help.c 		\
 				server.c 			\
 				free.c 				\
 				socket.c			\
-				client.c			\
 				accept.c			\
 				command.c			\
 				init.c				\
@@ -74,8 +73,8 @@ $(NAME): $(OBJ)
 	gcc -o $@ $^ $(WFLAGS) $(LDLIB) $(LMY)
 	mv $(NAME) ../
 
-debug: $(OBJ)
-	gcc -o $(NAME) $^ $(CPPFLAGS) $(WFLAGS) $(LDLIB) $(LMY) -ggdb3
+debug:
+	gcc -o $(NAME) $(DIR_MAIN) $(DIR_SRC) $(CPPFLAGS) $(LDLIB) $(LMY) -ggdb3
 	mv $(NAME) ../
 
 all: $(NAME)
