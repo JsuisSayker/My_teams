@@ -90,7 +90,6 @@ static char *read_input(void)
         }
         input = tmp;
         input[input_length] = tmp_char;
-        printf("input[%d] = [%c]\n", input_length, input[input_length]);
         input_length += 1;
     }
     put_end_of_input(&input, input_length);
@@ -114,6 +113,14 @@ static void handle_input(client_t *client, fd_set otherfds)
     client->user_input->command = NULL;
 }
 
+static void free_client_struct(client_t *client)
+{
+    free(client->user_input->params);
+    free(client->user_input);
+    free(client->user_name);
+    free(client->uuid);
+}
+
 static void client_loop(client_t *client)
 {
     fd_set readfds;
@@ -129,8 +136,7 @@ static void client_loop(client_t *client)
         otherfds = readfds;
         if (select(FD_SETSIZE, &otherfds, NULL, NULL, NULL) < 0) {
             perror("Error: select failed\n");
-            free(client->user_input->params);
-            free(client->user_input);
+            free_client_struct(client);
             return;
         }
         handle_input(client, otherfds);
@@ -142,7 +148,7 @@ static void client_loop(client_t *client)
 int start_client_connection(const char *ip, int port)
 {
     client_t client = {.is_logged = false, .uuid = NULL, .user_name = NULL,
-    .socket_fd = socket(AF_INET, SOCK_STREAM, 0), .server_response = NULL};
+    .socket_fd = socket(AF_INET, SOCK_STREAM, 0)};
     struct hostent *client_info = gethostbyname(ip);
     struct sockaddr_in serv_addr;
 

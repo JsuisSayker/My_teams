@@ -45,7 +45,6 @@ typedef struct client_s {
     char *uuid;
     char *user_name;
     int socket_fd;
-    char *server_response;
     user_input_t *user_input;
 } client_t;
 
