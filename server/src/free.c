@@ -16,6 +16,28 @@ void free_server_data(server_data_t *server_data)
     free(server_data);
 }
 
+void free_user_input_sub(user_input_t *user_input)
+{
+    if (user_input->params->team_description)
+        free(user_input->params->team_description);
+    if (user_input->params->channel_name)
+        free(user_input->params->channel_name);
+    if (user_input->params->channel_uuid)
+        free(user_input->params->channel_uuid);
+    if (user_input->params->channel_description)
+        free(user_input->params->channel_description);
+    if (user_input->params->thread_title)
+        free(user_input->params->thread_title);
+    if (user_input->params->thread_uuid)
+        free(user_input->params->thread_uuid);
+    if (user_input->params->thread_body)
+        free(user_input->params->thread_body);
+    if (user_input->params->message_body)
+        free(user_input->params->message_body);
+    if (user_input->params->comment_body)
+        free(user_input->params->comment_body);
+}
+
 void free_user_input(user_input_t *user_input)
 {
     if (!user_input)
@@ -31,24 +53,7 @@ void free_user_input(user_input_t *user_input)
             free(user_input->params->team_name);
         if (user_input->params->team_uuid)
             free(user_input->params->team_uuid);
-        if (user_input->params->team_description)
-            free(user_input->params->team_description);
-        if (user_input->params->channel_name)
-            free(user_input->params->channel_name);
-        if (user_input->params->channel_uuid)
-            free(user_input->params->channel_uuid);
-        if (user_input->params->channel_description)
-            free(user_input->params->channel_description);
-        if (user_input->params->thread_title)
-            free(user_input->params->thread_title);
-        if (user_input->params->thread_uuid)
-            free(user_input->params->thread_uuid);
-        if (user_input->params->thread_body)
-            free(user_input->params->thread_body);
-        if (user_input->params->message_body)
-            free(user_input->params->message_body);
-        if (user_input->params->comment_body)
-            free(user_input->params->comment_body);
+        free_user_input_sub(user_input);
         free(user_input->params);
     }
     free(user_input);

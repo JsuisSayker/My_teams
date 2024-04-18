@@ -14,21 +14,8 @@ user_input_t *init_user_input_structure(void)
     if (user_input == NULL)
         return NULL;
     user_input->command = NULL;
-    user_input->params = malloc(sizeof(param_t));
+    user_input->params = calloc(sizeof(param_t), 1);
     if (user_input->params == NULL)
         return NULL;
-    user_input->params->user_name = NULL;
-    user_input->params->user_uuid = NULL;
-    user_input->params->team_name = NULL;
-    user_input->params->team_uuid = NULL;
-    user_input->params->team_description = NULL;
-    user_input->params->channel_name = NULL;
-    user_input->params->channel_uuid = NULL;
-    user_input->params->channel_description = NULL;
-    user_input->params->thread_title = NULL;
-    user_input->params->thread_uuid = NULL;
-    user_input->params->thread_body = NULL;
-    user_input->params->message_body = NULL;
-    user_input->params->comment_body = NULL;
     return user_input;
 }
