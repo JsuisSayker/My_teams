@@ -44,8 +44,8 @@ static int update_client(server_data_t *server_data,
         if (accept_client(server_data) == ERROR)
             return ERROR;
     } else
-        return read_and_update_client(server_data, actual_client, client_socket,
-            client_msg);
+        return read_and_update_client(server_data, actual_client,
+            client_socket, client_msg);
     return OK;
 }
 

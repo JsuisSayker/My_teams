@@ -54,6 +54,7 @@ int users(server_data_t *server, client_server_t *client)
 static int user_command_response(user_t *user, int socket)
 {
     char *message = NULL;
+
     append_to_string(&message, "200 /user ");
     append_to_string(&message, user->username);
     append_to_string(&message, "|");
