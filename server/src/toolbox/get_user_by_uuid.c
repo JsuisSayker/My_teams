@@ -13,11 +13,11 @@ user_t *get_user_by_uuid(server_data_t *server, char *uuid)
 
     if (server == NULL || uuid == NULL)
         return NULL;
-    tmp = server->users.lh_first;
+    tmp = server->users.tqh_first;
     while (tmp) {
         if (strcmp(tmp->uuid, uuid) == 0)
             return tmp;
-        tmp = tmp->entries.le_next;
+        tmp = tmp->entries.tqe_next;
     }
     return NULL;
 }

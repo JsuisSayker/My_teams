@@ -66,6 +66,10 @@ int launch_server(char *const *const av)
         return KO;
     }
     load_data(server_data);
+    user_t *tmp = TAILQ_FIRST(&server_data->users);
+    TAILQ_FOREACH(tmp, &server_data->users, entries) {
+        printf("username: %s\n", tmp->username);
+    }
     if (server_loop(server_data) == ERROR) {
         free_server_data(server_data);
         return KO;

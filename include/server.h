@@ -26,45 +26,45 @@
 typedef struct message_s {
     char message[MAX_BODY_LENGTH];
     char sender_uuid[UUID_LENGTH];
-    LIST_ENTRY(message_s) entries;
+    TAILQ_ENTRY(message_s) entries;
 } message_t;
 
 typedef struct thread_s {
-    LIST_HEAD(, message_s) messages;
-    LIST_ENTRY(thread_s) entries;
+    TAILQ_HEAD(, message_s) messages;
+    TAILQ_ENTRY(thread_s) entries;
 } thread_t;
 
 typedef struct channel_s {
     char channel_uuid[UUID_LENGTH];
     char channel_name[MAX_NAME_LENGTH];
-    LIST_ENTRY(channel_s) entries;
-    LIST_HEAD(, message_s) messages;
-    LIST_HEAD(, user_s) users;
-    LIST_HEAD(, thread_s) threads;
+    TAILQ_ENTRY(channel_s) entries;
+    TAILQ_HEAD(, message_s) messages;
+    TAILQ_HEAD(, user_s) users;
+    TAILQ_HEAD(, thread_s) threads;
 } channel_t;
 
 typedef struct personnal_message_s {
     char message[MAX_BODY_LENGTH];
     char sender_uuid[UUID_LENGTH];
     char receiver_uuid[UUID_LENGTH];
-    LIST_ENTRY(personnal_message_s) entries;
+    TAILQ_ENTRY(personnal_message_s) entries;
 } personnal_message_t;
 
 typedef struct team_s {
     char team_uuid[UUID_LENGTH];
     char team_name[MAX_NAME_LENGTH];
-    LIST_ENTRY(team_s) entries;
-    LIST_HEAD(, channel_s) channels;
-    LIST_HEAD(, user_s) users;
+    TAILQ_ENTRY(team_s) entries;
+    TAILQ_HEAD(, channel_s) channels;
+    TAILQ_HEAD(, user_s) users;
 } team_t;
 
 typedef struct user_s {
     char username[MAX_NAME_LENGTH];
     char uuid[UUID_LENGTH];
     char description[MAX_DESCRIPTION_LENGTH];
-    LIST_ENTRY(user_s) entries;
-    LIST_HEAD(, team_s) teams;
-    LIST_HEAD(, personnal_message_s) personnal_messages;
+    TAILQ_ENTRY(user_s) entries;
+    TAILQ_HEAD(, team_s) teams;
+    TAILQ_HEAD(, personnal_message_s) personnal_messages;
 } user_t;
 
 typedef enum {
@@ -81,7 +81,7 @@ typedef struct client_server_s {
     int socket;
     bool is_logged;
     char *user_input;
-    LIST_ENTRY(client_server_s) entries;
+    TAILQ_ENTRY(client_server_s) entries;
 } client_server_t;
 
 typedef struct server_data_s {
@@ -89,9 +89,9 @@ typedef struct server_data_s {
     fd_set current_sockets;
     fd_set ready_sockets;
     struct sockaddr_in server_address;
-    LIST_HEAD(, user_s) users;
-    LIST_HEAD(, client_server_s) clients;
-    LIST_HEAD(, team_s) teams;
+    TAILQ_HEAD(, user_s) users;
+    TAILQ_HEAD(, client_server_s) clients;
+    TAILQ_HEAD(, team_s) teams;
     int client_is_deco;
 } server_data_t;
 
