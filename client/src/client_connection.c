@@ -38,8 +38,6 @@ static char *read_client_message(client_t *client)
 
     n_bytes_read = read(client->socket_fd, buffer + msg_size, sizeof(buffer) -
         msg_size - 1);
-    printf("N_BYTES_READ: %d\n", n_bytes_read);
-    printf("BUFFER: [%s]\n", buffer);
     if (n_bytes_read == 0)
         return NULL;
     while (n_bytes_read > 0) {
@@ -50,8 +48,6 @@ static char *read_client_message(client_t *client)
         n_bytes_read = read(client->socket_fd, buffer + msg_size,
         sizeof(buffer) - msg_size - 1);
     }
-    if (n_bytes_read == 0)
-        client_logout(client, "/logout");
     if (check(n_bytes_read, "read") == KO)
         return NULL;
     buffer[msg_size] = '\0';
@@ -61,12 +57,9 @@ static char *read_client_message(client_t *client)
 static void receive_server_message(client_t *client)
 {
     char *buffer = read_client_message(client);
-    printf("J'AI RECUS LE MESSAGE\n");
 
-    if (buffer == NULL) {
-        printf("BAH JE ME CASSE\n");
-        return;
-    }
+    if (buffer == NULL)
+        exit(0);
     buffer[strlen(buffer)] = '\0';
     user_input_event(buffer, client);
 }
@@ -106,14 +99,11 @@ static char *read_input(void)
 static void handle_input(client_t *client, fd_set otherfds)
 {
     if (FD_ISSET(client->socket_fd, &otherfds)) {
-            printf("JE RECEIVE LE SERVER MESSAGE\n");
             receive_server_message(client);
             return;
     }
     if (FD_ISSET(STDIN_FILENO, &otherfds)) {
-        printf("JE READ LE USER INPUT\n");
         client->user_input->command = read_input();
-        printf("USER INPUT: [%s]\n", client->user_input->command);
         if (client->user_input->command == NULL) {
             return;
         }
@@ -123,7 +113,8 @@ static void handle_input(client_t *client, fd_set otherfds)
     client->user_input->command = NULL;
 }
 
-static void free_client_struct(client_t *client, fd_set *readfds, fd_set *otherfds)
+static void free_client_struct(client_t *client, fd_set *readfds,
+    fd_set *otherfds)
 {
     client->user_input->command = strdup("/logout\a\n");
     send_client_message(client);
@@ -137,7 +128,6 @@ static void free_client_struct(client_t *client, fd_set *readfds, fd_set *otherf
     FD_CLR(client->socket_fd, otherfds);
     FD_CLR(STDIN_FILENO, readfds);
     FD_CLR(STDIN_FILENO, otherfds);
-
 }
 
 static void client_loop(client_t *client)
@@ -152,23 +142,20 @@ static void client_loop(client_t *client)
     signal(SIGINT, signal_handler);
     client->user_input = malloc(sizeof(user_input_t));
     client->user_input->params = malloc(sizeof(param_t));
+    signal(SIGINT, signal_handler);
     while (is_running) {
         otherfds = readfds;
         result = select(FD_SETSIZE, &otherfds, NULL, NULL, NULL);
         if (result < 0 && errno != EINTR) {
             perror("Error: select failed\n");
-            free_client_struct(client, &readfds, &otherfds);
             return;
         }
         if (errno == EINTR) {
-            printf("JE CTRL C\n");
             free_client_struct(client, &readfds, &otherfds);
             return;
         }
-        printf("JE HANDLE L'INPUT\n");
         handle_input(client, otherfds);
     }
-    close(client->socket_fd);
     write(1, "\n", 1);
 }
 

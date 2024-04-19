@@ -146,5 +146,6 @@ int append_to_string(char **str, char *to_append);
 char *generate_uuid(void);
 int user_initialisation(user_t **new_user, char *name, int socket);
 user_t *get_user_by_uuid(server_data_t *server, char *uuid);
+char **tab_append_str_at_end(char **tab, char *str);
 
 #endif /* !SERVER_H_ */
