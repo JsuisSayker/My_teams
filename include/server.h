@@ -16,6 +16,7 @@
     #include <unistd.h>
     #include <stdbool.h>
     #include <stdio.h>
+    #include <fcntl.h>
     #include <string.h>
     #include "proto_lib.h"
     #include "client.h"
@@ -140,6 +141,8 @@ user_input_t *users_parser(char **user_input, UNUSED client_server_t *client);
 user_input_t *messages_parser(char **user_input,
     UNUSED client_server_t *client);
 void free_client(client_server_t *client);
+void save_data(server_data_t *server_data);
+void load_data(server_data_t *server_data);
 
 /* toolbox */
 int append_to_string(char **str, char *to_append);

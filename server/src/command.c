@@ -68,7 +68,8 @@ static char **parse_user_input(char *user_input)
 static void free_old_user_input(char **user_input, client_server_t *client)
 {
     free_tab(user_input);
-    free(client->user_input);
+    if (client->user_input != NULL)
+        free(client->user_input);
     client->user_input = NULL;
 }
 
@@ -81,7 +82,7 @@ static void parse_and_launch_command(server_data_t *server_data,
     user_input = parse_user_input(client->user_input);
     if (user_input == NULL) {
         write(client->socket, "214 bad command, type /help\a\n", 30);
-        return;
+        return free_old_user_input(user_input, client);
     }
     for (int i = 0; PARSE_COMMAND[i].command != NULL; i++) {
         if (strcmp(PARSE_COMMAND[i].command, user_input[0]) == 0)
@@ -89,11 +90,8 @@ static void parse_and_launch_command(server_data_t *server_data,
     }
     if (client->command == NULL)
         write(client->socket, "214 bad command, type /help\a\n", 30);
-    else {
+    else
         find_command(server_data, client);
-        free_user_input(client->command);
-        client->command = NULL;
-    }
     return free_old_user_input(user_input, client);
 }
 
@@ -101,6 +99,9 @@ void check_command(server_data_t *server_data, client_server_t *client)
 {
     if (client->user_input[strlen(client->user_input) - 1] ==
     '\n' && client->user_input[strlen(client->user_input) - 2]
-    == '\a')
+    == '\a') {
         parse_and_launch_command(server_data, client);
+        free_user_input(client->command);
+        client->command = NULL;
+    }
 }

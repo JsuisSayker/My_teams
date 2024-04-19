@@ -13,6 +13,8 @@ SRC			=	display_help.c 		\
 				accept.c			\
 				command.c			\
 				init.c				\
+				save_data.c			\
+				load_data.c			\
 				$(DIR_PARSER)		\
 				${DIR_TOOLBOX}		\
 				${DIR_COMMAND}		\
