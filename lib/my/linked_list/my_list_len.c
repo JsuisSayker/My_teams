@@ -8,12 +8,12 @@
 #include <unistd.h>
 #include "linked_list.h"
 
-int my_list_len(list_t *list)
+int my_list_len(list_user_t *list)
 {
     int count = 0;
-    list_t *list_tmp = list;
+    list_user_t *list_user_tmp = list;
 
-    for (; list_tmp != NULL; list_tmp = list_tmp->next)
+    for (; list_user_tmp != NULL; list_user_tmp = list_user_tmp->next)
         count ++;
     return count;
 }

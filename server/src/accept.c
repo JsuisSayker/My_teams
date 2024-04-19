@@ -23,7 +23,7 @@ int accept_client(server_data_t *data)
     }
     FD_SET(client_socket, &data->current_sockets);
     new_client->socket = client_socket;
-    LIST_INSERT_HEAD(&data->clients, new_client, entries);
+    TAILQ_INSERT_HEAD(&data->clients, new_client, entries);
     return OK;
 }
 

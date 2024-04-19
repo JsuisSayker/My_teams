@@ -42,7 +42,7 @@ static int server_loop(server_data_t *server_data)
         FD_ZERO(&write_sockets);
         result = select(FD_SETSIZE, &server_data->ready_sockets, &write_sockets
         , NULL, NULL);
-        if (result == ERROR && errno != EINTR) {
+        if (result < 0 && errno != EINTR) {
             perror("Error: select failed\n");
             return ERROR;
         }
@@ -54,24 +54,23 @@ static int server_loop(server_data_t *server_data)
 
 int launch_server(char *const *const av)
 {
-    server_data_t *server_data = malloc(sizeof(server_data_t));
+    server_data_t *server_data = calloc(sizeof(server_data_t), 1);
 
     if (!av || !server_data)
         return KO;
     signal(SIGINT, signal_handler);
     srand(time(NULL));
-    server_data->client_is_deco = 0;
-    server_data->clients.lh_first = NULL;
-    server_data->users.lh_first = NULL;
     server_data->server_socket = create_server_socket(av, server_data);
     if (server_data->server_socket == ERROR) {
         free_server_data(server_data);
         return KO;
     }
+    load_data(server_data);
     if (server_loop(server_data) == ERROR) {
         free_server_data(server_data);
         return KO;
     }
+    save_data(server_data);
     free_server_data(server_data);
     return OK;
 }

@@ -8,10 +8,10 @@
 #ifndef LINKED_LIST_H_
     #define LINKED_LIST_H_
 
-typedef struct list_s {
+typedef struct list_user_s {
     char *username;
     char *description;
-    struct list_s *next;
-} list_t;
+    struct list_user_s *next;
+} list_user_t;
 
 #endif /* !LINKED_LIST_H_ */

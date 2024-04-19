@@ -7,7 +7,7 @@
 
 #include "server.h"
 
-static void free_client(client_server_t *client)
+void free_client(client_server_t *client)
 {
     if (client) {
         if (client->socket)
@@ -27,9 +27,9 @@ static void free_clients(server_data_t *server_data)
 
     if (!server_data)
         return;
-    while (!LIST_EMPTY(&server_data->clients)) {
-        client = LIST_FIRST(&server_data->clients);
-        LIST_REMOVE(client, entries);
+    while (!TAILQ_EMPTY(&server_data->clients)) {
+        client = TAILQ_FIRST(&server_data->clients);
+        TAILQ_REMOVE(&server_data->clients, client, entries);
         free_client(client);
     }
 }
@@ -37,12 +37,6 @@ static void free_clients(server_data_t *server_data)
 static void free_user(user_t *user)
 {
     if (user) {
-        if (user->username)
-            free(user->username);
-        if (user->uuid)
-            free(user->uuid);
-        if (user->description)
-            free(user->description);
         free(user);
     }
 }
@@ -54,9 +48,9 @@ static void free_users(server_data_t *server_data)
 
     if (!server_data)
         return;
-    while (!LIST_EMPTY(&server_data->users)) {
-        user = LIST_FIRST(&server_data->users);
-        LIST_REMOVE(user, entries);
+    while (!TAILQ_EMPTY(&server_data->users)) {
+        user = TAILQ_FIRST(&server_data->users);
+        TAILQ_REMOVE(&server_data->users, user, entries);
         free_user(user);
     }
 }
@@ -67,9 +61,9 @@ void free_server_data(server_data_t *server_data)
         return;
     if (server_data->server_socket != -1)
         close(server_data->server_socket);
-    if (server_data->clients.lh_first)
+    if (server_data->clients.tqh_first)
         free_clients(server_data);
-    if (server_data->users.lh_first)
+    if (server_data->users.tqh_first)
         free_users(server_data);
     free(server_data);
 }
