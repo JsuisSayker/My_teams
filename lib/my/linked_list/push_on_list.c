@@ -10,9 +10,9 @@
 #include "proto_lib.h"
 #include "linked_list.h"
 
-static int move_in_list(list_t **list_dest, list_t *tmp)
+static int move_in_list(list_user_t **list_dest, list_user_t *tmp)
 {
-    list_t *tmp_2 = NULL;
+    list_user_t *tmp_2 = NULL;
 
     if (!tmp)
         return -1;
@@ -27,11 +27,11 @@ static int move_in_list(list_t **list_dest, list_t *tmp)
     return 0;
 }
 
-int push_on_list(list_t **list_src, list_t **list_dest)
+int push_on_list(list_user_t **list_src, list_user_t **list_dest)
 {
     int list_len = 0;
-    list_t *tmp_1 = (*list_src);
-    list_t *tmp_2 = NULL;
+    list_user_t *tmp_1 = (*list_src);
+    list_user_t *tmp_2 = NULL;
 
     if (!(*list_src))
         return -1;

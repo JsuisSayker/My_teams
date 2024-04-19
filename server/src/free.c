@@ -37,12 +37,6 @@ static void free_clients(server_data_t *server_data)
 static void free_user(user_t *user)
 {
     if (user) {
-        if (user->username)
-            free(user->username);
-        if (user->uuid)
-            free(user->uuid);
-        if (user->description)
-            free(user->description);
         free(user);
     }
 }

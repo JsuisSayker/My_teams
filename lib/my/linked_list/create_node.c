@@ -11,9 +11,9 @@
 #include "proto_lib.h"
 #include "linked_list.h"
 
-list_t *create_node(char *username, char *description)
+list_user_t *create_node(char *username, char *description)
 {
-    list_t *new_node = malloc(sizeof(list_t));
+    list_user_t *new_node = malloc(sizeof(list_user_t));
 
     if (!new_node)
         return NULL;

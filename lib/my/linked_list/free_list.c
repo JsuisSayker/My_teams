@@ -11,7 +11,7 @@
 #include "proto_lib.h"
 #include "linked_list.h"
 
-void free_node(list_t *node)
+void free_node(list_user_t *node)
 {
     if (node->username != NULL){
         free(node->username);
@@ -22,15 +22,15 @@ void free_node(list_t *node)
     free(node);
 }
 
-void free_list(list_t *list)
+void free_list(list_user_t *list)
 {
-    list_t *list_tmp = NULL;
-    list_t *current = list;
+    list_user_t *list_user_tmp = NULL;
+    list_user_t *current = list;
 
     while (current != NULL) {
-        list_tmp = current;
+        list_user_tmp = current;
         current = current->next;
-        free_node(list_tmp);
+        free_node(list_user_tmp);
     }
     return;
 }
