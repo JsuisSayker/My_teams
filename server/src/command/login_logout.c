@@ -38,7 +38,7 @@ static int user_connection(server_data_t *server, client_server_t *client)
         free(new_user);
         return ERROR;
     }
-    LIST_INSERT_HEAD(&server->users, new_user, entries);
+    TAILQ_INSERT_HEAD(&server->users, new_user, entries);
     client->user = new_user;
     client->is_logged = true;
     if (login_response(new_user, client->socket) == ERROR)
@@ -53,14 +53,14 @@ static int already_exist(server_data_t *server, client_server_t *client,
 
     if (server == NULL || client == NULL || username == NULL)
         return ERROR;
-    tmp = server->users.lh_first;
+    tmp = server->users.tqh_first;
     while (tmp) {
         if (strcmp(tmp->username, username) == 0) {
             client->user = tmp;
             client->is_logged = true;
             return OK;
         }
-        tmp = tmp->entries.le_next;
+        tmp = tmp->entries.tqe_next;
     }
     return ERROR;
 }

@@ -9,14 +9,13 @@
 
 static void save_users(server_data_t *server_data)
 {
-    user_t *tmp = server_data->users.lh_first;
+    user_t *tmp = server_data->users.tqh_first;
     int file = open("saves/users.txt", O_CREAT | O_WRONLY);
 
     if (file == -1)
         return;
-    LIST_FOREACH(tmp, &server_data->users, entries) {
+    TAILQ_FOREACH(tmp, &server_data->users, entries)
         write(file, tmp, sizeof(user_t));
-    }
     close(file);
 }
 

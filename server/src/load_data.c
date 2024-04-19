@@ -15,7 +15,7 @@ static void load_users(server_data_t *server_data)
     if (file == -1)
         return;
     while (read(file, tmp, sizeof(user_t)) > 0) {
-        LIST_INSERT_HEAD(&server_data->users, tmp, entries);
+        TAILQ_INSERT_HEAD(&server_data->users, tmp, entries);
         tmp = malloc(sizeof(user_t));
     }
     free(tmp);

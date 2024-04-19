@@ -10,16 +10,16 @@
 static void remove_client(server_data_t *server_data, int client_socket)
 {
     client_server_t *actual_client = NULL;
-    client_server_t *tmp = server_data->clients.lh_first;
+    client_server_t *tmp = server_data->clients.tqh_first;
 
-    LIST_FOREACH(tmp, &server_data->clients, entries) {
+    TAILQ_FOREACH(tmp, &server_data->clients, entries) {
         if (tmp->socket == client_socket) {
             actual_client = tmp;
             break;
         }
     }
     if (actual_client != NULL) {
-        LIST_REMOVE(actual_client, entries);
+        TAILQ_REMOVE(&server_data->clients, actual_client, entries);
         free_client(actual_client);
     }
 }
@@ -70,9 +70,9 @@ static int update_client(server_data_t *server_data,
 static int check_client(server_data_t *server_data, int i)
 {
     client_server_t *actual_client = NULL;
-    client_server_t *tmp = server_data->clients.lh_first;
+    client_server_t *tmp = server_data->clients.tqh_first;
 
-    LIST_FOREACH(tmp, &server_data->clients, entries) {
+    TAILQ_FOREACH(tmp, &server_data->clients, entries) {
         if (tmp->socket == i) {
             actual_client = tmp;
             break;

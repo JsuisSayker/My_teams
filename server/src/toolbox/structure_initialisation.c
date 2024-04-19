@@ -38,9 +38,9 @@ int user_initialisation(user_t **new_user, char *name, int socket)
     }
     if (init_information(new_user, name) == ERROR)
         return ERROR;
-    (*new_user)->entries.le_next = NULL;
-    (*new_user)->entries.le_prev = NULL;
-    (*new_user)->teams.lh_first = NULL;
-    (*new_user)->personnal_messages.lh_first = NULL;
+    (*new_user)->entries.tqe_next = NULL;
+    (*new_user)->entries.tqe_prev = NULL;
+    (*new_user)->teams.tqh_first = NULL;
+    (*new_user)->personnal_messages.tqh_first = NULL;
     return OK;
 }

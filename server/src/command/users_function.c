@@ -37,9 +37,9 @@ int users(server_data_t *server, client_server_t *client)
         write(client->socket, "500, Your not logged\n\r", 23);
         return OK;
     }
-    LIST_FOREACH(server->users.lh_first, &server->users, entries) {
-        list = add_node_in_list(list, server->users.lh_first->username,
-            server->users.lh_first->description);
+    TAILQ_FOREACH(server->users.tqh_first, &server->users, entries) {
+        list = add_node_in_list(list, server->users.tqh_first->username,
+            server->users.tqh_first->description);
     }
     if (list == NULL){
         write(client->socket, "500, No users found\n\r", 22);
