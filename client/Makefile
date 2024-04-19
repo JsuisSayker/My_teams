@@ -58,8 +58,9 @@ $(NAME): $(OBJ)
 	gcc -o $@ $^ $(CPPFLAGS) $(WFLAGS) $(LDLIB) $(LMY)
 	mv $(NAME) ../
 
-debug: $(OBJ)
-	gcc -o $(NAME) $^ $(CPPFLAGS) $(WFLAGS) $(LDLIB) $(LMY) -ggdb3
+debug:
+	gcc -o $(NAME) $(DIR_SRC) $(DIR_COMMANDS) $(CPPFLAGS) $(LDLIB) $(LMY) \
+	-ggdb3
 	mv $(NAME) ../
 
 all: $(NAME)

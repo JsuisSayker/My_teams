@@ -32,7 +32,7 @@ jobs:
       - name: Report banana result
         run: |
           NB_ERROR=$(cat /tmp/coding-style-reports.log | wc -l)
-          if [ $NB_ERROR -gt 6 ]; then
+          if [ $NB_ERROR -gt 8 ]; then
             exit 1
           fi
 

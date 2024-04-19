@@ -16,6 +16,7 @@
     #include <arpa/inet.h>
     #include <signal.h>
     #include <string.h>
+    #include <stdlib.h>
 
 
 typedef struct param_s {
@@ -44,7 +45,6 @@ typedef struct client_s {
     char *uuid;
     char *user_name;
     int socket_fd;
-    char *server_response;
     user_input_t *user_input;
 } client_t;
 
