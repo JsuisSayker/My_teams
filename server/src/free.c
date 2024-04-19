@@ -7,7 +7,7 @@
 
 #include "server.h"
 
-static void free_client(client_server_t *client)
+void free_client(client_server_t *client)
 {
     if (client) {
         if (client->socket)

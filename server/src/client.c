@@ -7,9 +7,27 @@
 
 #include "server.h"
 
+static void remove_client(server_data_t *server_data, int client_socket)
+{
+    client_server_t *actual_client = NULL;
+    client_server_t *tmp = server_data->clients.lh_first;
+
+    LIST_FOREACH(tmp, &server_data->clients, entries) {
+        if (tmp->socket == client_socket) {
+            actual_client = tmp;
+            break;
+        }
+    }
+    if (actual_client != NULL) {
+        LIST_REMOVE(actual_client, entries);
+        free_client(actual_client);
+    }
+}
+
 static void client_disconnection(server_data_t *server_data, int client_socket)
 {
     close(client_socket);
+    remove_client(server_data, client_socket);
     FD_CLR(client_socket, &server_data->current_sockets);
     FD_CLR(client_socket, &server_data->ready_sockets);
 }
