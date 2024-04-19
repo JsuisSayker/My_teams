@@ -7,37 +7,60 @@
 
 #include "server.h"
 
-static int message_user(server_data_t *server, client_server_t *client)
+static int send_command_response(client_server_t *client,
+personnal_message_t *message)
+{
+    char *response = NULL;
+
+    if (message == NULL || client == NULL)
+        return ERROR;
+    append_to_string(&response, "200|/send|");
+    append_to_string(&response, client->user->username);
+    append_to_string(&response, "|");
+    append_to_string(&response, message->message);
+    append_to_string(&response, "\a\n");
+    if (server_response(client->socket, response) == ERROR)
+        return ERROR;
+    return OK;
+}
+
+static int message_user(client_server_t *client, user_t *receiver)
 {
     personnal_message_t *message = malloc(sizeof(personnal_message_t));
-    user_t *user_receve;
 
-    if (message == NULL || client == NULL || server == NULL)
+    if (message == NULL || client == NULL || receiver == NULL)
         return ERROR;
-    user_receve = get_user_by_uuid(server, client->command->params->user_uuid);
-    if (user_receve == NULL)
+    if (strcpy(message->message, client->command->params->message_body) == NULL)
         return ERROR;
-    strcpy(message->message, client->command->params->message_body);
-    strcpy(message->sender_uuid, client->user->uuid);
-    strcpy(message->receiver_uuid, client->command->params->user_uuid);
+    if (strcpy(message->sender_uuid, client->user->uuid) == NULL)
+        return ERROR;
+    if (strcpy(message->receiver_uuid, receiver->uuid) == NULL)
+        return ERROR;
+    TAILQ_INSERT_HEAD(&receiver->personnal_messages,
+        copy_message(message), entries);
+    TAILQ_INSERT_HEAD(&client->user->personnal_messages,
+        copy_message(message), entries);
+    if (send_command_response(client, message) == ERROR)
         return ERROR;
     return OK;
 }
 
 int server_send_command(server_data_t *server, client_server_t *client)
 {
+    user_t *user = NULL;
+
     if (server == NULL || client == NULL)
         return ERROR;
     if (client->is_logged == false){
-        write(client->socket, "500, Your not logged\a\n\0", 24);
-        return ERROR;
+        write(client->socket, "500|Your not logged\a\n\0", 23);
+        return OK;
     }
-    if (user_is_exist(server,
-        client->command->params->user_uuid) == false){
-        write(client->socket, "500, Don't exist\a\n\0", 20);
-        return ERROR;
+    user = get_user_by_uuid(server, client->command->params->user_uuid);
+    if (user == NULL){
+        write(client->socket, "500|User don't exist\a\n\0", 24);
+        return OK;
     }
-    if (message_user(server, client) == ERROR)
+    if (message_user(client, user) == ERROR)
         return ERROR;
     return OK;
 }

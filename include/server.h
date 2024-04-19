@@ -115,6 +115,7 @@ int server_response(int socket, char *message);
 
 
 /* command */
+int server_send_command(server_data_t *server, client_server_t *client);
 int find_command(server_data_t *server, client_server_t *client);
 int login(server_data_t *server, client_server_t *client);
 int logout(server_data_t *server, client_server_t *client);
@@ -148,10 +149,11 @@ void save_data(server_data_t *server_data);
 void load_data(server_data_t *server_data);
 
 /* toolbox */
-int append_to_string(char **str, char *to_append);
-char *generate_uuid(void);
 int user_initialisation(user_t **new_user, char *name, int socket);
+personnal_message_t *copy_message(personnal_message_t *message);
 user_t *get_user_by_uuid(server_data_t *server, char *uuid);
 char **tab_append_str_at_end(char **tab, char *str);
+int append_to_string(char **str, char *to_append);
+char *generate_uuid(void);
 
 #endif /* !SERVER_H_ */

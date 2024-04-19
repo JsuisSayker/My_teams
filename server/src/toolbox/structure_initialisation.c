@@ -42,6 +42,23 @@ int user_initialisation(user_t **new_user, char *name, int socket)
     (*new_user)->entries.tqe_next = NULL;
     (*new_user)->entries.tqe_prev = NULL;
     (*new_user)->teams.tqh_first = NULL;
+    (*new_user)->teams.tqh_last = NULL;
     (*new_user)->personnal_messages.tqh_first = NULL;
+    (*new_user)->personnal_messages.tqh_last = NULL;
     return OK;
+}
+
+personnal_message_t *copy_message(personnal_message_t *message)
+{
+    personnal_message_t *new_message = malloc(sizeof(personnal_message_t));
+
+    if (message == NULL)
+        return new_message;
+    if (strcpy(new_message->message, message->message) == NULL)
+        return NULL;
+    if (strcpy(new_message->sender_uuid, message->sender_uuid) == NULL)
+        return NULL;
+    if (strcpy(new_message->receiver_uuid, message->receiver_uuid) == NULL)
+        return NULL;
+    return new_message;
 }
