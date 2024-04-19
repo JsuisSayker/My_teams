@@ -20,7 +20,6 @@ static int message_user(server_data_t *server, client_server_t *client)
     strcpy(message->message, client->command->params->message_body);
     strcpy(message->sender_uuid, client->user->uuid);
     strcpy(message->receiver_uuid, client->command->params->user_uuid);
-
         return ERROR;
     return OK;
 }

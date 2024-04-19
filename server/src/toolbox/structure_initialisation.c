@@ -11,7 +11,7 @@ static int init_information(user_t **new_user, char *name)
 {
     char *uuid = NULL;
 
-    if (name == NULL || *new_user == NULL || uuid == NULL)
+    if (name == NULL || *new_user == NULL)
         return ERROR;
     if (strcpy((*new_user)->username, name) == NULL)
         return ERROR;
@@ -30,8 +30,6 @@ static int init_information(user_t **new_user, char *name)
 
 int user_initialisation(user_t **new_user, char *name, int socket)
 {
-    char *dest = NULL;
-
     if (name == NULL || *new_user == NULL)
         return ERROR;
     if (strchr(name, '|') != NULL){
@@ -44,6 +42,5 @@ int user_initialisation(user_t **new_user, char *name, int socket)
     (*new_user)->entries.le_prev = NULL;
     (*new_user)->teams.lh_first = NULL;
     (*new_user)->personnal_messages.lh_first = NULL;
-    free(dest);
     return OK;
 }

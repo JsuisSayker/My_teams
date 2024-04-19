@@ -67,7 +67,6 @@ static int already_exist(server_data_t *server, client_server_t *client,
 
 int login(server_data_t *server, client_server_t *client)
 {
-    printf("[----login-enter----] \n");
     if (server == NULL || client == NULL)
         return ERROR;
     if (client->is_logged == true){
