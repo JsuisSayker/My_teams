@@ -10,9 +10,9 @@
 #include "linked_list.h"
 
 list_user_t *add_node_in_list(list_user_t *list, char *username,
-    char *description)
+    char *description, int uuid)
 {
-    list_user_t *node = create_node(username, description);
+    list_user_t *node = create_node(username, description, uuid);
     list_user_t *next_list = list;
 
     if (next_list == NULL)
