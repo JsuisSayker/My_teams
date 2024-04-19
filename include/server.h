@@ -23,64 +23,63 @@
     #include "logging_server.h"
 
 typedef struct message_s {
-    char *message;
-    char *sender_uuid;
+    char message[MAX_BODY_LENGTH];
+    char sender_uuid[UUID_LENGTH];
     LIST_ENTRY(message_s) entries;
 } message_t;
 
 typedef struct thread_s {
-    LIST_HEAD(, message_t) messages;
+    LIST_HEAD(, message_s) messages;
     LIST_ENTRY(thread_s) entries;
 } thread_t;
 
 typedef struct channel_s {
-    char *channel_uuid;
-    char *channel_name;
+    char channel_uuid[UUID_LENGTH];
+    char channel_name[MAX_NAME_LENGTH];
     LIST_ENTRY(channel_s) entries;
-    LIST_HEAD(, message_t) messages;
-    LIST_HEAD(, user_t) users;
-    LIST_HEAD(, thread_t) threads;
+    LIST_HEAD(, message_s) messages;
+    LIST_HEAD(, user_s) users;
+    LIST_HEAD(, thread_s) threads;
 } channel_t;
 
 typedef struct personnal_message_s {
-    char *message;
-    char *sender_uuid;
-    char *receiver_uuid;
+    char message[MAX_BODY_LENGTH];
+    char sender_uuid[UUID_LENGTH];
+    char receiver_uuid[UUID_LENGTH];
     LIST_ENTRY(personnal_message_s) entries;
 } personnal_message_t;
 
 typedef struct team_s {
-    char *team_uuid;
-    char *team_name;
+    char team_uuid[UUID_LENGTH];
+    char team_name[MAX_NAME_LENGTH];
     LIST_ENTRY(team_s) entries;
-    LIST_HEAD(, channel_t) channels;
-    LIST_HEAD(, user_t) users;
+    LIST_HEAD(, channel_s) channels;
+    LIST_HEAD(, user_s) users;
 } team_t;
 
 typedef struct user_s {
-    char *username;
-    char *uuid;
-    char *description;
+    char username[MAX_NAME_LENGTH];
+    char uuid[UUID_LENGTH];
+    char description[MAX_DESCRIPTION_LENGTH];
     LIST_ENTRY(user_s) entries;
-    LIST_HEAD(, team_t) teams;
-    LIST_HEAD(, personnal_message_t) personnal_messages;
+    LIST_HEAD(, team_s) teams;
+    LIST_HEAD(, personnal_message_s) personnal_messages;
 } user_t;
 
 typedef enum {
     TEAMS,
     CHANNELS,
     THREADS,
-
     NONE
 } context_t;
 
 typedef struct client_server_s {
-    int socket;
+    user_input_t *command;
     user_t *user;
+    context_t context;
+    int socket;
     bool is_logged;
     char *user_input;
-    user_input_t *command;
-    context_t context;
     LIST_ENTRY(client_server_s) entries;
 } client_server_t;
 
@@ -145,8 +144,7 @@ void free_client(client_server_t *client);
 /* toolbox */
 int append_to_string(char **str, char *to_append);
 char *generate_uuid(void);
-int add_user_on_server_database(server_data_t *server, user_t *user);
-int user_initialisation(user_t *user, char *name);
+int user_initialisation(user_t **new_user, char *name, int socket);
 user_t *get_user_by_uuid(server_data_t *server, char *uuid);
 
 #endif /* !SERVER_H_ */

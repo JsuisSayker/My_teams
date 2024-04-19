@@ -19,8 +19,8 @@ SRC			=	display_help.c 		\
 
 TOOLBOX		=	generate_uuid.c 			\
 				structure_initialisation.c	\
-				append_to_string.c		\
-				get_user_by_uuid.c		\
+				append_to_string.c			\
+				get_user_by_uuid.c			\
 
 SRC_PARSER	=	login.c				\
 				logout.c			\
@@ -29,7 +29,7 @@ SRC_PARSER	=	login.c				\
 				send.c				\
 				messages.c			\
 				subscribe.c			\
-				subscribed.c			\
+				subscribed.c		\
 				unsubscribe.c		\
 				use.c				\
 				create.c			\
@@ -37,9 +37,9 @@ SRC_PARSER	=	login.c				\
 				info.c				\
 				help.c				\
 
-COMMAND		=	find_command.c						\
-				authentification/login_logout.c		\
-				user_interraction/users_function.c		\
+COMMAND		=	find_command.c		\
+				login_logout.c		\
+				users_function.c	\
 
 MAIN_SRC	=	main.c
 

@@ -16,6 +16,7 @@ static int login_response(user_t *user, int socket)
 
     if (user == NULL)
         return ERROR;
+    server_event_user_logged_in(user->uuid);
     append_to_string(&response, "200 /login ");
     append_to_string(&response, user->username);
     append_to_string(&response, "|");
@@ -32,13 +33,12 @@ static int user_connection(server_data_t *server, client_server_t *client)
 
     if (new_user == NULL)
         return ERROR;
-    if (user_initialisation(&new_user, client->command->params->user_name)
-    == ERROR)
+    if (user_initialisation(&new_user, client->command->params->user_name,
+    client->socket) == ERROR){
+        free(new_user);
         return ERROR;
-    if (server->users.lh_first == NULL)
-        LIST_INSERT_HEAD(&server->users, new_user, entries);
-    else
-        add_user_on_server_database(server, new_user);
+    }
+    LIST_INSERT_HEAD(&server->users, new_user, entries);
     client->user = new_user;
     client->is_logged = true;
     if (login_response(new_user, client->socket) == ERROR)
