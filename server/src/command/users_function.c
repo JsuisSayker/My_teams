@@ -98,7 +98,7 @@ int user(server_data_t *server, client_server_t *client)
     tmp = get_user_by_uuid(server, client->command->params->user_uuid);
     if (tmp == NULL){
         write(client->socket, "500, User don't exist\a\n\0", 25);
-        return ERROR;
+        return OK;
     }
     if (user_command_response(tmp, client->socket) == ERROR)
         return ERROR;
