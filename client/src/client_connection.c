@@ -139,10 +139,8 @@ static void client_loop(client_t *client)
     FD_ZERO(&readfds);
     FD_SET(STDIN_FILENO, &readfds);
     FD_SET(client->socket_fd, &readfds);
-    signal(SIGINT, signal_handler);
     client->user_input = malloc(sizeof(user_input_t));
     client->user_input->params = malloc(sizeof(param_t));
-    signal(SIGINT, signal_handler);
     while (is_running) {
         otherfds = readfds;
         result = select(FD_SETSIZE, &otherfds, NULL, NULL, NULL);
@@ -179,6 +177,7 @@ int start_client_connection(const char *ip, int port)
         perror("Error: connection failed\n");
         return KO;
     }
+    signal(SIGINT, signal_handler);
     client_loop(&client);
     return OK;
 }
