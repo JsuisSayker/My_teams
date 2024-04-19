@@ -15,4 +15,5 @@ void send_client_message(client_t *client)
 {
     write(client->socket_fd, client->user_input->command,
     strlen(client->user_input->command));
+    printf("Je suis dans send_client_message\n");
 }

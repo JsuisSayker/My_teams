@@ -9,6 +9,7 @@
 
 static void client_disconnection(server_data_t *server_data, int client_socket)
 {
+    server_data->client_is_deco = -1;
     close(client_socket);
     FD_CLR(client_socket, &server_data->current_sockets);
     FD_CLR(client_socket, &server_data->ready_sockets);
@@ -31,7 +32,7 @@ static int read_and_update_client(server_data_t *server_data,
         free(client_msg);
         return OK;
     }
-    printf("actual_client->user_input: %s\n", actual_client->user_input);
+    printf("actual_client->user_input: [%s]\n", actual_client->user_input);
     check_command(server_data, actual_client);
     free(client_msg);
 }
