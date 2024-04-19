@@ -25,6 +25,21 @@ static const struct parse_command_s PARSE_COMMAND[] = {
     {NULL, NULL}
 };
 
+// static char **parse_user_input(char *user_input)
+// {
+//     char *token = NULL;
+//     char **parsed_input = NULL;
+
+//     if (user_input == NULL || user_input[0] != '/')
+//         return NULL;
+//     token = strtok(user_input, " \t");
+//     while (token != NULL) {
+//         printf("token: %s\n", token);
+//         token = strtok(NULL, " \t\"");
+//     }
+//     return parsed_input;
+// }
+
 static void parse_and_launch_command(server_data_t *server_data,
     client_server_t *client)
 {
@@ -32,6 +47,7 @@ static void parse_and_launch_command(server_data_t *server_data,
 
     client->user_input[strlen(client->user_input) - 2] = '\0';
     user_input = my_splitstr(client->user_input, ' ');
+    // parse_user_input(client->user_input);
     if (user_input == NULL)
         return;
     for (int i = 0; PARSE_COMMAND[i].command != NULL; i++) {
