@@ -11,15 +11,17 @@ static int users_command_response(list_user_t *list, int socket)
 {
     char *message = NULL;
 
-    append_to_string(&message, "200 /users ");
+    append_to_string(&message, "200|/users|");
     if (list == NULL)
         return ERROR;
     for (list_user_t *tmp = list; tmp != NULL; tmp = tmp->next) {
         append_to_string(&message, tmp->username);
         append_to_string(&message, "|");
         append_to_string(&message, tmp->description);
+        append_to_string(&message, "|");
+        append_to_string(&message, tmp->uuid);
         if (tmp->next != NULL)
-            append_to_string(&message, " ");
+            append_to_string(&message, "|");
     }
     append_to_string(&message, "\a\n");
     if (server_response(socket, message) == ERROR)
@@ -30,6 +32,7 @@ static int users_command_response(list_user_t *list, int socket)
 int users(server_data_t *server, client_server_t *client)
 {
     list_user_t *list = NULL;
+    user_t *tmp;
 
     if (client == NULL || server == NULL)
         return ERROR;
@@ -37,9 +40,10 @@ int users(server_data_t *server, client_server_t *client)
         write(client->socket, "500, Your not logged\n\r", 23);
         return OK;
     }
-    TAILQ_FOREACH(server->users.tqh_first, &server->users, entries) {
-        list = add_node_in_list(list, server->users.tqh_first->username,
-            server->users.tqh_first->description);
+    tmp = server->users.tqh_first;
+    TAILQ_FOREACH(tmp, &server->users, entries) {
+        list = add_node_in_list(list, tmp->username,
+        tmp->uuid, tmp->user_connected);
     }
     if (list == NULL){
         write(client->socket, "500, No users found\n\r", 22);
@@ -55,7 +59,7 @@ static int user_command_response(user_t *user, int socket)
 {
     char *message = NULL;
 
-    append_to_string(&message, "200 /user ");
+    append_to_string(&message, "200|/user|");
     append_to_string(&message, user->username);
     append_to_string(&message, "|");
     append_to_string(&message, user->description);

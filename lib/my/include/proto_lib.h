@@ -18,10 +18,10 @@ char *open_file(char const *file);
     /* list */
 int push_on_list(list_user_t **list_src, list_user_t **list_dest);
 list_user_t *add_node_in_list(list_user_t *list, char *username,
-    char *description);
+    char *description, int uuid);
 int print_room_list(list_user_t *list, char *str);
 void free_list(list_user_t *list);
-list_user_t *create_node(char *username, char *description);
+list_user_t *create_node(char *username, char *description, int uuid);
 int my_list_len(list_user_t *list);
 int print_list(list_user_t *list);
 int print_node(list_user_t *node);
