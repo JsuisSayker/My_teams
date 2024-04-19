@@ -12,7 +12,6 @@
 
 void client_logout(client_t *client, char **command, char *message)
 {
-    printf("Je suis dans client_logout\n");
     if (client->is_logged == true) {
         client_event_logged_out(client->uuid, client->user_name);
         client->is_logged = false;
