@@ -61,6 +61,7 @@ static void receive_server_message(client_t *client)
     if (buffer == NULL)
         exit(0);
     buffer[strlen(buffer)] = '\0';
+    printf("%s", buffer);
     user_input_event(buffer, client);
 }
 
