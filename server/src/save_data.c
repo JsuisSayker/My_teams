@@ -14,8 +14,10 @@ static void save_users(server_data_t *server_data)
 
     if (file == -1)
         return;
-    TAILQ_FOREACH(tmp, &server_data->users, entries)
+    while (tmp) {
         write(file, tmp, sizeof(user_t));
+        tmp = tmp->entries.tqe_next;
+    }
     close(file);
 }
 

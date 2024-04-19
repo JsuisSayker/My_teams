@@ -29,7 +29,7 @@ static int login_response(user_t *user, int socket)
 
 static int user_connection(server_data_t *server, client_server_t *client)
 {
-    user_t *new_user = malloc(sizeof(user_t));
+    user_t *new_user = calloc(sizeof(user_t), 1);
 
     if (new_user == NULL)
         return ERROR;
