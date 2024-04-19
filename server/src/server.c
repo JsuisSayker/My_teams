@@ -42,7 +42,7 @@ static int server_loop(server_data_t *server_data)
         FD_ZERO(&write_sockets);
         result = select(FD_SETSIZE, &server_data->ready_sockets, &write_sockets
         , NULL, NULL);
-        if (result == ERROR && errno != EINTR) {
+        if (result < 0 && errno != EINTR) {
             perror("Error: select failed\n");
             return ERROR;
         }
