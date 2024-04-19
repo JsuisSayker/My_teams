@@ -67,11 +67,10 @@ typedef struct user_s {
     TAILQ_HEAD(, personnal_message_s) personnal_messages;
 } user_t;
 
-typedef enum {
-    TEAMS,
-    CHANNELS,
-    THREADS,
-    NONE
+typedef struct contex_s {
+    team_t *team;
+    channel_t *channel;
+    thread_t *thread;
 } context_t;
 
 typedef struct client_server_s {
