@@ -62,16 +62,16 @@ typedef struct user_s {
     char username[MAX_NAME_LENGTH];
     char uuid[UUID_LENGTH];
     char description[MAX_DESCRIPTION_LENGTH];
+    int user_connected;
     TAILQ_ENTRY(user_s) entries;
     TAILQ_HEAD(, team_s) teams;
     TAILQ_HEAD(, personnal_message_s) personnal_messages;
 } user_t;
 
-typedef enum {
-    TEAMS,
-    CHANNELS,
-    THREADS,
-    NONE
+typedef struct contex_s {
+    team_t *team;
+    channel_t *channel;
+    thread_t *thread;
 } context_t;
 
 typedef struct client_server_s {
@@ -113,14 +113,17 @@ char *read_client(server_data_t *data, int client_socket);
 int accept_client(server_data_t *data);
 int server_response(int socket, char *message);
 
+
+/* command */
 int find_command(server_data_t *server, client_server_t *client);
 int login(server_data_t *server, client_server_t *client);
 int logout(server_data_t *server, client_server_t *client);
 int users(server_data_t *server, client_server_t *client);
+int user(server_data_t *server, client_server_t *client);
 
 void free_user_input(user_input_t *user_input);
 int loop_check_select_client(server_data_t *server_data);
-void check_command(server_data_t *server_data, client_server_t *client);
+int check_command(server_data_t *server_data, client_server_t *client);
 user_input_t *init_user_input_structure(void);
 user_input_t *create_parser(char **user_input, client_server_t *client);
 user_input_t *help_parser(char **user_input, UNUSED client_server_t *client);

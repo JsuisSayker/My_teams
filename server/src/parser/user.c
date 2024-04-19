@@ -17,6 +17,6 @@ user_input_t *user_parser(char **user_input, UNUSED client_server_t *client)
         return NULL;
     }
     user_input_parsed->command = strdup(user_input[0]);
-    user_input_parsed->params->user_name = strdup(user_input[1]);
+    user_input_parsed->params->user_uuid = strdup(user_input[1]);
     return user_input_parsed;
 }

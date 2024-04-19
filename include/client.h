@@ -17,6 +17,7 @@
     #include <signal.h>
     #include <string.h>
     #include <stdlib.h>
+    #include "proto_lib.h"
 
 
 typedef struct param_s {
@@ -64,9 +65,7 @@ int user_input_event(char *message, client_t *client);
 void send_client_message(client_t *client);
 
 // toolbox
-void free_tab(char **tab);
 void clean_server_command(char **command);
-int tablen(char **tab);
 void free_client_struct(client_t *client, fd_set *readfds, fd_set *otherfds);
 char *read_server_message(client_t *client);
 void receive_server_message(client_t *client);

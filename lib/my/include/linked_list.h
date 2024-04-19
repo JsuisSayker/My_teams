@@ -10,7 +10,8 @@
 
 typedef struct list_user_s {
     char *username;
-    char *description;
+    char *uuid;
+    char *is_connected;
     struct list_user_s *next;
 } list_user_t;
 
