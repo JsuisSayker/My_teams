@@ -58,7 +58,7 @@ int check_arguments(int ac, char const *const *av);
 int display_help(void);
 bool is_good_number(const char *str);
 int start_client_connection(const char *ip, int port);
-void client_logout(client_t *client, char *command);
+void client_logout(client_t *client, char **command, char *message);
 char **spliter_by_sep(char *str, char *separator);
 int user_input_event(char *message, client_t *client);
 void send_client_message(client_t *client);

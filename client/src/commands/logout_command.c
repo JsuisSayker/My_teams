@@ -9,6 +9,6 @@
 
 int logout_command(char *message, char **command, client_t *client)
 {
-    client_logout(client, command[0]);
+    client_logout(client, command, message);
     return OK;
 }
