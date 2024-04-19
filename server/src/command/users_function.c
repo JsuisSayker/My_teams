@@ -17,22 +17,36 @@ static int users_command_response(list_user_t *list, int socket)
     for (list_user_t *tmp = list; tmp != NULL; tmp = tmp->next) {
         append_to_string(&message, tmp->username);
         append_to_string(&message, "|");
-        append_to_string(&message, tmp->description);
-        append_to_string(&message, "|");
         append_to_string(&message, tmp->uuid);
+        append_to_string(&message, "|");
+        append_to_string(&message, tmp->is_connected);
         if (tmp->next != NULL)
             append_to_string(&message, "|");
     }
     append_to_string(&message, "\a\n");
     if (server_response(socket, message) == ERROR)
         return ERROR;
+    free(message);
+    return OK;
+}
+
+static int get_list(list_user_t **list, server_data_t *server)
+{
+    user_t *tmp;
+
+    if (server == NULL || list == NULL)
+        return ERROR;
+    tmp = server->users.tqh_first;
+    TAILQ_FOREACH(tmp, &server->users, entries) {
+        (*list) = add_node_in_list((*list), tmp->username,
+        tmp->uuid, tmp->user_connected);
+    }
     return OK;
 }
 
 int users(server_data_t *server, client_server_t *client)
 {
     list_user_t *list = NULL;
-    user_t *tmp;
 
     if (client == NULL || server == NULL)
         return ERROR;
@@ -40,11 +54,8 @@ int users(server_data_t *server, client_server_t *client)
         write(client->socket, "500, Your not logged\n\r", 23);
         return OK;
     }
-    tmp = server->users.tqh_first;
-    TAILQ_FOREACH(tmp, &server->users, entries) {
-        list = add_node_in_list(list, tmp->username,
-        tmp->uuid, tmp->user_connected);
-    }
+    if (get_list(&list, server) == ERROR)
+        return ERROR;
     if (list == NULL){
         write(client->socket, "500, No users found\n\r", 22);
         return OK;
@@ -62,7 +73,12 @@ static int user_command_response(user_t *user, int socket)
     append_to_string(&message, "200|/user|");
     append_to_string(&message, user->username);
     append_to_string(&message, "|");
-    append_to_string(&message, user->description);
+    append_to_string(&message, user->uuid);
+    append_to_string(&message, "|");
+    if (user->user_connected > 0)
+        append_to_string(&message, "1");
+    else
+        append_to_string(&message, "0");
     append_to_string(&message, "\a\n");
     if (server_response(socket, message) == ERROR)
         return ERROR;
@@ -80,8 +96,10 @@ int user(server_data_t *server, client_server_t *client)
         return OK;
     }
     tmp = get_user_by_uuid(server, client->command->params->user_uuid);
-    if (tmp == NULL)
+    if (tmp == NULL){
+        write(client->socket, "500, User don't exist\a\n\0", 25);
         return ERROR;
+    }
     if (user_command_response(tmp, client->socket) == ERROR)
         return ERROR;
     return OK;

@@ -13,7 +13,10 @@ int user_command(char *message, char **command, client_t *client)
         client_error_unauthorized();
         return KO;
     } else {
-        client_print_user(command[1], command[2], CONNECTED);
+        if (strcmp(command[4], "1") == OK)
+            client_print_user(command[3], command[2], CONNECTED);
+        else
+            client_print_user(command[3], command[2], DISCONNECTED);
         return OK;
     }
     return OK;

@@ -65,15 +65,18 @@ static char **parse_user_input(char *user_input)
     return parsed_input;
 }
 
-static void free_old_user_input(char **user_input, client_server_t *client)
+static int free_old_user_input(char **user_input, client_server_t *client)
 {
+    if (client == NULL)
+        return ERROR;
     free_tab(user_input);
     if (client->user_input != NULL)
         free(client->user_input);
     client->user_input = NULL;
+    return OK;
 }
 
-static void parse_and_launch_command(server_data_t *server_data,
+static int parse_and_launch_command(server_data_t *server_data,
     client_server_t *client)
 {
     char **user_input = NULL;
@@ -90,17 +93,21 @@ static void parse_and_launch_command(server_data_t *server_data,
     }
     if (client->command == NULL)
         write(client->socket, "214 bad command, type /help\a\n", 30);
-    else
-        find_command(server_data, client);
-    return free_old_user_input(user_input, client);
+    else {
+        if (find_command(server_data, client) == ERROR)
+            return ERROR;
+    }
+    free_old_user_input(user_input, client);
+    return OK;
 }
 
-void check_command(server_data_t *server_data, client_server_t *client)
+int check_command(server_data_t *server_data, client_server_t *client)
 {
     if (client->user_input[strlen(client->user_input) - 1] ==
     '\n' && client->user_input[strlen(client->user_input) - 2]
     == '\a') {
-        parse_and_launch_command(server_data, client);
+        if (parse_and_launch_command(server_data, client) == ERROR)
+            return ERROR;
         free_user_input(client->command);
         client->command = NULL;
     }
