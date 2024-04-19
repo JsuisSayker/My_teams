@@ -19,7 +19,8 @@ SRC			=	display_help.c 		\
 
 TOOLBOX		=	generate_uuid.c 			\
 				structure_initialisation.c	\
-				append_to_string.c		\
+				append_to_string.c			\
+				tab_append_str_at_end.c		\
 
 SRC_PARSER	=	login.c				\
 				logout.c			\
