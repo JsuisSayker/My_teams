@@ -67,6 +67,9 @@ void send_client_message(client_t *client);
 void free_tab(char **tab);
 void clean_server_command(char **command);
 int tablen(char **tab);
+void free_client_struct(client_t *client, fd_set *readfds, fd_set *otherfds);
+char *read_server_message(client_t *client);
+void receive_server_message(client_t *client);
 
 // commands
 int login_command(char *message, char **command, client_t *client);
