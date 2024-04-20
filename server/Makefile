@@ -43,6 +43,7 @@ SRC_PARSER	=	login.c				\
 COMMAND		=	find_command.c		\
 				login_logout.c		\
 				users_function.c	\
+				use.c				\
 
 MAIN_SRC	=	main.c
 
