@@ -12,7 +12,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-// Penser à changer le recv par un select
 bool is_running = true;
 
 static void signal_handler(int signal)

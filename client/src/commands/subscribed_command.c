@@ -9,5 +9,9 @@
 
 int subscribed_command(char *message, char **command, client_t *client)
 {
+    if (client->is_logged == false) {
+        client_error_unauthorized();
+        return KO;
+    }
     return OK;
 }

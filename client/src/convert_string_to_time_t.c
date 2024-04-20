@@ -5,7 +5,6 @@
 ** convert_string_to_time_t
 */
 
-#define _XOPEN_SOURCE
 #include "client.h"
 #include <time.h>
 
