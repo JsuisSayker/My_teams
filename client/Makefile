@@ -14,9 +14,7 @@ SRC			=	main.c						\
 				client_connection.c			\
 				user_input_event.c			\
 				send_client_message.c		\
-				free_tab.c					\
 				clean_server_command.c		\
-				tablen.c					\
 				free_client_struct.c		\
 				read_server_message.c		\
 				receive_server_message.c

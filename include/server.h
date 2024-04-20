@@ -124,7 +124,7 @@ int user(server_data_t *server, client_server_t *client);
 
 void free_user_input(user_input_t *user_input);
 int loop_check_select_client(server_data_t *server_data);
-void check_command(server_data_t *server_data, client_server_t *client);
+int check_command(server_data_t *server_data, client_server_t *client);
 user_input_t *init_user_input_structure(void);
 user_input_t *create_parser(char **user_input, client_server_t *client);
 user_input_t *help_parser(char **user_input, UNUSED client_server_t *client);

@@ -9,7 +9,14 @@
 
 int use_command(char *message, char **command, client_t *client)
 {
-    if (tablen(command) > 4)
+    int len = 0;
+
+    if (message == NULL || command == NULL || client == NULL)
+        return ERROR;
+    len = my_tablen(command);
+    if (len == ERROR)
+        return ERROR;
+    if (len > 4)
         return KO;
     return OK;
 }
