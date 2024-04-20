@@ -20,7 +20,7 @@ void free_client(client_server_t *client)
     }
 }
 
-static void free_clients(server_data_t *server_data)
+void free_clients(server_data_t *server_data)
 {
     client_server_t *client = NULL;
     client_server_t *tmp = NULL;
@@ -41,7 +41,7 @@ static void free_user(user_t *user)
     }
 }
 
-static void free_users(server_data_t *server_data)
+void free_users(server_data_t *server_data)
 {
     user_t *user = NULL;
     user_t *tmp = NULL;
@@ -55,58 +55,64 @@ static void free_users(server_data_t *server_data)
     }
 }
 
-void free_server_data(server_data_t *server_data)
+static void free_message(message_t *message)
 {
-    if (!server_data)
-        return;
-    if (server_data->server_socket != -1)
-        close(server_data->server_socket);
-    if (server_data->clients.tqh_first)
-        free_clients(server_data);
-    if (server_data->users.tqh_first)
-        free_users(server_data);
-    free(server_data);
+    if (message->message)
+        free(message->message);
+    free(message);
 }
 
-void free_user_input_sub(user_input_t *user_input)
+static void free_thread(thread_t *thread)
 {
-    if (user_input->params->team_description)
-        free(user_input->params->team_description);
-    if (user_input->params->channel_name)
-        free(user_input->params->channel_name);
-    if (user_input->params->channel_uuid)
-        free(user_input->params->channel_uuid);
-    if (user_input->params->channel_description)
-        free(user_input->params->channel_description);
-    if (user_input->params->thread_title)
-        free(user_input->params->thread_title);
-    if (user_input->params->thread_uuid)
-        free(user_input->params->thread_uuid);
-    if (user_input->params->thread_body)
-        free(user_input->params->thread_body);
-    if (user_input->params->message_body)
-        free(user_input->params->message_body);
-    if (user_input->params->comment_body)
-        free(user_input->params->comment_body);
-}
+    message_t *messages = thread->messages.tqh_first;
 
-void free_user_input(user_input_t *user_input)
-{
-    if (!user_input)
-        return;
-    if (user_input->command)
-        free(user_input->command);
-    if (user_input->params) {
-        if (user_input->params->user_name)
-            free(user_input->params->user_name);
-        if (user_input->params->user_uuid)
-            free(user_input->params->user_uuid);
-        if (user_input->params->team_name)
-            free(user_input->params->team_name);
-        if (user_input->params->team_uuid)
-            free(user_input->params->team_uuid);
-        free_user_input_sub(user_input);
-        free(user_input->params);
+    while (messages) {
+        TAILQ_REMOVE(&thread->messages, messages, entries);
+        free_message(messages);
+        messages = thread->messages.tqh_first;
     }
-    free(user_input);
+    free(thread);
+}
+
+static void free_channel(channel_t *channel)
+{
+    thread_t *threads = channel->threads.tqh_first;
+
+    while (threads) {
+        TAILQ_REMOVE(&channel->threads, threads, entries);
+        free_thread(threads);
+        threads = channel->threads.tqh_first;
+    }
+    if (channel->channel_uuid)
+        free(channel->channel_uuid);
+    free(channel);
+}
+
+static void free_team(team_t *team)
+{
+    user_t *users = team->users.tqh_first;
+    channel_t *channels = team->channels.tqh_first;
+
+    while (users) {
+        TAILQ_REMOVE(&team->users, users, entries);
+        users = team->users.tqh_first;
+    }
+    while (channels) {
+        TAILQ_REMOVE(&team->channels, channels, entries);
+        free_channel(channels);
+        channels = team->channels.tqh_first;
+    }
+    if (team->team_uuid)
+        free(team->team_uuid);
+}
+
+void free_teams(server_data_t *server_data)
+{
+    team_t *team = server_data->teams.tqh_first;
+
+    while (team) {
+        TAILQ_REMOVE(&server_data->teams, team, entries);
+        free_team(team);
+        team = server_data->teams.tqh_first;
+    }
 }

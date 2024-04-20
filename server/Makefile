@@ -9,6 +9,7 @@ SRC			=	display_help.c 		\
 				client.c 			\
 				server.c 			\
 				free.c 				\
+				free_sub.c			\
 				socket.c			\
 				accept.c			\
 				command.c			\
@@ -45,6 +46,7 @@ COMMAND		=	find_command.c		\
 				login_logout.c		\
 				users_function.c	\
 				use.c				\
+				create.c			\
 
 MAIN_SRC	=	main.c
 

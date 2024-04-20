@@ -26,12 +26,16 @@
 typedef struct message_s {
     char message[MAX_BODY_LENGTH];
     char sender_uuid[UUID_LENGTH];
-    char time[TIME_LENGTH];
+    char timestamp[TIME_LENGTH];
     TAILQ_ENTRY(message_s) entries;
 } message_t;
 
 typedef struct thread_s {
-    char time[TIME_LENGTH];
+    char timestamp[TIME_LENGTH];
+    char thread_uuid[UUID_LENGTH];
+    char title[MAX_NAME_LENGTH];
+    char message[MAX_BODY_LENGTH];
+    char sender_uuid[UUID_LENGTH];
     TAILQ_HEAD(, message_s) messages;
     TAILQ_ENTRY(thread_s) entries;
 } thread_t;
@@ -39,6 +43,7 @@ typedef struct thread_s {
 typedef struct channel_s {
     char channel_uuid[UUID_LENGTH];
     char channel_name[MAX_NAME_LENGTH];
+    char channel_description[MAX_DESCRIPTION_LENGTH];
     TAILQ_ENTRY(channel_s) entries;
     TAILQ_HEAD(, message_s) messages;
     TAILQ_HEAD(, user_s) users;
@@ -56,6 +61,7 @@ typedef struct personnal_message_s {
 typedef struct team_s {
     char team_uuid[UUID_LENGTH];
     char team_name[MAX_NAME_LENGTH];
+    char team_description[MAX_DESCRIPTION_LENGTH];
     TAILQ_ENTRY(team_s) entries;
     TAILQ_HEAD(, channel_s) channels;
     TAILQ_HEAD(, user_s) users;
@@ -150,6 +156,10 @@ void free_client(client_server_t *client);
 void save_data(server_data_t *server_data);
 void load_data(server_data_t *server_data);
 int use(server_data_t *server, client_server_t *client);
+int create(server_data_t *server, client_server_t *client);
+void free_clients(server_data_t *server_data);
+void free_users(server_data_t *server_data);
+void free_teams(server_data_t *server_data);
 
 /* toolbox */
 int user_initialisation(user_t **new_user, char *name, int socket);

@@ -58,7 +58,7 @@ static int use_sub(server_data_t *server, client_server_t *client)
         client->context.channel = get_channel(client->context.team,
         client->command->params->channel_uuid);
         if (client->context.channel == NULL) {
-            write(client->socket, "404, Channel not found\a\n\0", 27);
+            write(client->socket, "404, Channel not found\a\n\0", 26);
             return ERROR;
         }
     }
@@ -66,7 +66,7 @@ static int use_sub(server_data_t *server, client_server_t *client)
         client->context.thread = get_thread(client->context.channel,
         client->command->params->thread_uuid);
         if (client->context.thread == NULL) {
-            write(client->socket, "404, Thread not found\a\n\0", 26);
+            write(client->socket, "404, Thread not found\a\n\0", 25);
             return ERROR;
         }
     }
@@ -85,7 +85,7 @@ int use(server_data_t *server, client_server_t *client)
         client->context.team = get_team(server,
         client->command->params->team_uuid);
         if (client->context.team == NULL) {
-            write(client->socket, "404, Team not found\a\n\0", 24);
+            write(client->socket, "404, Team not found\a\n\0", 23);
             return ERROR;
         }
     }
