@@ -20,7 +20,7 @@
     #define MAX_DESCRIPTION_LENGTH 255
     #define MAX_BODY_LENGTH 512
     #define UUID_LENGTH 37
-    #define TIME_LENGTH 24
+    #define TIME_LENGTH 30
     #define UNUSED __attribute__((unused))
 
 #endif /* !MACRO_H_ */

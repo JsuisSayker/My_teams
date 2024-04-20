@@ -50,6 +50,7 @@ typedef struct personnal_message_s {
     char sender_uuid[UUID_LENGTH];
     char receiver_uuid[UUID_LENGTH];
     char time[TIME_LENGTH];
+    bool is_read;
     TAILQ_ENTRY(personnal_message_s) entries;
 } personnal_message_t;
 
@@ -125,6 +126,7 @@ int logout(server_data_t *server, client_server_t *client);
 int users(server_data_t *server, client_server_t *client);
 int user(server_data_t *server, client_server_t *client);
 
+/* parer */
 void free_user_input(user_input_t *user_input);
 int loop_check_select_client(server_data_t *server_data);
 int check_command(server_data_t *server_data, client_server_t *client);
@@ -153,12 +155,15 @@ void load_data(server_data_t *server_data);
 int use(server_data_t *server, client_server_t *client);
 
 /* toolbox */
+client_server_t *client_is_connected(server_data_t *server, user_t *user);
+personnal_message_t *create_personnal_message(char *message, char *sender_uuid,
+char *receiver_uuid, int socket);
 int user_initialisation(user_t **new_user, char *name, int socket);
-personnal_message_t *copy_message(personnal_message_t *message);
 user_t *get_user_by_uuid(server_data_t *server, char *uuid);
+bool user_is_exist(server_data_t *server, char *user_uuid);
 char **tab_append_str_at_end(char **tab, char *str);
 int append_to_string(char **str, char *to_append);
-int get_time(char *dest[TIME_LENGTH]);
+int get_time(char (*dest)[TIME_LENGTH]);
 char *generate_uuid(void);
 
 #endif /* !SERVER_H_ */

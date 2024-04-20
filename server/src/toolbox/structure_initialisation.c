@@ -48,17 +48,26 @@ int user_initialisation(user_t **new_user, char *name, int socket)
     return OK;
 }
 
-personnal_message_t *copy_message(personnal_message_t *message)
+personnal_message_t *create_personnal_message(char *message,
+    char *sender_uuid, char *receiver_uuid, int socket)
 {
     personnal_message_t *new_message = malloc(sizeof(personnal_message_t));
 
-    if (message == NULL)
-        return new_message;
-    if (strcpy(new_message->message, message->message) == NULL)
+    if (new_message == NULL)
         return NULL;
-    if (strcpy(new_message->sender_uuid, message->sender_uuid) == NULL)
+    if (strlen(message) > MAX_BODY_LENGTH){
+        free(new_message);
+        write(socket, "500|Message too long\a\n\0", 24);
         return NULL;
-    if (strcpy(new_message->receiver_uuid, message->receiver_uuid) == NULL)
+    }
+    if (strcpy(new_message->message, message) == NULL)
         return NULL;
+    if (strcpy(new_message->sender_uuid, sender_uuid) == NULL)
+        return NULL;
+    if (strcpy(new_message->receiver_uuid, receiver_uuid) == NULL)
+        return NULL;
+    if (get_time(&new_message->time) == ERROR)
+        return NULL;
+    new_message->is_read = false;
     return new_message;
 }

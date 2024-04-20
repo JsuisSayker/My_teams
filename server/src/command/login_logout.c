@@ -83,6 +83,7 @@ int login(server_data_t *server, client_server_t *client)
     }
     if (user_connection(server, client) == ERROR)
         return ERROR;
+    TAILQ_INSERT_HEAD(&server->clients, client, entries);
     return OK;
 }
 
