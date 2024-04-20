@@ -95,6 +95,7 @@ static void free_team(team_t *team)
 
     while (users) {
         TAILQ_REMOVE(&team->users, users, entries);
+        free_user(users);
         users = team->users.tqh_first;
     }
     while (channels) {

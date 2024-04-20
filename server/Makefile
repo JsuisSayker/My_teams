@@ -26,6 +26,7 @@ TOOLBOX		=	generate_uuid.c 			\
 				get_user_by_uuid.c			\
 				get_time.c					\
 				tab_append_str_at_end.c		\
+				get_team_by_uuid.c			\
 
 SRC_PARSER	=	login.c				\
 				logout.c			\
@@ -44,9 +45,11 @@ SRC_PARSER	=	login.c				\
 
 COMMAND		=	find_command.c		\
 				login_logout.c		\
+				subscribe.c			\
 				users_function.c	\
 				use.c				\
 				create.c			\
+				create_response.c			\
 
 MAIN_SRC	=	main.c
 
