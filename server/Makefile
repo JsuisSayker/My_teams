@@ -23,6 +23,7 @@ TOOLBOX		=	generate_uuid.c 			\
 				structure_initialisation.c	\
 				append_to_string.c			\
 				get_user_by_uuid.c			\
+				get_time.c					\
 				tab_append_str_at_end.c		\
 
 SRC_PARSER	=	login.c				\
