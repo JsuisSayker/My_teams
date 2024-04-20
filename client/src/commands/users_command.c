@@ -15,7 +15,7 @@ static int display_users_command(char **command)
 
     if (command == NULL || tab_length == ERROR)
         return ERROR;
-    for (int i = 2; i < tab_length; i += 3){
+    for (int i = 2; i < tab_length; i += 3) {
         if (strcmp(command[i + 2], "1") == OK)
             client_print_users(command[i + 1], command[i], CONNECTED);
         else
