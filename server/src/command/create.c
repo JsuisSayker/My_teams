@@ -174,7 +174,6 @@ static int create_new_team(server_data_t *server, client_server_t *client)
     strcpy(new_team->team_name, client->command->params->team_name);
     strcpy(new_team->team_description,
         client->command->params->team_description);
-    TAILQ_INIT(&new_team->users);
     TAILQ_INSERT_HEAD(&server->teams, new_team, entries);
     client->context.team = new_team;
     free(uuid);
