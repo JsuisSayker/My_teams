@@ -22,7 +22,7 @@ static const struct command_s COMMANDS[] = {
     // {"/create", &create_command},
     {"/list", &list_command},
     // {"/info", &info_command},
-    // {"/help", &help_command},
+    {"/help", &help_command},
     {NULL, NULL}
 };
 
