@@ -41,7 +41,6 @@ int user_initialisation(user_t **new_user, char *name, int socket)
     (*new_user)->user_connected = 1;
     (*new_user)->entries.tqe_next = NULL;
     (*new_user)->entries.tqe_prev = NULL;
-    (*new_user)->teams.tqh_first = NULL;
     (*new_user)->personnal_messages.tqh_first = NULL;
     return OK;
 }

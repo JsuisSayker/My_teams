@@ -12,11 +12,7 @@
 
     // {"/send", &send},
     // {"/messages", &messages},
-    // {"/subscribe", &subscribe},
     // {"/subscribed", &subscribed},
-    // {"/unsubscribe", &unsubscribe},
-    // {"/use", &use},
-    // {"/create", &create},
     // {"/list", &list},
     // {"/info", &info},
     // {"/help", &help},
@@ -26,6 +22,10 @@ const struct function_tab_s OPERATORS_FUNCS[] = {
     {"/logout", &logout},
     {"/users", &users},
     {"/user", &user},
+    {"/use", &use},
+    {"/create", &create},
+    {"/subscribe", &subscribe},
+    {"/unsubscribe", &unsubscribe},
     {NULL, NULL}
 };
 

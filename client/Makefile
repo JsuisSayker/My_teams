@@ -17,7 +17,8 @@ SRC			=	main.c						\
 				clean_server_command.c		\
 				free_client_struct.c		\
 				read_server_message.c		\
-				receive_server_message.c
+				receive_server_message.c	\
+				convert_string_to_time_t.c
 
 COMMANDS_SRC	=	list_command.c			\
 					login_command.c			\
@@ -29,7 +30,10 @@ COMMANDS_SRC	=	list_command.c			\
 					unsubscribe_command.c	\
 					user_command.c			\
 					users_command.c			\
-					use_command.c
+					use_command.c			\
+					help_command.c			\
+					info_command.c			\
+					create_command.c
 
 TEST		=	test.c
 

@@ -9,6 +9,7 @@ SRC			=	display_help.c 		\
 				client.c 			\
 				server.c 			\
 				free.c 				\
+				free_sub.c			\
 				socket.c			\
 				accept.c			\
 				command.c			\
@@ -23,7 +24,9 @@ TOOLBOX		=	generate_uuid.c 			\
 				structure_initialisation.c	\
 				append_to_string.c			\
 				get_user_by_uuid.c			\
+				get_time.c					\
 				tab_append_str_at_end.c		\
+				get_team_by_uuid.c			\
 
 SRC_PARSER	=	login.c				\
 				logout.c			\
@@ -42,8 +45,12 @@ SRC_PARSER	=	login.c				\
 
 COMMAND		=	find_command.c		\
 				login_logout.c		\
+				subscribe.c			\
 				users_function.c	\
 				use.c				\
+				create.c			\
+				create_response.c			\
+				unsubscribe.c		\
 
 MAIN_SRC	=	main.c
 
