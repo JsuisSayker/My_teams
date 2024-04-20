@@ -111,7 +111,6 @@ static void client_loop(client_t *client)
     end_client_loop(client);
 }
 
-// Replace INADDR_ANY by inet_addr(ip)
 int start_client_connection(const char *ip, int port)
 {
     client_t client = {.is_logged = false, .uuid = NULL, .user_name = NULL,
@@ -125,7 +124,7 @@ int start_client_connection(const char *ip, int port)
     }
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(port);
-    serv_addr.sin_addr.s_addr = INADDR_ANY;
+    serv_addr.sin_addr.s_addr = inet_addr(ip);
     if (connect(client.socket_fd, (struct sockaddr *)&serv_addr,
     sizeof(serv_addr)) < 0) {
         perror("Error: connection failed\n");
