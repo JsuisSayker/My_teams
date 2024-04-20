@@ -9,7 +9,7 @@
 #include <time.h>
 #include "macro.h"
 
-int get_time(char *dest[TIME_LENGTH])
+int get_time(char (*dest)[TIME_LENGTH])
 {
     time_t actual_time;
     struct tm *time_info;
