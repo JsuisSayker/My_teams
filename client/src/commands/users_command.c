@@ -6,7 +6,6 @@
 */
 
 #include <stdio.h>
-
 #include "client.h"
 
 static int display_users_command(char **command)
@@ -30,6 +29,8 @@ int users_command(char *message, char **command, client_t *client)
         client_error_unauthorized();
         return KO;
     } else {
+        if (handle_server_code(command) == KO)
+            return KO;
         if (display_users_command(command) == ERROR)
             return ERROR;
         return OK;

@@ -70,6 +70,8 @@ void free_client_struct(client_t *client, fd_set *readfds, fd_set *otherfds);
 char *read_server_message(client_t *client);
 void receive_server_message(client_t *client);
 time_t convert_string_to_time_t(const char *time_string, const char *format);
+void print_error_message(char **command, int start);
+int handle_server_code(char **command);
 
 // commands
 int login_command(char *message, char **command, client_t *client);

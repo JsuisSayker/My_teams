@@ -18,7 +18,9 @@ SRC			=	main.c						\
 				free_client_struct.c		\
 				read_server_message.c		\
 				receive_server_message.c	\
-				convert_string_to_time_t.c
+				convert_string_to_time_t.c	\
+				print_error_message.c		\
+				handle_server_code.c
 
 COMMANDS_SRC	=	list_command.c			\
 					login_command.c			\

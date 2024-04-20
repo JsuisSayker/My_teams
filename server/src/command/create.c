@@ -112,7 +112,7 @@ static int create_new_team(server_data_t *server, client_server_t *client)
 int create(server_data_t *server, client_server_t *client)
 {
     if (client->is_logged == false) {
-        write(client->socket, "500, You are not logged in\n", 28);
+        write(client->socket, "401|/create|You are not logged in\a\n", 36);
         return OK;
     }
     if (client->context.thread != NULL)
