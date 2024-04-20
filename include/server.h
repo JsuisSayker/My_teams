@@ -26,12 +26,12 @@
 typedef struct message_s {
     char message[MAX_BODY_LENGTH];
     char sender_uuid[UUID_LENGTH];
-    char receiver_uuid[UUID_LENGTH];
     char time[TIME_LENGTH];
     TAILQ_ENTRY(message_s) entries;
 } message_t;
 
 typedef struct thread_s {
+    char time[TIME_LENGTH];
     TAILQ_HEAD(, message_s) messages;
     TAILQ_ENTRY(thread_s) entries;
 } thread_t;
@@ -150,6 +150,7 @@ user_input_t *messages_parser(char **user_input,
 void free_client(client_server_t *client);
 void save_data(server_data_t *server_data);
 void load_data(server_data_t *server_data);
+int use(server_data_t *server, client_server_t *client);
 
 /* toolbox */
 int user_initialisation(user_t **new_user, char *name, int socket);

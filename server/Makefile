@@ -44,6 +44,7 @@ COMMAND		=	find_command.c		\
 				login_logout.c		\
 				users_function.c	\
 				send.c				\
+				use.c				\
 
 MAIN_SRC	=	main.c
 

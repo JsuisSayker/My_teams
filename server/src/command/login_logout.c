@@ -96,6 +96,7 @@ int logout(server_data_t *server, client_server_t *client)
     }
     client->user->user_connected -= 1;
     client->is_logged = false;
+    server_event_user_logged_out(client->user->uuid);
     write(client->socket, "200|/logout|Succed\a\n\0", 21);
     return OK;
 }
