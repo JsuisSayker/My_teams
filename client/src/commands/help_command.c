@@ -6,6 +6,7 @@
 */
 
 #include "client.h"
+#include <unistd.h>
 
 int help_command(char *message, char **command, client_t *client)
 {

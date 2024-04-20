@@ -19,9 +19,9 @@ static const struct command_s COMMANDS[] = {
     {"/subscribed", &subscribed_command},
     {"/unsubscribe", &unsubscribe_command},
     {"/use", &use_command},
-    // {"/create", &create_command},
+    {"/create", &create_command},
     {"/list", &list_command},
-    // {"/info", &info_command},
+    {"/info", &info_command},
     {"/help", &help_command},
     {NULL, NULL}
 };
