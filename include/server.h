@@ -26,6 +26,8 @@
 typedef struct message_s {
     char message[MAX_BODY_LENGTH];
     char sender_uuid[UUID_LENGTH];
+    char receiver_uuid[UUID_LENGTH];
+    char time[TIME_LENGTH];
     TAILQ_ENTRY(message_s) entries;
 } message_t;
 
@@ -47,6 +49,7 @@ typedef struct personnal_message_s {
     char message[MAX_BODY_LENGTH];
     char sender_uuid[UUID_LENGTH];
     char receiver_uuid[UUID_LENGTH];
+    char time[TIME_LENGTH];
     TAILQ_ENTRY(personnal_message_s) entries;
 } personnal_message_t;
 
