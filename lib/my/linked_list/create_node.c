@@ -11,7 +11,7 @@
 #include "proto_lib.h"
 #include "linked_list.h"
 
-list_user_t *create_node(char *username, char *description)
+list_user_t *create_node(char *username, char *uuid, int is_connected)
 {
     list_user_t *new_node = malloc(sizeof(list_user_t));
 
@@ -21,10 +21,14 @@ list_user_t *create_node(char *username, char *description)
         my_strcpy(username, &(new_node)->username);
     else
         new_node->username = NULL;
-    if (description != NULL)
-        my_strcpy(description, &(new_node)->description);
+    if (uuid != NULL)
+        my_strcpy(uuid, &(new_node)->uuid);
     else
-        new_node->description = NULL;
+        new_node->uuid = NULL;
+    if (is_connected != 0)
+        my_strcpy("1\0", &(new_node)->is_connected);
+    else
+        my_strcpy("0\0", &(new_node)->is_connected);
     new_node->next = NULL;
     return new_node;
 }

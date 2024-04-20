@@ -78,13 +78,13 @@ user_input_t *create_parser(char **user_input, client_server_t *client)
         return NULL;
     }
     user_input_parsed->command = strdup(user_input[0]);
-    if (client->context == NONE)
+    if (client->context.team == NULL)
         return parse_team(user_input_parsed, user_input);
-    if (client->context == TEAMS)
+    if (client->context.channel == NULL)
         return parse_channel(user_input_parsed, user_input);
-    if (client->context == CHANNELS)
+    if (client->context.thread == NULL)
         return parse_thread(user_input_parsed, user_input);
-    if (client->context == THREADS)
+    else
         return parse_comment(user_input_parsed, user_input);
     return user_input_parsed;
 }

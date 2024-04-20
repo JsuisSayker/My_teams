@@ -38,6 +38,7 @@ int user_initialisation(user_t **new_user, char *name, int socket)
     }
     if (init_information(new_user, name) == ERROR)
         return ERROR;
+    (*new_user)->user_connected = 1;
     (*new_user)->entries.tqe_next = NULL;
     (*new_user)->entries.tqe_prev = NULL;
     (*new_user)->teams.tqh_first = NULL;

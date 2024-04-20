@@ -17,7 +17,7 @@ static int login_response(user_t *user, int socket)
     if (user == NULL)
         return ERROR;
     server_event_user_logged_in(user->uuid);
-    append_to_string(&response, "200 /login ");
+    append_to_string(&response, "200|/login|");
     append_to_string(&response, user->username);
     append_to_string(&response, "|");
     append_to_string(&response, user->uuid);
@@ -57,6 +57,7 @@ static int already_exist(server_data_t *server, client_server_t *client,
     while (tmp) {
         if (strcmp(tmp->username, username) == 0) {
             client->user = tmp;
+            client->user->user_connected += 1;
             client->is_logged = true;
             return OK;
         }
@@ -70,6 +71,7 @@ int login(server_data_t *server, client_server_t *client)
     if (server == NULL || client == NULL)
         return ERROR;
     if (client->is_logged == true){
+        client->user->user_connected -= 1;
         client->user = NULL;
         client->is_logged = false;
     }
@@ -92,7 +94,9 @@ int logout(server_data_t *server, client_server_t *client)
         write(client->socket, "500, Your not logged\a\n\0", 24);
         return OK;
     }
+    client->user->user_connected -= 1;
     client->is_logged = false;
-    write(client->socket, "200 /logout Succed\a\n\0", 21);
+    server_event_user_logged_out(client->user->uuid);
+    write(client->socket, "200|/logout|Succed\a\n\0", 21);
     return OK;
 }

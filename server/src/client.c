@@ -51,8 +51,10 @@ static int read_and_update_client(server_data_t *server_data,
         return OK;
     }
     printf("actual_client->user_input: [%s]\n", actual_client->user_input);
-    check_command(server_data, actual_client);
+    if (check_command(server_data, actual_client) == ERROR)
+        return ERROR;
     free(client_msg);
+    return OK;
 }
 
 static int update_client(server_data_t *server_data,

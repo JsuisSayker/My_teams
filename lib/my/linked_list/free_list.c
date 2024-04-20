@@ -16,8 +16,11 @@ void free_node(list_user_t *node)
     if (node->username != NULL){
         free(node->username);
     }
-    if (node->description != NULL){
-        free(node->description);
+    if (node->uuid != NULL){
+        free(node->uuid);
+    }
+    if (node->is_connected != NULL){
+        free(node->is_connected);
     }
     free(node);
 }

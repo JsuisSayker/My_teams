@@ -16,5 +16,4 @@ void free_tab(char **tab)
         free(tab[i]);
     }
     free(tab);
-    return;
 }

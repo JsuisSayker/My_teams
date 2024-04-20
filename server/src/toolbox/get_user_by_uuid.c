@@ -14,10 +14,9 @@ user_t *get_user_by_uuid(server_data_t *server, char *uuid)
     if (server == NULL || uuid == NULL)
         return NULL;
     tmp = server->users.tqh_first;
-    while (tmp) {
+    TAILQ_FOREACH(tmp, &server->users, entries) {
         if (strcmp(tmp->uuid, uuid) == 0)
             return tmp;
-        tmp = tmp->entries.tqe_next;
     }
     return NULL;
 }
