@@ -166,6 +166,8 @@ void free_clients(server_data_t *server_data);
 void free_users(server_data_t *server_data);
 void free_teams(server_data_t *server_data);
 int subscribe(server_data_t *server, client_server_t *client);
+int is_subscribed(user_t *user, team_t *team);
+int unsubscribe(server_data_t *server_data, client_server_t *client);
 
 /* toolbox */
 int user_initialisation(user_t **new_user, char *name, int socket);

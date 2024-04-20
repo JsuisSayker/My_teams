@@ -7,21 +7,6 @@
 
 #include "server.h"
 
-static int is_subscribed(user_t *user, team_t *team)
-{
-    user_t *tmp;
-
-    if (user == NULL || team == NULL)
-        return ERROR;
-    tmp = team->users.tqh_first;
-    while (tmp) {
-        if (strcmp(tmp->uuid, user->uuid) == 0)
-            return OK;
-        tmp = tmp->entries.tqe_next;
-    }
-    return ERROR;
-}
-
 static int create_new_reply(server_data_t *server, client_server_t *client)
 {
     thread_t *thread = client->context.thread;

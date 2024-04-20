@@ -23,7 +23,7 @@ static int subscribe_response(team_t *team, user_t *user,
     return OK;
 }
 
-static int is_subscribed(user_t *user, team_t *team)
+int is_subscribed(user_t *user, team_t *team)
 {
     user_t *tmp;
 

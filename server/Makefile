@@ -50,6 +50,7 @@ COMMAND		=	find_command.c		\
 				use.c				\
 				create.c			\
 				create_response.c			\
+				unsubscribe.c		\
 
 MAIN_SRC	=	main.c
 

@@ -34,13 +34,6 @@ void free_clients(server_data_t *server_data)
     }
 }
 
-static void free_user(user_t *user)
-{
-    if (user) {
-        free(user);
-    }
-}
-
 void free_users(server_data_t *server_data)
 {
     user_t *user = NULL;
@@ -51,7 +44,7 @@ void free_users(server_data_t *server_data)
     while (!TAILQ_EMPTY(&server_data->users)) {
         user = TAILQ_FIRST(&server_data->users);
         TAILQ_REMOVE(&server_data->users, user, entries);
-        free_user(user);
+        free(user);
     }
 }
 
@@ -95,7 +88,7 @@ static void free_team(team_t *team)
 
     while (users) {
         TAILQ_REMOVE(&team->users, users, entries);
-        free_user(users);
+        free(users);
         users = team->users.tqh_first;
     }
     while (channels) {
