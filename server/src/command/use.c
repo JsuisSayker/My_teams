@@ -79,14 +79,14 @@ int use(server_data_t *server, client_server_t *client)
         return ERROR;
     if (client->is_logged == false){
         write(client->socket, "500, Your not logged\a\n\0", 24);
-        return ERROR;
+        return OK;
     }
     if (client->command->params->team_uuid != NULL) {
         client->context.team = get_team(server,
         client->command->params->team_uuid);
         if (client->context.team == NULL) {
             write(client->socket, "404, Team not found\a\n\0", 23);
-            return ERROR;
+            return OK;
         }
     }
     return use_sub(server, client);
