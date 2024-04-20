@@ -12,7 +12,6 @@ static user_input_t *parse_team(user_input_t *user_input_parsed,
 {
     if (user_input[1] != NULL && user_input[2] != NULL &&
         user_input[3] == NULL) {
-        user_input_parsed->command = strdup(user_input[0]);
         user_input_parsed->params->team_name = strdup(user_input[1]);
         user_input_parsed->params->team_description = strdup(
             user_input[2]);
@@ -28,7 +27,6 @@ static user_input_t *parse_channel(user_input_t *user_input_parsed,
 {
     if (user_input[1] != NULL && user_input[2] != NULL &&
         user_input[3] == NULL) {
-        user_input_parsed->command = strdup(user_input[0]);
         user_input_parsed->params->channel_name = strdup(user_input[1]);
         user_input_parsed->params->channel_description = strdup(
             user_input[2]);
@@ -44,7 +42,6 @@ static user_input_t *parse_thread(user_input_t *user_input_parsed,
 {
     if (user_input[1] != NULL && user_input[2] != NULL &&
         user_input[3] == NULL) {
-        user_input_parsed->command = strdup(user_input[0]);
         user_input_parsed->params->thread_title = strdup(user_input[1]);
         user_input_parsed->params->thread_body = strdup(user_input[2]);
         return user_input_parsed;
@@ -59,7 +56,6 @@ static user_input_t *parse_comment(user_input_t *user_input_parsed,
 {
     if (user_input[1] != NULL && user_input[2] != NULL &&
         user_input[3] == NULL) {
-        user_input_parsed->command = strdup(user_input[0]);
         user_input_parsed->params->comment_body = strdup(user_input[1]);
         return user_input_parsed;
     } else {
