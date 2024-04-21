@@ -131,6 +131,7 @@ int server_response(int socket, char *message);
 /* command */
 int server_message_command(server_data_t *server, client_server_t *client);
 int server_send_command(server_data_t *server, client_server_t *client);
+int server_list_command(server_data_t *server, client_server_t *client);
 int find_command(server_data_t *server, client_server_t *client);
 int login(server_data_t *server, client_server_t *client);
 int logout(server_data_t *server, client_server_t *client);

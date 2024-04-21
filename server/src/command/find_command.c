@@ -10,13 +10,12 @@
 
 #include "server.h"
 
-    // {"/list", &list},
     // {"/info", &info},
 
 const struct function_tab_s OPERATORS_FUNCS[] = {
-    {"/help", &help},
     {"/use", &use},
     {"/user", &user},
+    {"/help", &help},
     {"/users", &users},
     {"/login", &login},
     {"/create", &create},
@@ -24,6 +23,7 @@ const struct function_tab_s OPERATORS_FUNCS[] = {
     {"/subscribe", &subscribe},
     {"/subscribed", &subscribed},
     {"/unsubscribe", &unsubscribe},
+    {"/list", &server_list_command},
     {"/send", &server_send_command},
     {"/messages", &server_message_command},
     {NULL, NULL}
