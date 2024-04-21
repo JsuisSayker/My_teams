@@ -73,12 +73,12 @@ int server_send_command(server_data_t *server, client_server_t *client)
     if (server == NULL || client == NULL)
         return ERROR;
     if (client->is_logged == false){
-        write(client->socket, "500|Your not logged\a\n\0", 23);
+        write(client->socket, "401|/send|Your not logged\a\n\0", 29);
         return OK;
     }
     user = get_user_by_uuid(server, client->command->params->user_uuid);
-    if (user == NULL){
-        write(client->socket, "500|User don't exist\a\n\0", 24);
+    if (user == NULL) {
+        send_user_not_found(client);
         return OK;
     }
     client_reciever = client_is_connected(server, user);

@@ -9,8 +9,12 @@
 #include <errno.h>
 #include "server.h"
 
-void signal_handler(int UNUSED signal)
+bool running = true;
+
+void signal_handler(int signal)
 {
+    if (signal == SIGINT)
+        running = false;
 }
 
 int server_response(int socket, char *message)
@@ -40,7 +44,6 @@ static int server_loop(server_data_t *server_data)
     int result = 0;
     fd_set read_sockets;
     fd_set write_sockets;
-    bool running = true;
 
     FD_ZERO(&server_data->current_sockets);
     FD_SET(server_data->server_socket, &server_data->current_sockets);
@@ -51,7 +54,7 @@ static int server_loop(server_data_t *server_data)
         result = select(FD_SETSIZE, &server_data->ready_sockets, &write_sockets
         , NULL, NULL);
         if (handle_sigint_server_error(result) == ERROR)
-            return ERROR;
+            return OK;
         if (running && loop_check_select_client(server_data) == ERROR)
             return ERROR;
     }

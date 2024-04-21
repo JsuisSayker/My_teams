@@ -46,12 +46,12 @@ int unsubscribe(server_data_t *server_data, client_server_t *client)
         client->command->params->team_uuid);
 
     if (client->is_logged == false) {
-        write(client->socket, "500, not logged\a\n", 18);
-        return ERROR;
+        write(client->socket, "401|/unsubscribe|not logged\a\n", 30);
+        return KO;
     }
     if (team == NULL) {
-        write(client->socket, "404, Team not found\a\n", 22);
-        return ERROR;
+        send_team_not_found(client, "/unsubscribe", "/team");
+        return KO;
     }
     if (is_subscribed(user, team) == OK)
         remove_user_from_team(team, user);

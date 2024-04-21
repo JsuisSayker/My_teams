@@ -11,10 +11,8 @@ int messages_command(char *message, char **command, client_t *client)
 {
     time_t time = 0;
 
-    if (client->is_logged == false) {
-        client_error_unauthorized();
+    if (handle_server_code(command) == KO)
         return KO;
-    }
     for (int i = 2; command[i] != NULL; i += 3) {
         time = convert_string_to_time_t(command[i + 1],
             "%a %b %d %H:%M:%S %Y");

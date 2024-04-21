@@ -65,7 +65,7 @@ int server_message_command(server_data_t *server, client_server_t *client)
         return OK;
     }
     if (user_is_exist(server, client->command->params->user_uuid) == false){
-        write(client->socket, "204|User not found\a\n\0", 22);
+        send_user_not_found(client);
         return OK;
     }
     if (get_list(&list, server, client) == ERROR)
