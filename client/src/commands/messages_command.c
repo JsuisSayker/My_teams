@@ -16,7 +16,6 @@ int messages_command(char *message, char **command, client_t *client)
         return KO;
     }
     for (int i = 2; command[i] != NULL; i += 3) {
-        printf("command[i] = %s\n", command[i + 2]);
         time = convert_string_to_time_t(command[i + 1],
             "%a %b %d %H:%M:%S %Y");
         if (time == ERROR)
