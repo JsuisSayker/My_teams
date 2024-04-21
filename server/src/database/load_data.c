@@ -7,44 +7,49 @@
 
 #include "server.h"
 
-static void load_users(server_data_t *server_data)
+static void load_user(server_data_t *server_data, int file)
 {
-    int file = open("saves/users.txt", O_RDONLY);
-    user_t *tmp = malloc(sizeof(user_t));
+    user_t *user = calloc(sizeof(user_t), 1);
 
-    if (file == -1) {
-        free(tmp);
+    if (user == NULL)
+        return;
+    if (read(file, user, sizeof(user_t)) <= 0) {
+        free(user);
         return;
     }
-    while (read(file, tmp, sizeof(user_t)) > 0) {
-        TAILQ_INIT(&tmp->personnal_messages);
-        TAILQ_INSERT_HEAD(&server_data->users, tmp, entries);
-        server_data->users.tqh_first->user_connected = 0;
-        tmp = malloc(sizeof(user_t));
-    }
-    free(tmp);
+    TAILQ_INIT(&user->personnal_messages);
+    TAILQ_INSERT_HEAD(&server_data->users, user, entries);
+    server_data->users.tqh_first->user_connected = 0;
 }
 
-static void load_teams(server_data_t *server_data)
+static void load_team(server_data_t *server_data, int file)
 {
-    int file = open("saves/teams.txt", O_RDONLY);
-    team_t *tmp = malloc(sizeof(team_t));
+    team_t *team = calloc(sizeof(team_t), 1);
 
-    if (file == -1) {
-        free(tmp);
+    if (team == NULL)
+        return;
+    if (read(file, team, sizeof(team_t)) <= 0) {
+        free(team);
         return;
     }
-    while (read(file, tmp, sizeof(team_t)) > 0) {
-        TAILQ_INIT(&tmp->channels);
-        TAILQ_INIT(&tmp->users);
-        TAILQ_INSERT_HEAD(&server_data->teams, tmp, entries);
-        tmp = malloc(sizeof(team_t));
-    }
-    free(tmp);
+    TAILQ_INIT(&team->users);
+    TAILQ_INIT(&team->channels);
+    TAILQ_INSERT_HEAD(&server_data->teams, team, entries);
 }
 
 void load_data(server_data_t *server_data)
 {
-    load_users(server_data);
-    load_teams(server_data);
+    char buffer[BUFSIZ];
+    int file = open("saves/data.txt", O_RDONLY, 00777);
+
+    if (file == -1)
+        return;
+    while (read(file, buffer, 4) > 0) {
+        buffer[4] = '\0';
+        if (strcmp(buffer, "user") == 0)
+            load_user(server_data, file);
+        if (strcmp(buffer, "team") == 0)
+            load_team(server_data, file);
+    }
+    close(file);
 }

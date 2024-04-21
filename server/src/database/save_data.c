@@ -7,36 +7,48 @@
 
 #include "server.h"
 
-static void save_users(server_data_t *server_data)
+static void save_users(server_data_t *server_data, int file)
 {
     user_t *tmp = server_data->users.tqh_first;
-    int file = open("saves/users.txt", O_CREAT | O_WRONLY);
 
-    if (file == -1)
-        return;
     while (tmp) {
+        write(file, "user", 4);
         write(file, tmp, sizeof(user_t));
         tmp = tmp->entries.tqe_next;
     }
-    close(file);
 }
 
-static void save_teams(server_data_t *server_data)
+static void save_channels(channel_t *channel, int file)
 {
-    team_t *tmp = server_data->teams.tqh_first;
-    int file = open("saves/teams.txt", O_CREAT | O_WRONLY);
+    channel_t *tmp = channel;
 
-    if (file == -1)
-        return;
     while (tmp) {
-        write(file, tmp, sizeof(team_t));
+        write(file, "chan", 4);
+        write(file, tmp, sizeof(channel_t));
         tmp = tmp->entries.tqe_next;
     }
-    close(file);
+}
+
+static void save_teams(server_data_t *server_data, int file)
+{
+    team_t *tmp = server_data->teams.tqh_first;
+
+    while (tmp) {
+        write(file, "team", 4);
+        write(file, tmp, sizeof(team_t));
+        save_channels(tmp->channels.tqh_first, file);
+        tmp = tmp->entries.tqe_next;
+    }
 }
 
 void save_data(server_data_t *server_data)
 {
-    save_users(server_data);
-    save_teams(server_data);
+    int file = open("saves/data.txt", O_CREAT | O_TRUNC | O_WRONLY | O_APPEND,
+        00777);
+
+    if (file == -1)
+        return;
+    save_users(server_data, file);
+    save_teams(server_data, file);
+    close(file);
 }

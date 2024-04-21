@@ -61,6 +61,23 @@ static int server_loop(server_data_t *server_data)
     return OK;
 }
 
+static void print_data(server_data_t *server_data)
+{
+    user_t *tmp_user = server_data->users.tqh_first;
+    team_t *tmp_team = server_data->teams.tqh_first;
+
+    printf("Users:\n");
+    while (tmp_user) {
+        printf("User: %s\n", tmp_user->username);
+        tmp_user = tmp_user->entries.tqe_next;
+    }
+    printf("Teams:\n");
+    while (tmp_team) {
+        printf("Team: %s\n", tmp_team->team_name);
+        tmp_team = tmp_team->entries.tqe_next;
+    }
+}
+
 int launch_server(char *const *const av)
 {
     server_data_t *server_data = calloc(sizeof(server_data_t), 1);
@@ -75,6 +92,7 @@ int launch_server(char *const *const av)
         return KO;
     }
     load_data(server_data);
+    print_data(server_data);
     if (server_loop(server_data) == ERROR) {
         free_server_data(server_data);
         return KO;
