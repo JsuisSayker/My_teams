@@ -12,7 +12,7 @@ static int list_all_reply(server_data_t *server, client_server_t *client)
     char *message = NULL;
     message_t *reply = client->context.thread->messages.tqh_first;
 
-    append_to_string(&message, "200|/list|");
+    append_to_string(&message, "200|/list|reply|");
     TAILQ_FOREACH(reply, &client->context.thread->messages, entries) {
         append_to_string(&message, client->context.thread->thread_uuid);
         append_to_string(&message, "|");
@@ -35,7 +35,7 @@ static int list_all_channel(server_data_t *server, client_server_t *client)
     char *message = NULL;
     channel_t *channel = client->context.team->channels.tqh_first;
 
-    append_to_string(&message, "200|/list|");
+    append_to_string(&message, "200|/list|channel|");
     TAILQ_FOREACH(channel, &client->context.team->channels, entries) {
         append_to_string(&message, channel->channel_uuid);
         append_to_string(&message, "|");
@@ -72,7 +72,7 @@ static int list_all_threads(server_data_t *server, client_server_t *client)
     char *message = NULL;
     thread_t *thread = client->context.channel->threads.tqh_first;
 
-    append_to_string(&message, "200|/list|");
+    append_to_string(&message, "200|/list|thread|");
     TAILQ_FOREACH(thread, &client->context.channel->threads, entries) {
         if (list_thread(&message, thread) == ERROR)
             return ERROR;
@@ -88,7 +88,7 @@ static int list_all_teams(server_data_t *server, client_server_t *client)
     char *message = NULL;
     team_t *team = server->teams.tqh_first;
 
-    append_to_string(&message, "200|/list|");
+    append_to_string(&message, "200|/list|team|");
     TAILQ_FOREACH(team, &server->teams, entries) {
         append_to_string(&message, team->team_uuid);
         append_to_string(&message, "|");
