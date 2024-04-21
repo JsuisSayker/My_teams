@@ -15,6 +15,8 @@ static void load_users(server_data_t *server_data)
     if (file == -1)
         return;
     while (read(file, tmp, sizeof(user_t)) > 0) {
+        TAILQ_INIT(&tmp->personnal_messages);
+        TAILQ_INIT(&tmp->teams);
         TAILQ_INSERT_HEAD(&server_data->users, tmp, entries);
         server_data->users.tqh_first->user_connected = 0;
         tmp = malloc(sizeof(user_t));

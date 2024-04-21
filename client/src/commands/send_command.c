@@ -9,6 +9,6 @@
 
 int send_command(char *message, char **command, client_t *client)
 {
-    client_event_private_message_received(command[2], command[3]);
+    client_event_private_message_received(command[2], command[4]);
     return OK;
 }

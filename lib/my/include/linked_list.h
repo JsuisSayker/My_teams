@@ -15,4 +15,11 @@ typedef struct list_user_s {
     struct list_user_s *next;
 } list_user_t;
 
+typedef struct list_s {
+    char *message;
+    char *sender_uuid;
+    char *receiver_uuid;
+    struct list_s *next;
+} list_t;
+
 #endif /* !LINKED_LIST_H_ */

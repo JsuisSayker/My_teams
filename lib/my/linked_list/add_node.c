@@ -22,3 +22,17 @@ list_user_t *add_node_in_list(list_user_t *list, char *username,
     next_list->next = node;
     return list;
 }
+
+list_t *add_node_message_in_list(list_t *list, char *message,
+char *sender_uuid, char *receiver_uuid)
+{
+    list_t *node = create_message_node(message, sender_uuid, receiver_uuid);
+    list_t *next_list = list;
+
+    if (next_list == NULL)
+        return node;
+    while (next_list->next != NULL)
+        next_list = next_list->next;
+    next_list->next = node;
+    return list;
+}

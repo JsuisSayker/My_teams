@@ -27,6 +27,13 @@ int print_list(list_user_t *list);
 int print_node(list_user_t *node);
 void free_node(list_user_t *node);
 
+list_t *add_node_message_in_list(list_t *list, char *message,
+    char *sender_uuid, char *receiver_uuid);
+void free_message_list(list_t *list);
+list_t *create_message_node(char *message, char *sender_uuid,
+    char *receiver_uuid);
+void free_message_node(list_t *node);
+
     /* spliter */
 char **my_splitstr(char const *str, int separator);
 char **my_str_to_word_array(char const *str);

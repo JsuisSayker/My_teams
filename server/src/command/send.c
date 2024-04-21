@@ -23,6 +23,7 @@ static int send_command_response(client_server_t *client,
     append_to_string(&response, "\a\n");
     if (server_response(client->socket, response) == ERROR)
         return ERROR;
+    free(response);
     return OK;
 }
 

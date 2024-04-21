@@ -32,3 +32,26 @@ list_user_t *create_node(char *username, char *uuid, int is_connected)
     new_node->next = NULL;
     return new_node;
 }
+
+list_t *create_message_node(char *message, char *sender_uuid,
+    char *receiver_uuid)
+{
+    list_t *new_node = malloc(sizeof(list_t));
+
+    if (!new_node)
+        return NULL;
+    if (message != NULL)
+        my_strcpy(message, &(new_node)->message);
+    else
+        new_node->message = NULL;
+    if (sender_uuid != NULL)
+        my_strcpy(sender_uuid, &(new_node)->sender_uuid);
+    else
+        new_node->sender_uuid = NULL;
+    if (receiver_uuid != NULL)
+        my_strcpy(receiver_uuid, &(new_node)->receiver_uuid);
+    else
+        new_node->receiver_uuid = NULL;
+    new_node->next = NULL;
+    return new_node;
+}

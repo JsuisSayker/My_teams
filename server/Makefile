@@ -24,6 +24,7 @@ TOOLBOX		=	generate_uuid.c 			\
 				structure_initialisation.c	\
 				append_to_string.c			\
 				get_user_by_uuid.c			\
+				user_is_exist.c				\
 				client_is_connected.c		\
 				get_time.c					\
 				tab_append_str_at_end.c		\
@@ -46,6 +47,7 @@ SRC_PARSER	=	login.c				\
 COMMAND		=	find_command.c		\
 				login_logout.c		\
 				users_function.c	\
+				message.c			\
 				send.c				\
 				use.c				\
 				create.c			\

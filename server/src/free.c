@@ -41,6 +41,20 @@ static void free_user(user_t *user)
     }
 }
 
+void free_personnal_messages(user_t *user)
+{
+    personnal_message_t *message = NULL;
+
+    if (!user)
+        return;
+    while (!TAILQ_EMPTY(&user->personnal_messages)) {
+        message = TAILQ_FIRST(&user->personnal_messages);
+        TAILQ_REMOVE(&user->personnal_messages, message, entries);
+        if (message)
+            free(message);
+    }
+}
+
 void free_users(server_data_t *server_data)
 {
     user_t *user = NULL;
@@ -50,6 +64,7 @@ void free_users(server_data_t *server_data)
         return;
     while (!TAILQ_EMPTY(&server_data->users)) {
         user = TAILQ_FIRST(&server_data->users);
+        free_personnal_messages(user);
         TAILQ_REMOVE(&server_data->users, user, entries);
         free_user(user);
     }

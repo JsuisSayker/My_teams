@@ -37,3 +37,30 @@ void free_list(list_user_t *list)
     }
     return;
 }
+
+void free_message_node(list_t *node)
+{
+    if (node->message != NULL){
+        free(node->message);
+    }
+    if (node->sender_uuid != NULL){
+        free(node->sender_uuid);
+    }
+    if (node->receiver_uuid != NULL){
+        free(node->receiver_uuid);
+    }
+    free(node);
+}
+
+void free_message_list(list_t *list)
+{
+    list_t *list_tmp = NULL;
+    list_t *current = list;
+
+    while (current != NULL) {
+        list_tmp = current;
+        current = current->next;
+        free_message_node(list_tmp);
+    }
+    return;
+}
