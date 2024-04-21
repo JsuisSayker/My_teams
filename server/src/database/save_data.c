@@ -30,6 +30,29 @@ static void save_users(server_data_t *server_data, int file)
     }
 }
 
+static void save_messages(message_t *message, int file)
+{
+    message_t *tmp = message;
+
+    while (tmp) {
+        write(file, "msgs", 4);
+        write(file, tmp, sizeof(message_t));
+        tmp = tmp->entries.tqe_next;
+    }
+}
+
+static void save_threads(thread_t *thread, int file)
+{
+    thread_t *tmp = thread;
+
+    while (tmp) {
+        write(file, "thrd", 4);
+        write(file, tmp, sizeof(thread_t));
+        save_messages(tmp->messages.tqh_first, file);
+        tmp = tmp->entries.tqe_next;
+    }
+}
+
 static void save_channels(channel_t *channel, int file)
 {
     channel_t *tmp = channel;
@@ -37,6 +60,7 @@ static void save_channels(channel_t *channel, int file)
     while (tmp) {
         write(file, "chan", 4);
         write(file, tmp, sizeof(channel_t));
+        save_threads(tmp->threads.tqh_first, file);
         tmp = tmp->entries.tqe_next;
     }
 }

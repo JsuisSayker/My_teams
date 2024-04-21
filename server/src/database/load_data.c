@@ -7,8 +7,8 @@
 
 #include "server.h"
 
-static void load_personnal_message(server_data_t *server_data, int file,
-    user_t *user, char buffer[BUFSIZ])
+static void load_personnal_message(server_data_t *server_data,
+    load_data_t *load_data, int file)
 {
     personnal_message_t *message = calloc(sizeof(personnal_message_t), 1);
 
@@ -18,11 +18,11 @@ static void load_personnal_message(server_data_t *server_data, int file,
         free(message);
         return;
     }
-    TAILQ_INSERT_HEAD(&user->personnal_messages, message, entries);
+    TAILQ_INSERT_HEAD(&load_data->user->personnal_messages, message, entries);
 }
 
-static void load_user(server_data_t *server_data, int file,
-    char buffer[BUFSIZ])
+static void load_user(server_data_t *server_data, load_data_t *load_data,
+    int file)
 {
     user_t *user = calloc(sizeof(user_t), 1);
 
@@ -35,19 +35,27 @@ static void load_user(server_data_t *server_data, int file,
     TAILQ_INIT(&user->personnal_messages);
     TAILQ_INSERT_HEAD(&server_data->users, user, entries);
     server_data->users.tqh_first->user_connected = 0;
-    while (read(file, buffer, 4) > 0) {
-        buffer[4] = '\0';
-        if (strcmp(buffer, "pers") == 0)
-            load_personnal_message(server_data, file, user, buffer);
-        if (strcmp(buffer, "user") == 0)
-            load_user(server_data, file, buffer);
-        if (strcmp(buffer, "team") == 0)
-            load_team(server_data, file, buffer);
-    }
+    load_data->user = user;
 }
 
-static void load_channel(server_data_t *server_data, int file, team_t *team,
-    char buffer[BUFSIZ])
+static void load_thread(server_data_t *server_data, load_data_t *load_data,
+    int file)
+{
+    thread_t *thread = calloc(sizeof(thread_t), 1);
+
+    if (thread == NULL)
+        return;
+    if (read(file, thread, sizeof(thread_t)) <= 0) {
+        free(thread);
+        return;
+    }
+    TAILQ_INIT(&thread->messages);
+    TAILQ_INSERT_HEAD(&load_data->channel->threads, thread, entries);
+    load_data->thread = thread;
+}
+
+static void load_channel(server_data_t *server_data, load_data_t *load_data,
+    int file)
 {
     channel_t *channel = calloc(sizeof(channel_t), 1);
 
@@ -58,10 +66,12 @@ static void load_channel(server_data_t *server_data, int file, team_t *team,
         return;
     }
     TAILQ_INIT(&channel->threads);
-    TAILQ_INSERT_HEAD(&team->channels, channel, entries);
+    TAILQ_INSERT_HEAD(&load_data->team->channels, channel, entries);
+    load_data->channel = channel;
 }
 
-void load_team(server_data_t *server_data, int file, char buffer[BUFSIZ])
+static void load_team(server_data_t *server_data, load_data_t *load_data,
+    int file)
 {
     team_t *team = calloc(sizeof(team_t), 1);
 
@@ -74,30 +84,52 @@ void load_team(server_data_t *server_data, int file, char buffer[BUFSIZ])
     TAILQ_INIT(&team->users);
     TAILQ_INIT(&team->channels);
     TAILQ_INSERT_HEAD(&server_data->teams, team, entries);
-    while (read(file, buffer, 4) > 0) {
-        buffer[4] = '\0';
-        if (strcmp(buffer, "chan") == 0)
-            load_channel(server_data, file, team, buffer);
-        if (strcmp(buffer, "user") == 0)
-            load_user(server_data, file, buffer);
-        if (strcmp(buffer, "team") == 0)
-            load_team(server_data, file, buffer);
+    load_data->team = team;
+}
+
+static void load_message(server_data_t *server_data, load_data_t *load_data,
+    int file)
+{
+    message_t *message = calloc(sizeof(message_t), 1);
+
+    if (message == NULL)
+        return;
+    if (read(file, message, sizeof(message_t)) <= 0) {
+        free(message);
+        return;
     }
+    TAILQ_INSERT_HEAD(&load_data->thread->messages, message, entries);
+}
+
+void check_load_data(server_data_t *server_data, load_data_t *load_data,
+    char *buffer, int file)
+{
+    if (strcmp(buffer, "user") == 0)
+        load_user(server_data, load_data, file);
+    if (strcmp(buffer, "team") == 0)
+        load_team(server_data, load_data, file);
+    if (strcmp(buffer, "chan") == 0)
+        load_channel(server_data, load_data, file);
+    if (strcmp(buffer, "thrd") == 0)
+        load_thread(server_data, load_data, file);
+    if (strcmp(buffer, "pers") == 0)
+        load_personnal_message(server_data, load_data, file);
+    if (strcmp(buffer, "msgs") == 0)
+        load_message(server_data, load_data, file);
 }
 
 void load_data(server_data_t *server_data)
 {
     char buffer[BUFSIZ];
+    load_data_t *load_data = calloc(sizeof(load_data_t), 1);
     int file = open("saves/data.txt", O_RDONLY, 00777);
 
     if (file == -1)
         return;
     while (read(file, buffer, 4) > 0) {
         buffer[4] = '\0';
-        if (strcmp(buffer, "user") == 0)
-            load_user(server_data, file, buffer);
-        if (strcmp(buffer, "team") == 0)
-            load_team(server_data, file, buffer);
+        check_load_data(server_data, load_data, buffer, file);
     }
+    free(load_data);
     close(file);
 }

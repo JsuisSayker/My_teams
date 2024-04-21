@@ -91,6 +91,13 @@ typedef struct client_server_s {
     TAILQ_ENTRY(client_server_s) entries;
 } client_server_t;
 
+typedef struct load_data_s {
+    team_t *team;
+    channel_t *channel;
+    thread_t *thread;
+    user_t *user;
+} load_data_t;
+
 typedef struct server_data_s {
     int server_socket;
     fd_set current_sockets;
@@ -173,7 +180,6 @@ int subscribe(server_data_t *server, client_server_t *client);
 int is_subscribed(user_t *user, team_t *team);
 int unsubscribe(server_data_t *server_data, client_server_t *client);
 int subscribed(server_data_t *server, client_server_t *client);
-void load_team(server_data_t *server_data, int file, char buffer[BUFSIZ]);
 
 /* toolbox */
 client_server_t *client_is_connected(server_data_t *server, user_t *user);
