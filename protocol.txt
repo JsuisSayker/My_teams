@@ -7,7 +7,6 @@ It divides data into segments, ensures their delivery in the correct order, cont
 establishes and terminates connections between devices, and adjusts the sending rate in case of congestion.
 In short, TCP ensures stable and efficient communication between connected devices on the Internet.
 
-You MUST have an "Anonymous" account with an empty password
 
 Here is the list of the available command of our myTeams:
 
