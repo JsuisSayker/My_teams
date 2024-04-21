@@ -48,7 +48,7 @@ int user_initialisation(user_t **new_user, char *name, int socket)
 personnal_message_t *create_personnal_message(char *message,
     char *sender_uuid, char *receiver_uuid, int socket)
 {
-    personnal_message_t *new_message = malloc(sizeof(personnal_message_t));
+    personnal_message_t *new_message = calloc(sizeof(personnal_message_t), 1);
 
     if (new_message == NULL)
         return NULL;

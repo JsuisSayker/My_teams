@@ -7,6 +7,17 @@
 
 #include "server.h"
 
+static void save_personnal_messages(user_t *user, int file)
+{
+    personnal_message_t *tmp = user->personnal_messages.tqh_first;
+
+    while (tmp) {
+        write(file, "pers", 4);
+        write(file, tmp, sizeof(personnal_message_t));
+        tmp = tmp->entries.tqe_next;
+    }
+}
+
 static void save_users(server_data_t *server_data, int file)
 {
     user_t *tmp = server_data->users.tqh_first;
@@ -14,6 +25,7 @@ static void save_users(server_data_t *server_data, int file)
     while (tmp) {
         write(file, "user", 4);
         write(file, tmp, sizeof(user_t));
+        save_personnal_messages(tmp, file);
         tmp = tmp->entries.tqe_next;
     }
 }

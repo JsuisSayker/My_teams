@@ -65,15 +65,21 @@ static void print_data(server_data_t *server_data)
 {
     user_t *tmp_user = server_data->users.tqh_first;
     team_t *tmp_team = server_data->teams.tqh_first;
+    channel_t *tmp_channel;
+    personnal_message_t *tmp_message;
 
     printf("Users:\n");
     while (tmp_user) {
         printf("User: %s\n", tmp_user->username);
+        TAILQ_FOREACH(tmp_message, &tmp_user->personnal_messages, entries)
+            printf("Message: %s\n", tmp_message->message);
         tmp_user = tmp_user->entries.tqe_next;
     }
     printf("Teams:\n");
     while (tmp_team) {
         printf("Team: %s\n", tmp_team->team_name);
+        TAILQ_FOREACH(tmp_channel, &tmp_team->channels, entries)
+            printf("Channel: %s\n", tmp_channel->channel_name);
         tmp_team = tmp_team->entries.tqe_next;
     }
 }
