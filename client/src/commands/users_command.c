@@ -25,8 +25,7 @@ static int display_users_command(char **command)
 
 int users_command(char *message, char **command, client_t *client)
 {
-    if (client->is_logged == false) {
-        client_error_unauthorized();
+    if (handle_server_code(command) == KO) {
         return KO;
     } else {
         if (handle_server_code(command) == KO)
