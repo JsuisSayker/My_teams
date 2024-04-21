@@ -1,7 +1,13 @@
 EPITECH myTeams Protocol
 
-You MUST have an "Anonymous" account with an empty password
+In this program we use the TCP protocol.
 
+The TCP (Transmission Control Protocol) is a set of rules that ensures reliable data transmission over a computer network.
+It divides data into segments, ensures their delivery in the correct order, controls the flow of data to avoid congestion,
+establishes and terminates connections between devices, and adjusts the sending rate in case of congestion.
+In short, TCP ensures stable and efficient communication between connected devices on the Internet.
+
+You MUST have an "Anonymous" account with an empty password
 
 Here is the list of the available command of our myTeams:
 
@@ -86,49 +92,67 @@ Example :
             Logout
                /logout ->
                   <- 200
-                  <- 500
+                  <- 401
 
             Need parameters
                /user ->
-                 <- 200
-                 <- 500
+                  <- 200
+                  <- 401
+               /users ->
+                  <- 200
+                  <- 401
+                  <- 404
                /send ->
-                 <- 200
-                 <- 404
-                 <- 500
+                  <- 200
+                  <- 404
+                  <- 401
+               /message
+                  <- 200
+                  <- 204
+                  <- 401
                /subscribe ->
-                 <- 200
-                 <- 404
-                 <- 500
+                  <- 200
+                  <- 401
+                  <- 403
+               /subscribed
+                  <- 200
+                  <- 401
+                  <- 500
                /unsubscribe ->
-                 <- 200
-                 <- 404
-                 <- 500
+                  <- 200
+                  <- 401
+                  <- 404
+                  <- 600
                /use ->
-                 <- 200
-                 <- 404
-                 <- 500
+                  <- 200
+                  <- 404
+                  <- 401
+                  <- 600
+                  <- 601
+                  <- 602
 
             Context based commands
                /create ->
                   <- 200
+                  <- 400
+                  <- 401
+                  <- 403
                   <- 404
-                  <- 500
                /list ->
                   <- 200
+                  <- 401
                   <- 404
-                  <- 500
                /info ->
                   <- 200
+                  <- 401
                   <- 404
-                  <- 500
 
             Informational commands
                /help ->
                   <- 200
-                  <- 500
+                  <- 401
 
-Numeric  Order List of Reply Codes
+Numeric  Order List of Reply Codes:
 
          220 Service ready for new user.
          200 Command okay.
@@ -138,4 +162,6 @@ Numeric  Order List of Reply Codes
          403 Ressource already exists.
          404 User not found.
          500 Syntax error, command unrecognized.
-         600 Unknown team.
+         600 Team Not Found.
+         601 Channel Not Found
+         602 Thread Not Found
