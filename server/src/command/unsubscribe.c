@@ -14,7 +14,7 @@ static void remove_user_from_team(team_t *team, user_t *user)
     if (tmp == NULL)
         return;
     while (tmp) {
-        if (tmp == user) {
+        if (strcmp(tmp->uuid, user->uuid) == 0) {
             TAILQ_REMOVE(&team->users, tmp, entries);
             free(tmp);
             return;

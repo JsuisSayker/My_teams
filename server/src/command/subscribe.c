@@ -20,7 +20,6 @@ static int subscribe_response(team_t *team, user_t *user,
     write(client->socket, response, strlen(response));
     free(response);
     server_event_user_subscribed(team->team_uuid, user->uuid);
-    free(user);
     return OK;
 }
 
@@ -53,11 +52,11 @@ static user_t *copy_user(user_t *user)
 int subscribe(server_data_t *server, client_server_t *client)
 {
     team_t *team = NULL;
-    user_t *user = copy_user(client->user);
+    user_t *user = NULL;
 
     if (client->is_logged == false) {
         write(client->socket, "401|/subscribe|not logged\a\n", 28);
-        return ERROR;
+        return OK;
     }
     team = get_team_by_uuid(server->teams.tqh_first,
     client->command->params->team_uuid);
@@ -69,6 +68,7 @@ int subscribe(server_data_t *server, client_server_t *client)
         write(client->socket, "403|/subscribe| already subscribed\a\n", 37);
         return OK;
     }
+    user = copy_user(client->user);
     TAILQ_INSERT_HEAD(&team->users, user, entries);
     return subscribe_response(team, user, client);
 }
