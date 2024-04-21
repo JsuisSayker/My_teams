@@ -90,6 +90,20 @@ static int create_new_channel(server_data_t *server, client_server_t *client)
     return create_new_channel_sub(new_channel, server, client, team);
 }
 
+static int team_already_exists(team_t *team, char *team_name)
+{
+    team_t *tmp = team;
+
+    if (tmp == NULL)
+        return ERROR;
+    while (tmp) {
+        if (strcmp(tmp->team_name, team_name) == 0)
+            return OK;
+        tmp = tmp->entries.tqe_next;
+    }
+    return ERROR;
+}
+
 static int create_new_team(server_data_t *server, client_server_t *client)
 {
     char *uuid = generate_uuid();
@@ -97,6 +111,11 @@ static int create_new_team(server_data_t *server, client_server_t *client)
 
     if (new_team == NULL)
         return ERROR;
+    if (team_already_exists(server->teams.tqh_first,
+        client->command->params->team_name) == OK) {
+        write(client->socket, "400, Team already exists\a\n", 27);
+        return OK;
+    }
     strcpy(new_team->team_uuid, uuid);
     strcpy(new_team->team_name, client->command->params->team_name);
     strcpy(new_team->team_description,
@@ -113,6 +132,12 @@ int create(server_data_t *server, client_server_t *client)
 {
     if (client->is_logged == false) {
         write(client->socket, "401|/create|You are not logged in\a\n", 36);
+        return OK;
+    }
+    if (client->context.team != NULL && is_subscribed(client->user,
+        client->context.team) == ERROR) {
+        write(client->socket,
+            "400, You are not subscribed to this team\a\n", 43);
         return OK;
     }
     if (client->context.thread != NULL)
