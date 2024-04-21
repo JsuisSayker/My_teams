@@ -53,6 +53,7 @@ COMMAND		=	find_command.c		\
 				create.c			\
 				create_response.c	\
 				unsubscribe.c		\
+				subscribed.c		\
 
 DATABASE	=	load_data.c		\
 				save_data.c		\

@@ -25,6 +25,7 @@ const struct function_tab_s OPERATORS_FUNCS[] = {
     {"/create", &create},
     {"/subscribe", &subscribe},
     {"/unsubscribe", &unsubscribe},
+    {"/subscribed", &subscribed},
     {NULL, NULL}
 };
 

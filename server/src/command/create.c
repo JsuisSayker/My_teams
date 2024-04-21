@@ -39,7 +39,6 @@ static int create_new_thread_sub(thread_t *new_thread,
     get_time(&(new_thread)->timestamp);
     TAILQ_INIT(&new_thread->messages);
     TAILQ_INSERT_HEAD(&channel->threads, new_thread, entries);
-    client->context.thread = new_thread;
     free(uuid);
     return create_new_thread_response(server, client, new_thread);
 }
@@ -70,7 +69,6 @@ static int create_new_channel_sub(channel_t *new_channel,
         client->command->params->channel_description);
     TAILQ_INIT(&new_channel->threads);
     TAILQ_INSERT_HEAD(&team->channels, new_channel, entries);
-    client->context.channel = new_channel;
     free(uuid);
     return create_new_channel_response(server, client, new_channel);
 }
@@ -123,7 +121,6 @@ static int create_new_team(server_data_t *server, client_server_t *client)
     TAILQ_INIT(&new_team->channels);
     TAILQ_INIT(&new_team->users);
     TAILQ_INSERT_HEAD(&server->teams, new_team, entries);
-    client->context.team = new_team;
     free(uuid);
     return create_new_team_response(server, client, new_team);
 }
