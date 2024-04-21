@@ -101,7 +101,21 @@ static void load_message(server_data_t *server_data, load_data_t *load_data,
     TAILQ_INSERT_HEAD(&load_data->thread->messages, message, entries);
 }
 
-void check_load_data(server_data_t *server_data, load_data_t *load_data,
+static void load_users_subscribed(server_data_t *server_data,
+    load_data_t *load_data, int file)
+{
+    user_t *user = calloc(sizeof(user_t), 1);
+
+    if (user == NULL)
+        return;
+    if (read(file, user, sizeof(user_t)) <= 0) {
+        free(user);
+        return;
+    }
+    TAILQ_INSERT_HEAD(&load_data->team->users, user, entries);
+}
+
+static void check_load_data(server_data_t *server_data, load_data_t *load_data,
     char *buffer, int file)
 {
     if (strcmp(buffer, "user") == 0)
@@ -116,6 +130,8 @@ void check_load_data(server_data_t *server_data, load_data_t *load_data,
         load_personnal_message(server_data, load_data, file);
     if (strcmp(buffer, "msgs") == 0)
         load_message(server_data, load_data, file);
+    if (strcmp(buffer, "usub") == 0)
+        load_users_subscribed(server_data, load_data, file);
 }
 
 void load_data(server_data_t *server_data)

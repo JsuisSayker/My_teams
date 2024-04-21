@@ -65,6 +65,17 @@ static void save_channels(channel_t *channel, int file)
     }
 }
 
+static void save_users_subscribed(user_t *user, int file)
+{
+    user_t *tmp = user;
+
+    while (tmp) {
+        write(file, "usub", 4);
+        write(file, tmp, sizeof(user_t));
+        tmp = tmp->entries.tqe_next;
+    }
+}
+
 static void save_teams(server_data_t *server_data, int file)
 {
     team_t *tmp = server_data->teams.tqh_first;
@@ -73,6 +84,7 @@ static void save_teams(server_data_t *server_data, int file)
         write(file, "team", 4);
         write(file, tmp, sizeof(team_t));
         save_channels(tmp->channels.tqh_first, file);
+        save_users_subscribed(tmp->users.tqh_first, file);
         tmp = tmp->entries.tqe_next;
     }
 }
