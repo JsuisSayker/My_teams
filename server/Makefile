@@ -23,12 +23,10 @@ SRC			=	display_help.c 		\
 TOOLBOX		=	generate_uuid.c 			\
 				structure_initialisation.c	\
 				append_to_string.c			\
-				get_user_by_uuid.c			\
+				get_function.c				\
 				user_is_exist.c				\
 				client_is_connected.c		\
-				get_time.c					\
 				tab_append_str_at_end.c		\
-				get_team_by_uuid.c			\
 				send_user_not_found.c
 
 SRC_PARSER	=	login.c				\

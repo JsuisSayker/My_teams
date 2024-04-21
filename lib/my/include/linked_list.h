@@ -18,7 +18,7 @@ typedef struct list_user_s {
 typedef struct list_s {
     char *message;
     char *sender_uuid;
-    char *receiver_uuid;
+    char *time_stamp;
     struct list_s *next;
 } list_t;
 

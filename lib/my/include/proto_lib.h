@@ -28,10 +28,10 @@ int print_node(list_user_t *node);
 void free_node(list_user_t *node);
 
 list_t *add_node_message_in_list(list_t *list, char *message,
-    char *sender_uuid, char *receiver_uuid);
+    char *sender_uuid, char *time_stamp);
 void free_message_list(list_t *list);
 list_t *create_message_node(char *message, char *sender_uuid,
-    char *receiver_uuid);
+    char *time_stamp);
 void free_message_node(list_t *node);
 
     /* spliter */

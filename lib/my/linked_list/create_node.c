@@ -34,7 +34,7 @@ list_user_t *create_node(char *username, char *uuid, int is_connected)
 }
 
 list_t *create_message_node(char *message, char *sender_uuid,
-    char *receiver_uuid)
+    char *time_stamp)
 {
     list_t *new_node = malloc(sizeof(list_t));
 
@@ -48,10 +48,10 @@ list_t *create_message_node(char *message, char *sender_uuid,
         my_strcpy(sender_uuid, &(new_node)->sender_uuid);
     else
         new_node->sender_uuid = NULL;
-    if (receiver_uuid != NULL)
-        my_strcpy(receiver_uuid, &(new_node)->receiver_uuid);
+    if (time_stamp != NULL)
+        my_strcpy(time_stamp, &(new_node)->time_stamp);
     else
-        new_node->receiver_uuid = NULL;
+        new_node->time_stamp = NULL;
     new_node->next = NULL;
     return new_node;
 }

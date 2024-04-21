@@ -46,8 +46,8 @@ void free_message_node(list_t *node)
     if (node->sender_uuid != NULL){
         free(node->sender_uuid);
     }
-    if (node->receiver_uuid != NULL){
-        free(node->receiver_uuid);
+    if (node->time_stamp != NULL){
+        free(node->time_stamp);
     }
     free(node);
 }

@@ -17,9 +17,9 @@ static int send_command_response(client_server_t *client,
     append_to_string(&response, "200|/send|");
     append_to_string(&response, message->sender_uuid);
     append_to_string(&response, "|");
-    append_to_string(&response, message->time);
-    append_to_string(&response, "|");
     append_to_string(&response, message->message);
+    append_to_string(&response, "|");
+    append_to_string(&response, message->time);
     append_to_string(&response, "\a\n");
     if (server_response(client->socket, response) == ERROR)
         return ERROR;
