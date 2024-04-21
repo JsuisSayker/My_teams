@@ -36,6 +36,7 @@ static void load_user(server_data_t *server_data, load_data_t *load_data,
     TAILQ_INSERT_HEAD(&server_data->users, user, entries);
     server_data->users.tqh_first->user_connected = 0;
     load_data->user = user;
+    server_event_user_loaded(user->uuid, user->username);
 }
 
 static void load_thread(server_data_t *server_data, load_data_t *load_data,
