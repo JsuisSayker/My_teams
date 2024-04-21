@@ -12,6 +12,9 @@ int handle_server_code(char **command)
     switch (atoi(command[0])) {
         case 200:
             break;
+        case 214:
+            print_error_message(command, 1);
+            return KO;
         case 500:
             print_error_message(command, 2);
             return KO;

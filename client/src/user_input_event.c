@@ -31,7 +31,7 @@ static int get_command(char *message, client_t *client)
     char **command = spliter_by_sep(message, "|");
 
     clean_server_command(command);
-    for (int i = 0; COMMANDS[i].name; i += 1) {
+    for (int i = 0; COMMANDS[i].name != NULL; i += 1) {
         if (strcmp(command[1], COMMANDS[i].name) == 0) {
             COMMANDS[i].func(message, command, client);
             free(message);
@@ -39,6 +39,7 @@ static int get_command(char *message, client_t *client)
             return OK;
         }
     }
+    handle_server_code(command);
     free_tab(command);
     free(message);
     return OK;

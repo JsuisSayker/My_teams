@@ -84,7 +84,7 @@ static int parse_and_launch_command(server_data_t *server_data,
     client->user_input[strlen(client->user_input) - 2] = '\0';
     user_input = parse_user_input(client->user_input);
     if (user_input == NULL) {
-        write(client->socket, "214 bad command, type /help\a\n", 30);
+        write(client->socket, "214|bad command, type /help\a\n", 30);
         return free_old_user_input(user_input, client);
     }
     for (int i = 0; PARSE_COMMAND[i].command != NULL; i++) {
@@ -92,7 +92,7 @@ static int parse_and_launch_command(server_data_t *server_data,
             client->command = PARSE_COMMAND[i].func(user_input, client);
     }
     if (client->command == NULL)
-        write(client->socket, "214 bad command, type /help\a\n", 30);
+        write(client->socket, "214|bad command, type /help\a\n", 30);
     else {
         if (find_command(server_data, client) == ERROR)
             return ERROR;
