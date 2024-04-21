@@ -34,7 +34,7 @@ static int create_new_thread_sub(thread_t *new_thread,
 
     strcpy(new_thread->thread_uuid, uuid);
     strcpy(new_thread->title, client->command->params->thread_title);
-    strcpy(new_thread->message, client->command->params->comment_body);
+    strcpy(new_thread->message, client->command->params->thread_body);
     strcpy(new_thread->sender_uuid, client->user->uuid);
     get_time(&(new_thread)->timestamp);
     TAILQ_INIT(&new_thread->messages);
@@ -138,12 +138,19 @@ int create(server_data_t *server, client_server_t *client)
             "401|/create|You are not subscribed to this team\a\n", 50);
         return OK;
     }
-    if (client->context.thread != NULL)
+
+    if (client->context.thread != NULL) {
+        printf("thread context: [%s]\n", client->context.thread->title);
         return create_new_reply(server, client);
-    if (client->context.channel != NULL)
+    }
+    if (client->context.channel != NULL) {
+        printf("channel context: [%s]\n", client->context.channel->channel_name);
         return create_new_thread(server, client);
-    if (client->context.team != NULL)
+    }
+    if (client->context.team != NULL) {
+        printf("team context: [%s]\n", client->context.team->team_name);
         return create_new_channel(server, client);
+    }
     if (client->context.team == NULL)
         return create_new_team(server, client);
     return OK;

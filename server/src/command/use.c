@@ -55,18 +55,22 @@ static thread_t *get_thread(channel_t *channel, char *thread_uuid)
 static int use_sub(server_data_t *server, client_server_t *client)
 {
     if (client->command->params->channel_uuid != NULL) {
+        printf("channel_uuid: [%s]\n", client->command->params->channel_uuid);
         client->context.channel = get_channel(client->context.team,
         client->command->params->channel_uuid);
+        printf("channel: [%s]\n", client->context.channel->channel_name);
         if (client->context.channel == NULL) {
-            write(client->socket, "404, Channel not found\a\n\0", 26);
+            send_channel_not_found(client, "/use", "/channel");
             return ERROR;
         }
     }
     if (client->command->params->thread_uuid != NULL) {
+        printf("thread_uuid: [%s]\n", client->command->params->thread_uuid);
         client->context.thread = get_thread(client->context.channel,
         client->command->params->thread_uuid);
+        printf("thread: [%s]\n", client->context.thread->title);
         if (client->context.thread == NULL) {
-            write(client->socket, "404, Thread not found\a\n\0", 25);
+            send_thread_not_found(client, "/use", "/thread");
             return ERROR;
         }
     }
@@ -78,14 +82,14 @@ int use(server_data_t *server, client_server_t *client)
     if (server == NULL || client == NULL)
         return ERROR;
     if (client->is_logged == false){
-        write(client->socket, "500, Your not logged\a\n\0", 24);
+        write(client->socket, "401|Your not logged\a\n\0", 23);
         return OK;
     }
     if (client->command->params->team_uuid != NULL) {
         client->context.team = get_team(server,
         client->command->params->team_uuid);
         if (client->context.team == NULL) {
-            write(client->socket, "404, Team not found\a\n\0", 23);
+            send_team_not_found(client, "/use", "/team");
             return OK;
         }
     }

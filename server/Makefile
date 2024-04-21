@@ -27,7 +27,9 @@ TOOLBOX		=	generate_uuid.c 			\
 				client_is_connected.c		\
 				tab_append_str_at_end.c		\
 				send_user_not_found.c		\
-				send_team_not_found.c
+				send_team_not_found.c		\
+				send_channel_not_found.c	\
+				send_thread_not_found.c
 
 SRC_PARSER	=	login.c				\
 				logout.c			\
