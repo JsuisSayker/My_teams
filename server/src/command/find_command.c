@@ -12,20 +12,20 @@
 
     // {"/list", &list},
     // {"/info", &info},
-    // {"/help", &help},
 
 const struct function_tab_s OPERATORS_FUNCS[] = {
-    {"/login", &login},
-    {"/logout", &logout},
-    {"/users", &users},
+    {"/help", &help},
+    {"/use", &use},
     {"/user", &user},
+    {"/users", &users},
+    {"/login", &login},
+    {"/create", &create},
+    {"/logout", &logout},
+    {"/subscribe", &subscribe},
+    {"/subscribed", &subscribed},
+    {"/unsubscribe", &unsubscribe},
     {"/send", &server_send_command},
     {"/messages", &server_message_command},
-    {"/use", &use},
-    {"/create", &create},
-    {"/subscribe", &subscribe},
-    {"/unsubscribe", &unsubscribe},
-    {"/subscribed", &subscribed},
     {NULL, NULL}
 };
 

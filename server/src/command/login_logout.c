@@ -38,6 +38,7 @@ static int user_connection(server_data_t *server, client_server_t *client)
         free(new_user);
         return ERROR;
     }
+    server_event_user_created(new_user->uuid, new_user->username);
     TAILQ_INSERT_HEAD(&server->users, new_user, entries);
     client->user = new_user;
     client->is_logged = true;
