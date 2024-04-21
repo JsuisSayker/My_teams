@@ -13,7 +13,7 @@ static int subscribed_with_team_response(server_data_t *server,
     char *response = NULL;
     user_t *users = team->users.tqh_first;
 
-    append_to_string(&response, "200|suscribed|");
+    append_to_string(&response, "200|/suscribed|");
     append_to_string(&response, team->team_uuid);
     TAILQ_FOREACH(users, &team->users, entries) {
         append_to_string(&response, "|");
@@ -38,7 +38,7 @@ static int subscribed_without_team(server_data_t *server,
     char *response = NULL;
     team_t *teams = server->teams.tqh_first;
 
-    append_to_string(&response, "200|subscribed|");
+    append_to_string(&response, "200|/subscribed|");
     TAILQ_FOREACH(teams, &server->teams, entries) {
         if (is_subscribed(client->user, teams) == OK) {
             append_to_string(&response, teams->team_uuid);
@@ -59,12 +59,12 @@ static int subscribed_with_team(server_data_t *server, client_server_t *client)
         client->command->params->team_uuid);
 
     if (team == NULL) {
-        write(client->socket, "500 Team not found\a\n", 21);
+        write(client->socket, "500|/subscribed|Team not found\a\n", 33);
         return OK;
     }
     if (is_subscribed(client->user, team) == ERROR) {
-        write(client->socket, "500 You are not subscribed to this team\a\n",
-            42);
+        write(client->socket,
+            "401|/subscribed|You are not subscribed to this team\a\n", 54);
         return OK;
     }
     return subscribed_with_team_response(server, client, team);
@@ -73,7 +73,7 @@ static int subscribed_with_team(server_data_t *server, client_server_t *client)
 int subscribed(server_data_t *server, client_server_t *client)
 {
     if (client->is_logged == false) {
-        write(client->socket, "500 You are not logged in\a\n", 28);
+    write(client->socket, "401|/subscribed|You are not logged in\a\n", 40);
         return ERROR;
     }
     if (client->command->params->team_uuid != NULL)

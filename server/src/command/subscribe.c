@@ -20,6 +20,7 @@ static int subscribe_response(team_t *team, user_t *user,
     write(client->socket, response, strlen(response));
     free(response);
     server_event_user_subscribed(team->team_uuid, user->uuid);
+    free(user);
     return OK;
 }
 
@@ -55,17 +56,17 @@ int subscribe(server_data_t *server, client_server_t *client)
     user_t *user = copy_user(client->user);
 
     if (client->is_logged == false) {
-        write(client->socket, "500, not logged\a\n", 18);
+        write(client->socket, "401|/subscribe|not logged\a\n", 28);
         return ERROR;
     }
     team = get_team_by_uuid(server->teams.tqh_first,
     client->command->params->team_uuid);
     if (team == NULL) {
-        write(client->socket, "500, no team found\a\n", 20);
+        send_team_not_found(client, "/subscribe", "/team");
         return OK;
     }
     if (is_subscribed(user, team) == OK) {
-        write(client->socket, "500, already subscribed\a\n", 26);
+        write(client->socket, "403|/subscribe| already subscribed\a\n", 37);
         return OK;
     }
     TAILQ_INSERT_HEAD(&team->users, user, entries);

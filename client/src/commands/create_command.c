@@ -26,10 +26,8 @@ static int create_command_sub(char **command)
 
 int create_command(char *message, char **command, client_t *client)
 {
-    if (client->is_logged == false) {
-        client_error_unauthorized();
+    if (handle_server_code(command) == KO)
         return KO;
-    }
     if (strcmp(command[2], "team") == 0) {
         client_event_team_created(command[3], command[4], command[5]);
         return OK;

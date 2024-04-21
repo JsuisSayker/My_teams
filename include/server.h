@@ -187,5 +187,7 @@ int get_time(char (*dest)[TIME_LENGTH]);
 char *generate_uuid(void);
 team_t *get_team_by_uuid(team_t *teams, char *uuid);
 void send_user_not_found(client_server_t *client);
+void send_team_not_found(client_server_t *client, char *command,
+    char *context);
 
 #endif /* !SERVER_H_ */

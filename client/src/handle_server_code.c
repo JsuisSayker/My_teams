@@ -7,11 +7,25 @@
 
 #include "client.h"
 
+int handle_server_code_ter(char **command)
+{
+    switch (atoi(command[0])) {
+        case 600:
+            client_error_unknown_team(command[3]);
+            return KO;
+        default:
+            return OK;
+    }
+}
+
 int handle_server_code_sub(char **command)
 {
     switch (atoi(command[0])) {
         case 401:
             client_error_unauthorized();
+            return KO;
+        case 403:
+            client_error_already_exist();
             return KO;
         case 404:
             client_error_unknown_user(command[2]);
@@ -20,7 +34,7 @@ int handle_server_code_sub(char **command)
             print_error_message(command, 2);
             return KO;
         default:
-            return OK;
+            return handle_server_code_ter(command);
     }
 }
 

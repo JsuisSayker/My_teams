@@ -52,7 +52,7 @@ static int create_new_thread(server_data_t *server, client_server_t *client)
         return ERROR;
     if (is_subscribed(client->user, client->context.team) == ERROR) {
         write(client->socket,
-            "400, You are not subscribed to this team\a\n", 43);
+            "401|/create|You are not subscribed to this team\a\n", 50);
         return OK;
     }
     return create_new_thread_sub(new_thread, server, client, channel);
@@ -82,7 +82,7 @@ static int create_new_channel(server_data_t *server, client_server_t *client)
         return ERROR;
     if (is_subscribed(client->user, client->context.team) == ERROR) {
         write(client->socket,
-            "400, You are not subscribed to this team\a\n", 43);
+            "401|/create|You are not subscribed to this team\a\n", 50);
         return OK;
     }
     return create_new_channel_sub(new_channel, server, client, team);
@@ -111,7 +111,8 @@ static int create_new_team(server_data_t *server, client_server_t *client)
         return ERROR;
     if (team_already_exists(server->teams.tqh_first,
         client->command->params->team_name) == OK) {
-        write(client->socket, "400, Team already exists\a\n", 27);
+        write(client->socket, "403|/create|Team already exists\a\n", 34);
+        free(uuid);
         return OK;
     }
     strcpy(new_team->team_uuid, uuid);
@@ -134,7 +135,7 @@ int create(server_data_t *server, client_server_t *client)
     if (client->context.team != NULL && is_subscribed(client->user,
         client->context.team) == ERROR) {
         write(client->socket,
-            "400, You are not subscribed to this team\a\n", 43);
+            "401|/create|You are not subscribed to this team\a\n", 50);
         return OK;
     }
     if (client->context.thread != NULL)
