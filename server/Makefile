@@ -57,7 +57,8 @@ COMMAND		=	find_command.c		\
 				create_response.c	\
 				unsubscribe.c		\
 				subscribed.c		\
-				help/help.c			\
+				info.c				\
+				help.c			\
 
 DATABASE	=	load_data.c		\
 				save_data.c		\

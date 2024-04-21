@@ -11,7 +11,6 @@
 #include "server.h"
 
     // {"/list", &list},
-    // {"/info", &info},
 
 const struct function_tab_s OPERATORS_FUNCS[] = {
     {"/help", &help},
@@ -26,6 +25,7 @@ const struct function_tab_s OPERATORS_FUNCS[] = {
     {"/unsubscribe", &unsubscribe},
     {"/send", &server_send_command},
     {"/messages", &server_message_command},
+    {"/info", &info},
     {NULL, NULL}
 };
 
