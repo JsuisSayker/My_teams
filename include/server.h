@@ -129,6 +129,7 @@ int login(server_data_t *server, client_server_t *client);
 int logout(server_data_t *server, client_server_t *client);
 int users(server_data_t *server, client_server_t *client);
 int user(server_data_t *server, client_server_t *client);
+int help(server_data_t *server, client_server_t *client);
 
 /* parer */
 void free_user_input(user_input_t *user_input);
