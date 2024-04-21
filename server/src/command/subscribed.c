@@ -13,7 +13,7 @@ static int subscribed_with_team_response(server_data_t *server,
     char *response = NULL;
     user_t *users = team->users.tqh_first;
 
-    append_to_string(&response, "200|/suscribed|");
+    append_to_string(&response, "200|/subscribed|/users|");
     append_to_string(&response, team->team_uuid);
     TAILQ_FOREACH(users, &team->users, entries) {
         append_to_string(&response, "|");
@@ -38,13 +38,15 @@ static int subscribed_without_team(server_data_t *server,
     char *response = NULL;
     team_t *teams = server->teams.tqh_first;
 
-    append_to_string(&response, "200|/subscribed|");
+    append_to_string(&response, "200|/subscribed|/teams|");
     TAILQ_FOREACH(teams, &server->teams, entries) {
         if (is_subscribed(client->user, teams) == OK) {
+            append_to_string(&response, "|");
             append_to_string(&response, teams->team_uuid);
             append_to_string(&response, "|");
             append_to_string(&response, teams->team_name);
             append_to_string(&response, "|");
+            append_to_string(&response, teams->team_description);
         }
     }
     append_to_string(&response, "\a\n");

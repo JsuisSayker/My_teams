@@ -26,19 +26,11 @@ static const struct command_s COMMANDS[] = {
     {NULL, NULL}
 };
 
-void print_command(char **command)
-{
-    for (int i = 0; command[i] != NULL; i += 1) {
-        printf("command[%d] = %s\n", i, command[i]);
-    }
-}
-
 static int get_command(char *message, client_t *client)
 {
     char **command = spliter_by_sep(message, "|");
 
     clean_server_command(command);
-    print_command(command);
     for (int i = 0; COMMANDS[i].name != NULL; i += 1) {
         if (strcmp(command[1], COMMANDS[i].name) == 0) {
             COMMANDS[i].func(message, command, client);
