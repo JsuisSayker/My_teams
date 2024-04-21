@@ -48,7 +48,7 @@ static int get_list(list_t **list, server_data_t *server,
         }
     }
     if ((*list) == NULL){
-        write(client->socket, "500, No message found\n\r", 22);
+        write(client->socket, "204|No message found\a\n\0", 24);
         return OK;
     }
     return OK;
@@ -61,11 +61,11 @@ int server_message_command(server_data_t *server, client_server_t *client)
     if (client == NULL || server == NULL)
         return ERROR;
     if (client->is_logged == false){
-        write(client->socket, "500, Your not logged\a\n\0", 24);
+        write(client->socket, "401|Your not logged\a\n\0", 23);
         return OK;
     }
-    if (user_is_exist(server, client->command->params->user_uuid) == false){
-        write(client->socket, "500, User not found\a\n\0", 23);
+    if (user_is_exist(server, client->command->params->user_uuid) == false) {
+        send_user_not_found(client);
         return OK;
     }
     if (get_list(&list, server, client) == ERROR)

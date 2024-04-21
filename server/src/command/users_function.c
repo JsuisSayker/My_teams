@@ -82,19 +82,8 @@ static int user_command_response(user_t *user, int socket)
     append_to_string(&message, "\a\n");
     if (server_response(socket, message) == ERROR)
         return ERROR;
+    free(message);
     return OK;
-}
-
-static void send_user_not_found(client_server_t *client)
-{
-    char *response = NULL;
-
-    append_to_string(&response, "404|/user|");
-    append_to_string(&response, client->command->params->user_uuid);
-    append_to_string(&response, "| user not found");
-    append_to_string(&response, "\a\n");
-    write(client->socket, response, strlen(response));
-    free(response);
 }
 
 int user(server_data_t *server, client_server_t *client)

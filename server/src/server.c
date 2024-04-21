@@ -9,12 +9,8 @@
 #include <errno.h>
 #include "server.h"
 
-bool running = true;
-
-void signal_handler(int signal)
+void signal_handler(int UNUSED signal)
 {
-    if (signal == SIGINT)
-        running = false;
 }
 
 int server_response(int socket, char *message)
@@ -28,11 +24,23 @@ int server_response(int socket, char *message)
     return 0;
 }
 
+static int handle_sigint_server_error(int result)
+{
+    if (result < 0 && errno != EINTR) {
+        perror("Error: select failed\n");
+        return ERROR;
+    }
+    if (errno == EINTR)
+        return ERROR;
+    return OK;
+}
+
 static int server_loop(server_data_t *server_data)
 {
     int result = 0;
     fd_set read_sockets;
     fd_set write_sockets;
+    bool running = true;
 
     FD_ZERO(&server_data->current_sockets);
     FD_SET(server_data->server_socket, &server_data->current_sockets);
@@ -42,10 +50,8 @@ static int server_loop(server_data_t *server_data)
         FD_ZERO(&write_sockets);
         result = select(FD_SETSIZE, &server_data->ready_sockets, &write_sockets
         , NULL, NULL);
-        if (result < 0 && errno != EINTR) {
-            perror("Error: select failed\n");
+        if (handle_sigint_server_error(result) == ERROR)
             return ERROR;
-        }
         if (running && loop_check_select_client(server_data) == ERROR)
             return ERROR;
     }

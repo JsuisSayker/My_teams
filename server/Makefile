@@ -29,6 +29,7 @@ TOOLBOX		=	generate_uuid.c 			\
 				get_time.c					\
 				tab_append_str_at_end.c		\
 				get_team_by_uuid.c			\
+				send_user_not_found.c
 
 SRC_PARSER	=	login.c				\
 				logout.c			\

@@ -12,12 +12,9 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-bool is_running = true;
 
-static void signal_handler(int signal)
+static void signal_handler(int UNUSED signal)
 {
-    if (signal == SIGINT)
-        is_running = false;
 }
 
 static void put_end_of_input(char **input, int input_length)
@@ -94,6 +91,7 @@ static void client_loop(client_t *client)
     fd_set readfds;
     fd_set otherfds;
     int result = 0;
+    bool is_running = true;
 
     FD_ZERO(&readfds);
     FD_SET(STDIN_FILENO, &readfds);
