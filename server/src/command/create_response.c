@@ -20,6 +20,8 @@ int create_new_reply_response(server_data_t *server,
     append_to_string(&response, new_message->timestamp);
     append_to_string(&response, "|");
     append_to_string(&response, client->command->params->comment_body);
+    append_to_string(&response, "|");
+    append_to_string(&response, client->context.team->team_uuid);
     append_to_string(&response, "\a\n");
     write(client->socket, response, strlen(response));
     free(response);
