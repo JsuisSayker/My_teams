@@ -182,6 +182,7 @@ int subscribe(server_data_t *server, client_server_t *client);
 int is_subscribed(user_t *user, team_t *team);
 int unsubscribe(server_data_t *server_data, client_server_t *client);
 int subscribed(server_data_t *server, client_server_t *client);
+int info(server_data_t *server_data, client_server_t *client);
 
 /* toolbox */
 client_server_t *client_is_connected(server_data_t *server, user_t *user);

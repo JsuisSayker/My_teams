@@ -10,12 +10,11 @@
 
 #include "server.h"
 
-    // {"/info", &info},
-
 const struct function_tab_s OPERATORS_FUNCS[] = {
     {"/use", &use},
     {"/user", &user},
     {"/help", &help},
+    {"/info", &info},
     {"/users", &users},
     {"/login", &login},
     {"/create", &create},
