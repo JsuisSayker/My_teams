@@ -14,11 +14,10 @@ SRC			=	display_help.c 		\
 				accept.c			\
 				command.c			\
 				init.c				\
-				save_data.c			\
-				load_data.c			\
 				$(DIR_PARSER)		\
 				${DIR_TOOLBOX}		\
 				${DIR_COMMAND}		\
+				${DIR_DATABASE}		\
 
 TOOLBOX		=	generate_uuid.c 			\
 				structure_initialisation.c	\
@@ -52,19 +51,23 @@ COMMAND		=	find_command.c		\
 				send.c				\
 				use.c				\
 				create.c			\
-				create_response.c			\
+				create_response.c	\
 				unsubscribe.c		\
+
+DATABASE	=	load_data.c		\
+				save_data.c		\
 
 MAIN_SRC	=	main.c
 
 TEST		=	test.c
 
-DIR_SRC		=	$(addprefix src/, $(SRC))
-DIR_TESTS	=	$(addprefix tests/, $(TEST))
-DIR_MAIN	=	$(addprefix src/, $(MAIN_SRC))
-DIR_TOOLBOX	=	$(addprefix toolbox/, $(TOOLBOX))
-DIR_COMMAND	=	$(addprefix command/, $(COMMAND))
-DIR_PARSER	=	$(addprefix parser/, $(SRC_PARSER))
+DIR_SRC			=	$(addprefix src/, $(SRC))
+DIR_TESTS		=	$(addprefix tests/, $(TEST))
+DIR_MAIN		=	$(addprefix src/, $(MAIN_SRC))
+DIR_TOOLBOX		=	$(addprefix toolbox/, $(TOOLBOX))
+DIR_COMMAND		=	$(addprefix command/, $(COMMAND))
+DIR_PARSER		=	$(addprefix parser/, $(SRC_PARSER))
+DIR_DATABASE	=	$(addprefix database/, $(DATABASE))
 
 OBJ_SRC		=	$(DIR_SRC:.c=.o)
 OBJ_MAIN	=	$(DIR_MAIN:.c=.o)
