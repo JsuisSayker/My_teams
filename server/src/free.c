@@ -66,7 +66,7 @@ void free_users(server_data_t *server_data)
         user = TAILQ_FIRST(&server_data->users);
         free_personnal_messages(user);
         TAILQ_REMOVE(&server_data->users, user, entries);
-        free_user(user);
+        free(user);
     }
 }
 
@@ -110,6 +110,7 @@ static void free_team(team_t *team)
 
     while (users) {
         TAILQ_REMOVE(&team->users, users, entries);
+        free(users);
         users = team->users.tqh_first;
     }
     while (channels) {

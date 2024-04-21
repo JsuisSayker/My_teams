@@ -15,10 +15,10 @@ void free_server_data(server_data_t *server_data)
         close(server_data->server_socket);
     if (server_data->clients.tqh_first)
         free_clients(server_data);
-    if (server_data->users.tqh_first)
-        free_users(server_data);
     if (server_data->teams.tqh_first)
         free_teams(server_data);
+    if (server_data->users.tqh_first)
+        free_users(server_data);
     free(server_data);
 }
 

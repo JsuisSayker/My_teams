@@ -92,7 +92,7 @@ int logout(server_data_t *server, client_server_t *client)
     if (server == NULL || client == NULL)
         return ERROR;
     if (client->is_logged == false){
-        write(client->socket, "500, Your not logged\a\n\0", 24);
+        write(client->socket, "401|/logout|Your not logged\a\n\0", 31);
         return OK;
     }
     client->user->user_connected -= 1;

@@ -45,8 +45,6 @@ typedef struct channel_s {
     char channel_name[MAX_NAME_LENGTH];
     char channel_description[MAX_DESCRIPTION_LENGTH];
     TAILQ_ENTRY(channel_s) entries;
-    TAILQ_HEAD(, message_s) messages;
-    TAILQ_HEAD(, user_s) users;
     TAILQ_HEAD(, thread_s) threads;
 } channel_t;
 
@@ -74,7 +72,6 @@ typedef struct user_s {
     char description[MAX_DESCRIPTION_LENGTH];
     int user_connected;
     TAILQ_ENTRY(user_s) entries;
-    TAILQ_HEAD(, team_s) teams;
     TAILQ_HEAD(, personnal_message_s) personnal_messages;
 } user_t;
 
@@ -161,9 +158,20 @@ void save_data(server_data_t *server_data);
 void load_data(server_data_t *server_data);
 int use(server_data_t *server, client_server_t *client);
 int create(server_data_t *server, client_server_t *client);
+int create_new_team_response(server_data_t *server,
+    client_server_t *client, team_t *new_team);
+int create_new_channel_response(server_data_t *server,
+    client_server_t *client, channel_t *new_channel);
+int create_new_thread_response(server_data_t *server,
+    client_server_t *client, thread_t *new_thread);
+int create_new_reply_response(server_data_t *server,
+    client_server_t *client, message_t *new_message);
 void free_clients(server_data_t *server_data);
 void free_users(server_data_t *server_data);
 void free_teams(server_data_t *server_data);
+int subscribe(server_data_t *server, client_server_t *client);
+int is_subscribed(user_t *user, team_t *team);
+int unsubscribe(server_data_t *server_data, client_server_t *client);
 
 /* toolbox */
 client_server_t *client_is_connected(server_data_t *server, user_t *user);
@@ -176,5 +184,6 @@ char **tab_append_str_at_end(char **tab, char *str);
 int append_to_string(char **str, char *to_append);
 int get_time(char (*dest)[TIME_LENGTH]);
 char *generate_uuid(void);
+team_t *get_team_by_uuid(team_t *teams, char *uuid);
 
 #endif /* !SERVER_H_ */

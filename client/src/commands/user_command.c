@@ -9,15 +9,11 @@
 
 int user_command(char *message, char **command, client_t *client)
 {
-    if (client->is_logged == false) {
-        client_error_unauthorized();
+    if (handle_server_code(command) == KO)
         return KO;
-    } else {
-        if (strcmp(command[4], "1") == OK)
-            client_print_user(command[3], command[2], CONNECTED);
-        else
-            client_print_user(command[3], command[2], DISCONNECTED);
-        return OK;
-    }
+    if (strcmp(command[4], "1") == OK)
+        client_print_user(command[3], command[2], CONNECTED);
+    else
+        client_print_user(command[3], command[2], DISCONNECTED);
     return OK;
 }

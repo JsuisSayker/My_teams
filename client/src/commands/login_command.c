@@ -9,6 +9,12 @@
 
 int login_command(char *message, char **command, client_t *client)
 {
+    if (client->user_name != NULL && client->uuid != NULL) {
+        free(client->user_name);
+        free(client->uuid);
+        client->user_name = NULL;
+        client->uuid = NULL;
+    }
     client->user_name = strdup(command[2]);
     client->is_logged = true;
     client->uuid = strdup(command[3]);

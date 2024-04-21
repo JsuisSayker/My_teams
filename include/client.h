@@ -69,6 +69,9 @@ void clean_server_command(char **command);
 void free_client_struct(client_t *client, fd_set *readfds, fd_set *otherfds);
 char *read_server_message(client_t *client);
 void receive_server_message(client_t *client);
+time_t convert_string_to_time_t(const char *time_string, const char *format);
+void print_error_message(char **command, int start);
+int handle_server_code(char **command);
 
 // commands
 int login_command(char *message, char **command, client_t *client);
@@ -82,5 +85,8 @@ int subscribed_command(char *message, char **command, client_t *client);
 int unsubscribe_command(char *message, char **command, client_t *client);
 int list_command(char *message, char **command, client_t *client);
 int use_command(char *message, char **command, client_t *client);
+int help_command(char *message, char **command, client_t *client);
+int create_command(char *message, char **command, client_t *client);
+int info_command(char *message, char **command, client_t *client);
 
 #endif /* !CLIENT_H_ */

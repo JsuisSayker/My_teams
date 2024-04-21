@@ -42,7 +42,6 @@ int user_initialisation(user_t **new_user, char *name, int socket)
     (*new_user)->entries.tqe_next = NULL;
     (*new_user)->entries.tqe_prev = NULL;
     TAILQ_INIT(&(*new_user)->personnal_messages);
-    TAILQ_INIT(&(*new_user)->teams);
     return OK;
 }
 

@@ -51,13 +51,13 @@ int users(server_data_t *server, client_server_t *client)
     if (client == NULL || server == NULL)
         return ERROR;
     if (client->is_logged == false){
-        write(client->socket, "500, Your not logged\n\r", 23);
+        write(client->socket, "401|/users|Your not logged\a\n\0", 30);
         return OK;
     }
     if (get_list(&list, server) == ERROR)
         return ERROR;
     if (list == NULL){
-        write(client->socket, "500, No users found\n\r", 22);
+        write(client->socket, "404|/users|No users found\a\n\0", 29);
         return OK;
     }
     if (users_command_response(list, client->socket) == ERROR)
@@ -85,6 +85,18 @@ static int user_command_response(user_t *user, int socket)
     return OK;
 }
 
+static void send_user_not_found(client_server_t *client)
+{
+    char *response = NULL;
+
+    append_to_string(&response, "404|/user|");
+    append_to_string(&response, client->command->params->user_uuid);
+    append_to_string(&response, "| user not found");
+    append_to_string(&response, "\a\n");
+    write(client->socket, response, strlen(response));
+    free(response);
+}
+
 int user(server_data_t *server, client_server_t *client)
 {
     user_t *tmp;
@@ -92,12 +104,12 @@ int user(server_data_t *server, client_server_t *client)
     if (server == NULL || client == NULL)
         return ERROR;
     if (client->is_logged == false){
-        write(client->socket, "500, Your not logged\a\n\0", 24);
+        write(client->socket, "401|/user|Your not logged\a\n\0", 29);
         return OK;
     }
     tmp = get_user_by_uuid(server, client->command->params->user_uuid);
-    if (tmp == NULL){
-        write(client->socket, "500, User don't exist\a\n\0", 25);
+    if (tmp == NULL) {
+        send_user_not_found(client);
         return OK;
     }
     if (user_command_response(tmp, client->socket) == ERROR)
