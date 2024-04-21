@@ -176,7 +176,7 @@ int unsubscribe(server_data_t *server_data, client_server_t *client);
 /* toolbox */
 client_server_t *client_is_connected(server_data_t *server, user_t *user);
 personnal_message_t *create_personnal_message(char *message, char *sender_uuid,
-char *receiver_uuid, int socket);
+    char *receiver_uuid, int socket);
 int user_initialisation(user_t **new_user, char *name, int socket);
 user_t *get_user_by_uuid(server_data_t *server, char *uuid);
 bool user_is_exist(server_data_t *server, char *user_uuid);

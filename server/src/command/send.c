@@ -47,6 +47,7 @@ int server_send_command_sub(client_server_t *sender, client_server_t *reciever,
 {
     personnal_message_t *message_sender = NULL;
     personnal_message_t *message_reciever = NULL;
+
     message_reciever =
         create_personnal_message(sender->command->params->message_body,
         sender->user->uuid, user_reciever->uuid, sender->socket);
