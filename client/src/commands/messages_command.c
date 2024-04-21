@@ -11,13 +11,12 @@ int messages_command(char *message, char **command, client_t *client)
 {
     time_t time = 0;
 
-    printf("Ma gros bite\n");
     if (client->is_logged == false) {
         client_error_unauthorized();
         return KO;
     }
     for (int i = 2; command[i] != NULL; i += 3) {
-        printf("command[i] = %s, command[i + 1]: %s, command[i + 2]: %s\n", command[i], command[i + 1], command[i + 2]);
+        printf("command[i] = %s\n", command[i + 2]);
         time = convert_string_to_time_t(command[i + 1],
             "%a %b %d %H:%M:%S %Y");
         if (time == ERROR)

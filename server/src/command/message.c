@@ -11,7 +11,7 @@ static int message_command_response(list_t *list, int socket)
 {
     char *message = NULL;
 
-    append_to_string(&message, "200|/users|");
+    append_to_string(&message, "200|/messages|");
     if (list == NULL)
         return ERROR;
     for (list_t *tmp = list; tmp != NULL; tmp = tmp->next) {
@@ -19,7 +19,7 @@ static int message_command_response(list_t *list, int socket)
         append_to_string(&message, "|");
         append_to_string(&message, tmp->time_stamp);
         append_to_string(&message, "|");
-        append_to_string(&message, tmp->sender_uuid);
+        append_to_string(&message, tmp->message);
         if (tmp->next != NULL)
             append_to_string(&message, "|");
     }
