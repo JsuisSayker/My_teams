@@ -10,21 +10,17 @@
 int help(server_data_t *server, client_server_t *client)
 {
     char *message = NULL;
-    char tmp[BUFFER_SIZE + 1];
-    int fd = open("help.txt", O_RDONLY);
-    ssize_t bytes_read;
 
-    if (fd == -1)
-        return ERROR;
-    bytes_read = read(fd, tmp, BUFFER_SIZE);
-    while (bytes_read > 0){
-        tmp[bytes_read] = '\0';
-        append_to_string(&message, tmp);
-        bytes_read = read(fd, tmp, BUFFER_SIZE);
-    }
-    close(fd);
-    append_to_string(&message, "\a\n");
-    server_response(client->socket, message);
+    append_to_string(&message, "200|/help|");
+    append_to_string(&message, "Commands: -/login|-/logout|-/users|");
+    append_to_string(&message, "-user|-/send|-/messages|");
+    append_to_string(&message, "-/subscribe|-/subscribed|");
+    append_to_string(&message, "-/unsubscribe|-/use|-/create|");
+    append_to_string(&message, "-/list|-/info|-/help|");
+    append_to_string(&message, "If you need more information about some");
+    append_to_string(&message, " command, have a look at our protocol");
+    append_to_string(&message, ".txt file\a\n");
+    write(client->socket, message, strlen(message));
     free(message);
     return OK;
 }
