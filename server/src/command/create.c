@@ -138,19 +138,12 @@ int create(server_data_t *server, client_server_t *client)
             "401|/create|You are not subscribed to this team\a\n", 50);
         return OK;
     }
-
-    if (client->context.thread != NULL) {
-        printf("thread context: [%s]\n", client->context.thread->title);
+    if (client->context.thread != NULL)
         return create_new_reply(server, client);
-    }
-    if (client->context.channel != NULL) {
-        printf("channel context: [%s]\n", client->context.channel->channel_name);
+    if (client->context.channel != NULL)
         return create_new_thread(server, client);
-    }
-    if (client->context.team != NULL) {
-        printf("team context: [%s]\n", client->context.team->team_name);
+    if (client->context.team != NULL)
         return create_new_channel(server, client);
-    }
     if (client->context.team == NULL)
         return create_new_team(server, client);
     return OK;
