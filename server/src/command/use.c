@@ -55,20 +55,17 @@ static thread_t *get_thread(channel_t *channel, char *thread_uuid)
 static int use_sub(server_data_t *server, client_server_t *client)
 {
     if (client->command->params->channel_uuid != NULL) {
-        printf("channel_uuid: [%s]\n", client->command->params->channel_uuid);
         client->context.channel = get_channel(client->context.team,
         client->command->params->channel_uuid);
-        printf("channel: [%s]\n", client->context.channel->channel_name);
         if (client->context.channel == NULL) {
             send_channel_not_found(client, "/use", "/channel");
             return ERROR;
         }
+        client->context.thread = NULL;
     }
     if (client->command->params->thread_uuid != NULL) {
-        printf("thread_uuid: [%s]\n", client->command->params->thread_uuid);
         client->context.thread = get_thread(client->context.channel,
         client->command->params->thread_uuid);
-        printf("thread: [%s]\n", client->context.thread->title);
         if (client->context.thread == NULL) {
             send_thread_not_found(client, "/use", "/thread");
             return ERROR;
@@ -92,6 +89,8 @@ int use(server_data_t *server, client_server_t *client)
             send_team_not_found(client, "/use", "/team");
             return OK;
         }
+        client->context.channel = NULL;
+        client->context.thread = NULL;
     }
     return use_sub(server, client);
 }
