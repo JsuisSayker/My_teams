@@ -13,7 +13,7 @@ int help(server_data_t *server, client_server_t *client)
 
     append_to_string(&message, "200|/help|");
     append_to_string(&message, "Commands: -/login|-/logout|-/users|");
-    append_to_string(&message, "-user|-/send|-/messages|");
+    append_to_string(&message, "-/user|-/send|-/messages|");
     append_to_string(&message, "-/subscribe|-/subscribed|");
     append_to_string(&message, "-/unsubscribe|-/use|-/create|");
     append_to_string(&message, "-/list|-/info|-/help|");
