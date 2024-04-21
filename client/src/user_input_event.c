@@ -6,6 +6,7 @@
 */
 
 #include "client.h"
+#include <stdio.h>
 #include <unistd.h>
 
 static const struct command_s COMMANDS[] = {

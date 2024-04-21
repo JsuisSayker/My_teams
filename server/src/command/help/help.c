@@ -24,7 +24,7 @@ int help(server_data_t *server, client_server_t *client)
     }
     close(fd);
     append_to_string(&message, "\a\n");
-    printf("%s", message);
+    server_response(client->socket, message);
     free(message);
     return OK;
 }
