@@ -74,7 +74,6 @@ static void free_message(message_t *message)
 {
     if (message->message)
         free(message->message);
-    free(message);
 }
 
 static void free_thread(thread_t *thread)

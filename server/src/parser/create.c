@@ -54,8 +54,7 @@ static user_input_t *parse_thread(user_input_t *user_input_parsed,
 static user_input_t *parse_comment(user_input_t *user_input_parsed,
     char **user_input)
 {
-    if (user_input[1] != NULL && user_input[2] != NULL &&
-        user_input[3] == NULL) {
+    if (user_input[1] != NULL && user_input[2] == NULL) {
         user_input_parsed->params->comment_body = strdup(user_input[1]);
         return user_input_parsed;
     } else {
