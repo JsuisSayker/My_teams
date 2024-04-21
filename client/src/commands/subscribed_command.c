@@ -6,6 +6,7 @@
 */
 
 #include "client.h"
+#include <unistd.h>
 
 static void client_print_team_subscribed(char **command)
 {
@@ -26,6 +27,10 @@ int subscribed_command(char *message, char **command, client_t *client)
     if (handle_server_code(command) == KO)
         return KO;
     if (strcmp(command[2], "/teams") == 0) {
+        if (strcmp(command[3], "\0") == 0) {
+            write(1, "No team subscription\n", 22);
+            return OK;
+        }
         client_print_team_subscribed(command);
         return OK;
     } else if (strcmp(command[2], "/users") == 0) {

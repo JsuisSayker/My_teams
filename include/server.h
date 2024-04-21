@@ -91,6 +91,13 @@ typedef struct client_server_s {
     TAILQ_ENTRY(client_server_s) entries;
 } client_server_t;
 
+typedef struct load_data_s {
+    team_t *team;
+    channel_t *channel;
+    thread_t *thread;
+    user_t *user;
+} load_data_t;
+
 typedef struct server_data_s {
     int server_socket;
     fd_set current_sockets;
@@ -189,6 +196,10 @@ char *generate_uuid(void);
 team_t *get_team_by_uuid(team_t *teams, char *uuid);
 void send_user_not_found(client_server_t *client);
 void send_team_not_found(client_server_t *client, char *command,
+    char *context);
+void send_channel_not_found(client_server_t *client, char *command,
+    char *context);
+void send_thread_not_found(client_server_t *client, char *command,
     char *context);
 
 #endif /* !SERVER_H_ */

@@ -100,7 +100,6 @@ static void free_channel(channel_t *channel)
     }
     if (channel->channel_uuid)
         free(channel->channel_uuid);
-    free(channel);
 }
 
 static void free_team(team_t *team)

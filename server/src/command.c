@@ -42,14 +42,9 @@ static int parse_user_input_sub(char *user_input, char ***parsed_input,
     return ERROR;
 }
 
-static char **parse_user_input(char *user_input)
+static char **loop_parse_user_input(char **parsed_input, char *user_input,
+    char *tmp, int i)
 {
-    int i = 0;
-    char *tmp = strdup(user_input);
-    char **parsed_input = NULL;
-
-    if (user_input == NULL || user_input[0] != '/')
-        return NULL;
     parsed_input = tab_append_str_at_end(parsed_input, strtok(tmp, " \t"));
     if (tmp != NULL)
         free(tmp);
@@ -65,6 +60,19 @@ static char **parse_user_input(char *user_input)
     return parsed_input;
 }
 
+static char **parse_user_input(char *user_input)
+{
+    int i = 0;
+    char *tmp = strdup(user_input);
+    char **parsed_input = NULL;
+
+    if (user_input == NULL || user_input[0] != '/') {
+        free(tmp);
+        return NULL;
+    }
+    return loop_parse_user_input(parsed_input, user_input, tmp, i);
+}
+
 static int free_old_user_input(char **user_input, client_server_t *client)
 {
     if (client == NULL)
@@ -76,17 +84,9 @@ static int free_old_user_input(char **user_input, client_server_t *client)
     return OK;
 }
 
-static int parse_and_launch_command(server_data_t *server_data,
-    client_server_t *client)
+static int parse_and_launch_command_sub(char **user_input,
+    client_server_t *client, server_data_t *server_data)
 {
-    char **user_input = NULL;
-
-    client->user_input[strlen(client->user_input) - 2] = '\0';
-    user_input = parse_user_input(client->user_input);
-    if (user_input == NULL) {
-        write(client->socket, "214|bad command, type /help\a\n", 30);
-        return free_old_user_input(user_input, client);
-    }
     for (int i = 0; PARSE_COMMAND[i].command != NULL; i++) {
         if (strcmp(PARSE_COMMAND[i].command, user_input[0]) == 0)
             client->command = PARSE_COMMAND[i].func(user_input, client);
@@ -99,6 +99,21 @@ static int parse_and_launch_command(server_data_t *server_data,
     }
     free_old_user_input(user_input, client);
     return OK;
+}
+
+static int parse_and_launch_command(server_data_t *server_data,
+    client_server_t *client)
+{
+    char **user_input = NULL;
+
+    client->user_input[strlen(client->user_input) - 2] = '\0';
+    user_input = parse_user_input(client->user_input);
+    if (user_input == NULL) {
+        printf("Error: bad command\n");
+        write(client->socket, "214|bad command, type /help\a\n", 30);
+        return free_old_user_input(user_input, client);
+    }
+    return parse_and_launch_command_sub(user_input, client, server_data);
 }
 
 int check_command(server_data_t *server_data, client_server_t *client)

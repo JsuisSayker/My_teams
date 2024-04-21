@@ -13,6 +13,12 @@ int handle_server_code_ter(char **command)
         case 600:
             client_error_unknown_team(command[3]);
             return KO;
+        case 601:
+            client_error_unknown_channel(command[3]);
+            return KO;
+        case 602:
+            client_error_unknown_thread(command[3]);
+            return KO;
         default:
             return OK;
     }
