@@ -30,10 +30,8 @@ static int list_command_sub(char **command)
 
 int list_command(char *message, char **command, client_t *client)
 {
-    if (client->is_logged == false) {
-        client_error_unauthorized();
+    if (handle_server_code(command) == KO)
         return KO;
-    }
     if (strcmp(command[2], "team") == 0) {
         for (int i = 3; command[i]; i += 3)
             client_print_teams(command[i], command[i + 1], command[i + 2]);

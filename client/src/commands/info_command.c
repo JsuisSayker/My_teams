@@ -24,10 +24,8 @@ static int info_command_sub(char **command)
 
 int info_command(char *message, char **command, client_t *client)
 {
-    if (client->is_logged == false) {
-        client_error_unauthorized();
+    if (handle_server_code(command) == KO)
         return KO;
-    }
     if (strcmp(command[2], "user") == 0) {
         client_print_user(command[3], command[4], atoi(command[5]));
         return OK;

@@ -27,7 +27,7 @@ static int list_all_reply(server_data_t *server, client_server_t *client)
     message_t *reply = client->context.thread->messages.tqh_first;
 
     if (TAILQ_EMPTY(&client->context.thread->messages) == true) {
-        write(client->socket, "500|/list|no reply found\a\n", 22);
+        write(client->socket, "500|/list|no reply found\a\n", 27);
         return OK;
     }
     append_to_string(&message, "200|/list|reply|");
@@ -56,7 +56,7 @@ static int list_all_channel(server_data_t *server, client_server_t *client)
     channel_t *channel = client->context.team->channels.tqh_first;
 
     if (TAILQ_EMPTY(&client->context.team->channels) == true) {
-        write(client->socket, "500|/list|no channel found\a\n", 26);
+        write(client->socket, "500|/list|no channel found\a\n", 29);
         return OK;
     }
     append_to_string(&message, "200|/list|channel|");
@@ -90,7 +90,7 @@ static int list_all_threads(server_data_t *server, client_server_t *client)
     thread_t *thread = client->context.channel->threads.tqh_first;
 
     if (TAILQ_EMPTY(&client->context.channel->threads) == true) {
-        write(client->socket, "500|/list|no thread found\a\n", 25);
+        write(client->socket, "500|/list|no thread found\a\n", 28);
         return OK;
     }
     append_to_string(&message, "200|/list|thread|");
@@ -121,7 +121,7 @@ static int list_all_teams(server_data_t *server, client_server_t *client)
     team_t *team = server->teams.tqh_first;
 
     if (TAILQ_EMPTY(&server->teams) == true) {
-        write(client->socket, "500|/list|no team found\a\n", 23);
+        write(client->socket, "500|/list|no team found\a\n", 26);
         return OK;
     }
     append_to_string(&message, "200|/list|team|");
